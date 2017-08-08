@@ -1,0 +1,42 @@
+﻿<section ng-class="{'section-basic': selectedTiles.tiles.length > 0, 'section-basic-red': selectedTiles.tiles.length === 0}">
+    <md-tooltip ng-if="selectedTiles.tiles.length === 0" md-direction="right">Selecione pelo menos 1 Tile para Editar</md-tooltip>
+
+    <div ng-show="pathB != 'producao/shared/navigation/editTile.html'" class="property-title-display-text">Editar Tiles</div>
+
+    <div class="edit-tile-button-container">
+        <span class="glyphicon glyphicon-erase" ng-class="{'edit-tile-button': selectedTiles.tiles.length > 0, 'edit-tile-button-disabled': selectedTiles.tiles.length === 0}"
+              ng-click="unselectAllTiles(tileLayoutConfig, selectedTiles)">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Limpar Seleção</md-tooltip>
+        </span>
+
+        <span class="glyphicon glyphicon-trash" ng-class="{'edit-tile-button': selectedTiles.tiles.length > 0, 'edit-tile-button-disabled': selectedTiles.tiles.length === 0}"
+              ng-click="unMergeTiles(tileLayoutConfig, selectedTiles, newTile, 'dont'); deleteSelectAllTiles(tileLayoutConfig, selectedTiles);">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Deletar</md-tooltip>
+        </span>
+
+        <span class="glyphicon glyphicon-log-in" ng-class="{'edit-tile-button': selectedTiles.tiles.length > 0, 'edit-tile-button-disabled': selectedTiles.tiles.length === 0}"
+              ng-click="unMergeTiles(tileLayoutConfig, selectedTiles, newTile, 'dont'); clearSelectAllTiles(tileLayoutConfig, selectedTiles, newTile);">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Limpar</md-tooltip>
+        </span>
+
+        <span class="glyphicon glyphicon-edit" ng-class="{'edit-tile-button': selectedTiles.tiles.length > 0, 'edit-tile-button-disabled': selectedTiles.tiles.length === 0}"
+              ng-show="pathB != 'producao/shared/navigation/editTile.html'" ng-click="editTiles(selectedTiles.tiles, tileLayoutConfig); carregarThings(); getValue(tileLayoutConfig, selectedTiles.tiles, type.cType); ">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Editar Conteúdo</md-tooltip>
+        </span>
+
+        <span class="glyphicon glyphicon-resize-small" ng-class="{'edit-tile-button': selectedTiles.tiles.length >= 2, 'edit-tile-button-disabled': selectedTiles.tiles.length < 2}"
+              ng-click="mergeSelectedTiles(tileLayoutConfig, selectedTiles)">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Unificar Tiles '(Selecione Mais de 1 Tile)'</md-tooltip>
+        </span>
+
+        <span class="glyphicon glyphicon-align-justify" ng-class="{'edit-tile-button': selectedTiles.tiles.length >= 2, 'edit-tile-button-disabled': selectedTiles.tiles.length < 2}"
+              ng-click="mergeAcross(tileLayoutConfig, selectedTiles);">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Unificar Através '(Selecione Mais de 1 Tile)'</md-tooltip>
+        </span>
+
+        <span class="glyphicon glyphicon-resize-full" ng-class="{'edit-tile-button': selectedTiles.tiles.length > 0, 'edit-tile-button-disabled': selectedTiles.tiles.length === 0}"
+              ng-click="unMergeTiles(tileLayoutConfig, selectedTiles, newTile)">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Desunificar</md-tooltip>
+        </span>
+    </div>
+</section>

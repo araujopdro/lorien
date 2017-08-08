@@ -1,0 +1,161 @@
+<style>
+    /*Makes a button grey and loading*/
+    .buttonWaitingForLoading {
+        color: #777;
+        cursor: wait;
+    }
+</style>
+
+<div class="stage-details-modal" ng-if="currentLocation == '/tileDisplay'" ng-show="showModal" style="position: absolute; z-index: 1000; width:100%; height:100%; background-color: rgba(0, 0, 0, 0.69)">
+    <span class="close" style="right: 0; margin: 2vw; color: white; font-size: 4vw; position: absolute;" ng-click="closeModal(currentStage)">×</span>
+    <div style="margin-left: 8vw; width: 35%; display: inline-block; margin-top: 8vw; padding: 5px;">
+        <ul class="list-group">
+            <li style="font-size: 1.3vw; border:1px solid black" class="list-group-item active">Estágio - {{currentStage.stageName}}</li>
+            <li style="font-size: 1vw;" class="list-group-item">Status: <b>{{currentStage.status}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Total de Motores(Última hora): <b>{{currentStage.totalHour}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Total de Motores(hoje): <b>{{currentStage.totalDay}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Total de Motores(semana): <b>{{currentStage.totalWeek}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Total de Motores(mês): <b>{{currentStage.totalMonth}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Cycle Time Atual: <b>{{currentStage.cycleTimeCurrent | date: 'dd/MM/yy HH:mm'}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Cycle Time Hora(média): <b>{{currentStage.cycleTimeHour | date: 'dd/MM/yy HH:mm'}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Cycle Time Dia(média): <b>{{currentStage.cycleTimeDay | date: 'dd/MM/yy HH:mm'}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Cycle Time Semana(média): <b>{{currentStage.cycleTimeWeek | date: 'dd/MM/yy HH:mm'}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Cycle Time Mês(média): <b>{{currentStage.cycleTimeMonth | date: 'dd/MM/yy HH:mm'}}</b></li>
+        </ul>
+    </div>
+    <div ng-show="stageLoading" style="position: absolute;
+                    top: calc(50% - 21px);
+                    left: calc(50% - 21px);">
+        <img src="/src/support-loading.gif" alt="Smiley face" height="42" width="42">
+    </div>
+    <div style="width: 40%; display: inline-block; float: right; margin-right: 8vw; margin-top: 8vw;  padding: 5px">
+        <ul>
+            <li style="font-size: 1.3vw; border:1px solid black" class="list-group-item active">Motor</li>
+            <li style="font-size: 1vw;" class="list-group-item">ESN: <b>{{currentStage.motor.productSerialNumber}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Family: <b>{{currentStage.motor.family}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">WO: <b>{{currentStage.motor.workorder}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">SO: <b>{{currentStage.motor.shoporder}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Status: <b>{{currentStage.motor.status}}</b></li>
+            <li style="font-size: 1vw;" class="list-group-item">Data Line-Set: <b>{{currentStage.motor.linesetdate}}</b></li>
+
+            <li class="list-group-item">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; background-color: #e51111; color: white; font-size: 1vw;">Peças Faltantes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-show="currentStage.motor.parts.length >= 1" style="text-align: center; font-size: 1.1vw;" ng-repeat="part in currentStage.motor.parts track by $index | limitTo:8"><td>{{part.partNum}} - {{part.partName}}</td></tr>
+                        <tr ng-show="currentStage.motor.parts.length <= 0" style="text-align: center; font-size: 1.1vw;"><td>-</td></tr>
+                    </tbody>
+                </table>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+<div class="container-fluid" ng-style="tileLayoutPreviewSize()">
+    <div style="border: 1px solid black; width: 100%; height: 3vw; top: 0;">
+        <div ng-controller="dashboardCtrl" style='height: 100%; background-color: {{tileLayoutConfig.dashboardHeader.backgroundColor}}{{tileLayoutShow.dashboardHeader.backgroundColor}} !important'>
+
+            <div class="col-lg-12" style='height: 100%; text-align: center; padding: 0px; background-color: {{tileLayoutConfig.dashboardHeader.backgroundColor}}{{tileLayoutShow.dashboardHeader.backgroundColor}} !important'>
+
+                <!-- ******* TileLayout Selection Menu *******-->
+                <!-- Menu Available-->
+                <div class="dropdown navbar-btn pull-left" style="height:100%; padding: 4px;" ng-if="allowManualNavigation && pause">
+                    <button ng-click="goTo()" class="custom-dropdown-menucontainer btn btn-primary dropdown-toggle" style='height: 100%;  background-color: {{tileLayoutConfig.dashboardHeader.backgroundColor}}{{tileLayoutShow.dashboardHeader.backgroundColor}} !important' type="button">
+                        <span class="glyphicon glyphicon-home"></span>
+                    </button>
+                </div>
+                <div class="dropdown navbar-btn pull-left" style="height:100%; padding: 4px;" ng-if="allowManualNavigation && pause">
+                    <button class="custom-dropdown-menucontainer btn btn-primary dropdown-toggle" style='height: 100%;  background-color: {{tileLayoutConfig.dashboardHeader.backgroundColor}}{{tileLayoutShow.dashboardHeader.backgroundColor}} !important' type="button" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                    </button>
+                    <ul class="custom-dropdown-menu-properties dropdown-menu" style='width:250px; padding: 2px'>
+                        <li class="layoutlist" ng-repeat="layout in layoutsToDisplay | orderBy:'name'" ng-click="selectScreenOption(layout)">{{layout.name}}</li>
+                    </ul>
+                </div>
+
+                <!-- Menu Unavailable-->
+                <div class="dropdown navbar-btn pull-left" data-toggle="tooltip" title="Esses menus ficam desabilitados no modo de apresentação ou enquanto carregando" style="height:100%; padding: 4px;" ng-if="!allowManualNavigation || !pause">
+                    <button class="buttonWaitingForLoading custom-dropdown-menucontainer btn btn-primary dropdown-toggle" style='height: 100%;  background-color: {{tileLayoutConfig.dashboardHeader.backgroundColor}}{{tileLayoutShow.dashboardHeader.backgroundColor}} !important' type="button"></button>
+                </div>
+
+                <div class="dropdown navbar-btn pull-left" data-toggle="tooltip" title="Esses menus ficam desabilitados no modo de apresentação ou enquanto carregando" style="height:100%; padding: 4px;" ng-if="!allowManualNavigation || !pause">
+                    <button class="buttonWaitingForLoading custom-dropdown-menucontainer btn btn-primary dropdown-toggle" style='height: 100%;  background-color: {{tileLayoutConfig.dashboardHeader.backgroundColor}}{{tileLayoutShow.dashboardHeader.backgroundColor}} !important' type="button"></button>
+                </div>
+
+                <span ng-style="{
+              'text-align': center,
+              'line-height': '3vw',
+              'font-size': tileLayoutConfig.dashboardHeader.fontSize+tileLayoutShow.dashboardHeader.fontSize+'vh',
+              'color': tileLayoutConfig.dashboardHeader.fontColor +''+ tileLayoutShow.dashboardHeader.fontColor,
+              'font-weight': bold}">
+
+                    {{tileLayoutConfig.dashboardHeader.headerDescription}}{{tileLayoutShow.dashboardHeader.headerDescription}}
+                </span>
+
+                <!--<span style="
+                text-align center;
+                line-height 5vh;
+                font-size {{tileLayoutConfig.dashboardHeader.fontSize}} {{tileLayoutShow.dashboardHeader.fontSize}} vh;
+                color {{tileLayoutConfig.dashboardHeader.fontColor}} {{tileLayoutShow.dashboardHeader.fontColor}} ;
+                font-weight bold;">{{tileLayoutConfig.dashboardHeader.headerDescription}}{{tileLayoutShow.dashboardHeader.headerDescription}}</span>-->
+                <!--<img class="pull-right" ng-click='updateTileLayout(tileLayoutConfig)' style="height: 100%;padding-right: 0px" src="../src/logo-cummins.jpg" alt="img" />-->
+                <a href="#/home" style="margin-right: 15px;">
+                    <img class="pull-right" style="height: 100%;padding-right: 0px" src="../src/logo-cummins.jpg" alt="img" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div ng-include="dashContent" id="dashcontainer" style="width: 100%; height: 87%; background-color: rgb(238,232,234); border: 1px solid black;"></div>
+
+    <div ng-controller="dashboardCtrl" style="display: table; border: 1px solid black; background-color:white; height: 7%; width: 100%; bottom: 0; z-index: 10; position:relative">
+
+        <div id="marq" style="display: table-cell; vertical-align: middle;  height: 100%; font-size: 2vw;">
+            <marquee id="cnn" style="margin: 5px; padding-top:0.6vw" onended="javascript: console.log('*** CNN ACABOU');" onemptied="javascript: console.log('*** CNN ACABOU');" onreadystatechange="javascript: console.log('*** CNN ACABOU');">
+                <!--<a ng-class="marqueeTextClass" style="margin-left: 100px; text-decoration: none; color: dimgray;" ng-repeat="msg in testeMessage track by $index">{{msg}}</a>-->
+            </marquee>
+        </div>
+
+        <div style="width: 10%; height: 100%; padding: 5px; display: table-cell; vertical-align: top; border-left: 1px solid black">
+            <table style="width:100%; height: 100%;">
+                <tr>
+                    <!-- ************* Previous ************* -->
+                    <!-- Button Available-->
+                    <td ng-click="pause = true; navigation(-1)"><span ng-if="allowManualNavigation" class="dashboard-footer-button glyphicon glyphicon-step-backward"></span> </td>
+                    <!-- Button Unavailable-->
+                    <td><span ng-if="!allowManualNavigation" class="buttonWaitingForLoading dashboard-footer-button glyphicon glyphicon-step-backward "></span></td>
+                    <!-- ************* Play/Pause ************* -->
+                    <!-- Button Available-->
+                    <td ng-click="pause = !pause; navigation(0, pause)">
+                        <span ng-if="allowManualNavigation" ng-hide="pause" class="dashboard-footer-button glyphicon glyphicon-pause"></span>
+                        <span ng-if="allowManualNavigation" ng-hide="!pause" class="dashboard-footer-button glyphicon glyphicon-play"></span>
+                    </td>
+                    <!-- Button Unavailable-->
+                    <td>
+                        <span span ng-if="!allowManualNavigation" ; ng-hide="pause" class="buttonWaitingForLoading dashboard-footer-button glyphicon glyphicon-pause"></span>
+                        <span span ng-if="!allowManualNavigation" ; ng-hide="!pause" class="buttonWaitingForLoading dashboard-footer-button glyphicon glyphicon-play"></span>
+                    </td>
+
+                    <!-- Button Available-->
+                    <td ng-click="pause = true; navigation(1)"><span ng-if="allowManualNavigation" class="dashboard-footer-button glyphicon glyphicon-step-forward "></span></td>
+                    <!-- Button Unavailable-->
+                    <td><span ng-if="!allowManualNavigation" class="buttonWaitingForLoading dashboard-footer-button glyphicon glyphicon-step-forward "></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="width: 16%; height: 100%; display: table-cell; border-left: 1px solid black">
+            <span style="display:block; padding:0.1vw 0.5vw 0 0.5vw; font-size: 0.7vw;">
+                Última Atualização: 
+                {{tileLayoutShow.lastUpdate | date: 'dd/MM/yy HH:mm:ss'}}
+            </span>
+            <span style="display:block; padding:0 0.5vw 0 0.5vw ; font-size: 1.7vw;">{{date | date: 'dd/MM/yy HH:mm'}}</span>
+        </div>
+    </div>
+</div>
+<div style="height: 100px;"></div>

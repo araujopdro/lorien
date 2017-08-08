@@ -1,0 +1,92 @@
+﻿<section class="section-basic">
+    <section>
+        <div class="property-title-display-text">Código do Mosaico:</div>
+        <div class="pull-right" ng-click="showCode = !showCode">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+
+    <br />
+    <div class="property-display-text">{{tileLayoutConfig.code}}</div>
+    <br />
+    
+    <input ng-show="showCode" ng-model="tileLayoutConfig.code" class="form-control layout-basic-input" placeholder="Código do Mosaico">
+</section>
+
+<section class="section-basic">
+    <section>
+        <div class="property-title-display-text">Nome do Mosaico:</div>
+        <div class="pull-right" ng-click="showName = !showName">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+
+    <br />
+    <div class="property-display-text">{{tileLayoutConfig.name}}</div>
+    <br />
+
+    <input ng-show="showName" ng-model="tileLayoutConfig.name" class="form-control layout-basic-input" placeholder="Nome do Mosaico">
+</section>
+
+<section class="section-basic">
+    <section style="margin-bottom: 10px;">
+        <div class="property-title-display-text">Conectar a Thing:</div>
+        <div class="pull-right" ng-click="bindAPI($event)">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+
+    <table class="property-display-table" style="width: 100%">
+        <tr>
+            <td>API:</td>
+            <td>&nbsp&nbsp {{tileLayoutConfig.bindingApi}}</td>
+        </tr>
+        <tr>
+            <td>Thing Level:</td>
+            <td>&nbsp&nbsp {{tileLayoutConfig.thingLevel}}</td>
+        </tr>
+        <tr>
+            <td>Thing ID:</td>
+            <td>&nbsp&nbsp {{tileLayoutConfig.bindingID}}</td>
+        </tr>
+    </table>
+</section>
+
+<section class="section-basic">
+    <section>
+        <div class="property-title-display-text">Largura do Mosaico:</div>
+        <div class="pull-right" ng-click="showWidth = !showWidth">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+
+    <br />
+    <div class="property-display-text">{{tileLayoutConfig.numberOfColumns}}</div>
+    <br />
+
+    <md-slider ng-show="showWidth" aria-label="Close" class="md-primary white-slider" min="5" step="5" max="1000" ng-model="tileLayoutConfig.numberOfColumns"></md-slider>
+</section>
+
+<section class="section-basic">
+    <div class="property-title-display-text">Editar Cabeçalho</div>
+    <div class="pull-right" ng-click="editHeader($event)">
+        <span class="glyphicon glyphicon-chevron-right edit-button"></span>
+    </div>
+</section>
+
+<section ng-show="pathA == 'producao/shared/navigation/edit.html'" ng-class="{'section-basic': tileLayoutConfig.numberOfColumns, 'section-basic-red': !tileLayoutConfig.numberOfColumns}">
+    <div class="property-title-display-text">Administrar Tiles</div>
+    <div class="pull-right" ng-click="manageTiles(tileLayoutConfig.numberOfColumns)">
+        <span class="glyphicon glyphicon-chevron-right edit-button">
+            <md-tooltip ng-show="!tileLayoutConfig.numberOfColumns" md-direction="bottom">O mosaico precisa de uma largura maior que 0</md-tooltip>
+        </span>
+    </div>
+</section>

@@ -1,0 +1,57 @@
+<form name="groupForm">
+    <h4>Administração do Setup Display</h4>
+    <div class='pull-right'>
+        <!--<button class="btn btn-danger btn-block" data-ng-click="openModal('confirmationDialog', 'Você deseja desativar este Perfil e retirar as permissões dos Displays?')">Deletar</button> <!-- Manda DELETE na API através do ID -->
+        <button class="btn btn-danger btn-block" data-ng-click="openModal('confirmationDialog', 'Tem certeza que deseja deletar este Setup Display?')">Deletar</button> <!-- Manda DELETE na API através do ID -->
+        <button class="btn btn-success btn-block" ng-disabled="groupForm.$invalid" data-ng-click="putProfile(selectedProfile)">Salvar</button>
+
+    </div>
+
+    <div class="row">
+        <fieldset class='col-lg-6 form-group'>
+            <div class="col-lg-12">
+                <label for="username">Nome do Setup Display</label>
+                <input name='name' type="text" ng-model="selectedProfile.profileName" ng-required="true" class="form-control" placeholder="Nome do Setup Display">
+                <p ng-show="groupForm.name.$invalid && !groupForm.name.$pristine" class="alert alert-danger help-block">O Nome do Setup Display deve ter no mínimo 4 characteres</p>
+            </div>
+            <br>
+        </fieldset>
+    </div>
+
+    <div class="row">
+        <fieldset class='col-lg-10 form-group'>
+            <div class="col-lg-5">
+                <label>Telas:</label>
+                <div class="adjustHeight" ng-repeat="sysEndpoint in sysEndpoints" ng-if="hasEndpoint(sysEndpoint, selectedProfile)">
+                    <a href="" class="btn btn-default btn-block col-lg-2" ng-click="addEndPointToProfile(sysEndpoint, selectedProfile, n)">{{sysEndpoint.displayUrl}}</a>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <label>Telas permitidas:</label>
+                <div class="btn-block btn btn-default" ng-repeat="sysEndpoint in selectedProfile.Endpoints | orderBy:sysEndpoint.order | unique: 'displayUrl'" >
+                    <span ng-click="removeEndpointFromProfile(sysEndpoint, selectedProfile)">{{sysEndpoint.displayUrl}}</span>
+                    <span class="pull-right" style="font-size: 10px;" >{{sysEndpoint.time}}s</span>
+                </div>
+            </div>
+            <br>
+        </fieldset>
+    </div>
+
+    <div class="row">
+        <fieldset class='col-lg-10 form-group'>
+            <div class="col-lg-5">
+                <label>Displays</label>
+                <div class="adjustHeight" ng-repeat="display in displayList | filter:{displayName:searchUserGModal}" ng-if="display.profileId == defaultProfile.profileId">
+                    <a href="" class="btn btn-default btn-block col-lg-2" style="padding: 7px; margin: 2px; text-align: left" ng-click="addDisplayToProfile_profileSide(display, selectedProfile)">{{display.displayName}}</a>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <label>Displays Permitidos:</label>
+                <div class="adjustHeight" ng-repeat="display in displayList" ng-if="display.profileId == selectedProfile.profileId">
+                    <a href="" class="btn btn-default btn-block col-lg-2" style="padding: 7px; margin: 2px; text-align: left" ng-click="removeDisplayFromProfile(display, selectedProfile)">{{display.displayName}}</a>
+                </div>
+            </div>
+        </fieldset>
+    </div>  
+</form>

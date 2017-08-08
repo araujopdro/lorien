@@ -1,0 +1,110 @@
+﻿<md-dialog aria-label="List dialog" id="source-dialog-md">
+    <md-dialog-content>
+        <div class="source-dialog-section">
+            
+            <h5>URL</h5>
+            <select class="form-control" ng-model="source.url" ng-model-options='{ debounce: 1000 }' ng-change="setTileValue(source.name, source)" ng-options="array for array in arrayAPI"></select>
+            <!--<input class="form-control" ng-model="tileConfig[dataSourceCharateristics].url" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" placeholder="url">-->
+
+            <div ng-show="colorSource">
+                <h5>Font Color Path</h5>
+                <input class="form-control" ng-model="source.fontColorPath" ng-model-options='{ debounce: 1000 }' ng-change="setTileValue(source.name, source)" placeholder="path">
+            </div>
+
+            <h5>Path</h5>
+            <select class="form-control" ng-model="source.path" ng-model-options='{ debounce: 1000 }' ng-change="setTileValue(source.name, source)" ng-options="array for array in pathAPI"></select>
+
+            <h5>Query Parameters</h5>
+            
+            <h6>Chave</h6>
+            <input class="form-control" ng-model="query.param" placeholder="chave">
+            
+            <h6>Valor</h6>
+            <input class="form-control" ng-model="query.value" placeholder="valor">
+            
+            <div style="height: 30px; margin-top: 5px; margin-bottom: 5px;">
+                
+                <span ng-click="addQuery(query, source);" ng-class="{'select-button-disabled':!query.param || !query.value, 'select-button-green':query.param && query.value}" class="pull-right glyphicon glyphicon-plus color-white">
+                    <md-tooltip md-direction="bottom">Adicionar Query</md-tooltip>
+                </span>
+            </div>
+            <div ng-show="selectedTiles.tiles.length > 1">
+                <h5>Query Parameters (Único)</h5>
+
+                <h6>Único</h6>
+                <select class="form-control" ng-model="uniqueId" ng-change="modalFocus(uniqueId)">
+                    <option value="" disabled default selected>Selecione um Tile</option>
+                    <option ng-repeat="selectedTile in selectedTiles.tiles" ng-change="changeId(source, uniqueId)" value="{{selectedTile}}">{{selectedTile}}</option>
+                </select>
+                <br />
+                <h6>Chave</h6>
+                <input class="form-control" ng-model="uquery.param" placeholder="chave">
+                
+                <h6>Valor</h6>
+                <input class="form-control" ng-model="uquery.value" placeholder="valor">
+                
+                <div style="height: 30px; margin-top: 5px; margin-bottom: 5px;">
+                    <span ng-click="addQuery(uquery, allTiles[uniqueId][source.name], uniqueId);" ng-class="{'select-button-disabled':!uquery.param || !uquery.value || uniqueId, 'select-button-green':uquery.param && uquery.value && uniqueId}" class="pull-right glyphicon glyphicon-plus color-white">
+                        <md-tooltip md-direction="bottom">Adicionar Query a um Tile</md-tooltip>
+                    </span>
+                </div>
+            </div>
+            <span ng-click="testDS(source)" ng-class="{'select-button-disabled':!source.url || !source.path, 'select-button-blue':source.url && source.path}" class="pull-right glyphicon glyphicon-refresh color-white">
+                <md-tooltip md-direction="bottom">Testar Requisição</md-tooltip>
+            </span>
+            <h6>Resposta da Requisição:</h6>
+            <h5>{{result}}</h5>
+
+        </div>
+        <div class="source-dialog-section">
+            <table class="table">
+                <tr>
+                    <th colspan="2" ng-show="selectedTiles.tiles.length == 1">Queries</th>
+                    <th colspan="2" ng-show="selectedTiles.tiles.length > 1">Queries Comuns</th>
+                </tr>
+                <tr>
+                    <th>Chave</th>
+                    <th>Valor</th>
+                </tr>
+                <tr ng-repeat="show_query in source.queryParameters">
+                    <td>{{show_query.param}}</td>
+                    <td>{{show_query.value}}</td>
+                    <!--<td><span ng-click="removeQuery(show_query, source); setTileValue(source.name, source)" class="glyphicon glyphicon-minus-sign"><md-tooltip md-direction="bottom">Remover Query de Todos</md-tooltip></span></td>-->
+                </tr>
+            </table>
+            <br />
+            <table class="table">
+                <tr>
+                    <th colspan="2">Queries (Tile Selecionado)</th>
+                </tr>
+                <tr>
+                    <th>Chave</th>
+                    <th>Valor</th>
+                </tr>
+                <tr ng-show="selectedTiles.tiles.length > 1" ng-repeat="ushow_query in allTiles[uniqueId][source.name].queryParameters">
+                    <td>{{ushow_query.param}}</td>
+                    <td>{{ushow_query.value}}</td>
+                    <td><span ng-click="removeQuery(ushow_query, allTiles[uniqueId][source.name], uniqueId); setTileValue(source.name, source, uniqueId)" class="glyphicon glyphicon-minus-sign"><md-tooltip md-direction="bottom">Remover Query de um Tile</md-tooltip></span></td>
+                </tr>
+            </table>
+        </div>
+        <div class="source-dialog-section">
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Thing</th>
+                </tr>
+                <tr ng-repeat="thing in idThingChildren">
+                    <td>{{thing.thingId}}</td>
+                    <td>{{thing.code}}</td>
+                </tr>
+            </table>
+        </div>
+
+        
+
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-click="ok()" class="md-primary">FECHAR</md-button>
+    </md-dialog-actions>
+</md-dialog>

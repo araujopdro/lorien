@@ -1,0 +1,96 @@
+﻿                                                                <!--                    INÍCIO LISTA DE USUÁRIOS               -->
+<div class="row">
+    <div class="panel-heading">
+        <h4>Lista de Usuarios</h4>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <fieldset class="form-group col-lg-4">
+                <label>Usuário</label>
+                <!-- "USERLIST" VARIAVEL DE ESCOPO QUE PEGA OS ÚSUARIOS DA API/USER-->
+                <select name="user" ng-model="newUser.userIdAPIUser" class="form-control" ng-options="user.userId as user.userId for user in selectableUsers| orderBy:'userId'">
+                    <option value="" disabled selected>Selecione um usuário</option>
+                </select>
+
+            </fieldset>
+            <fieldset class="form-group col-lg-2">
+                <label astyle="color: white;"></label>
+                <button class="btn btn-success form-control" ng-click="addUserToGroupMails(groupMail, newUser); userSelection(groupMail,newObjUser)" ng-disabled="groupMail == undefined || groupMail == null || newUser == undefined || newUser == null || newUser.userIdAPIUser == undefined || newUser.userIdAPIUser == null || newUser.userIdAPIUser == ''">+</button>
+
+            </fieldset>
+            <!--REPETE OS USUÁRIOS QUE ESTÃO SENDO ADICIONADOS !!!-->
+            <div class="form-group col-lg-11" ng-repeat="selection in userSelected">
+                <div class="col-lg-6 list-item">
+                    <div class="col-lg-10">
+                        {{selection.userIdAPIUser}}
+                    </div>
+                    <div class="col-lg-1 division">
+                        <span data-ng-click="removeUserSelected(userSelected, selection);"
+                              class="glyphicon glyphicon-remove thinginternal-btn"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--<div class="form-group col-lg-11" ng-repeat="userList in groupMails.users">-->
+                <!--"listUser" variavel do $scope que buscar user da api/GroupMails-->
+                <div class="form-group col-lg-11" ng-repeat="user in listUser | filter:{'GroupMails_groupMailsId':currentId}:true" ng-hide="currentId ==  undefined">
+                    <div class="col-lg-6 list-item">
+                        <div class="col-lg-10">
+                            {{user.userIdAPIUser}}
+                        </div>
+                        <div class="col-lg-1 division">
+                            <span data-ng-click="removeUserFromGroupMails(listUser, user);"
+                                  class="glyphicon glyphicon-remove thinginternal-btn"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                                                                <!--                    FIM LISTA DE USUÁRIOS                  -->
+                                                                <!--                    INICIO LISTA DE EMAILS                 -->
+<div class="row">
+    <div class="panel-heading">
+        <h4>Lista de E-mails</h4>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <fieldset class="form-group col-lg-4">
+                <label>Email</label>
+                <input type="email"  required name="formGroupEmail" ng-model="newEmail.email" class="form-control" placeholder="Email">      
+            </fieldset>
+            <fieldset class="form-group col-lg-2">
+                <label astyle="color: white;"></label>
+                <button class="btn btn-success form-control" ng-click="addEmailToGroupMails(groupMail, newEmail); emailSelection(groupMail, newEmail)" ng-disabled="newEmail.email == undefined || newEmail.email == null || newEmail.email == '' ">+</button>
+            </fieldset>
+            <!--REPETE OS EMAILS QUE ESTÃO SENDO ADICIONADOS !!!-->
+            <div class="form-group col-lg-11" ng-repeat="selectionEmail  in emailSelected">
+                <div class="col-lg-6 list-item">
+                    <div class="col-lg-10">
+                        {{selectionEmail.email}}
+                    </div>
+                    <div class="col-lg-1 division">
+                        <span data-ng-click="removeEmailSelected(emailSelected, selectionEmail);"
+                              class="glyphicon glyphicon-remove thinginternal-btn"></span>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="form-group col-lg-11" ng-repeat="emaiList in listEmails | filter:{'GroupMails_groupMailsId':currentId}:true" ng-hide="currentId == undefined">
+                <div class="col-lg-6 list-item">
+                    <div class="col-lg-10">
+                        {{emaiList.email}}
+                    </div>
+                    <div class="col-lg-1 division">
+                        <span data-ng-click="removeEmailFromGroupMails(listEmails, emaiList);"
+                              class="glyphicon glyphicon-remove thinginternal-btn"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

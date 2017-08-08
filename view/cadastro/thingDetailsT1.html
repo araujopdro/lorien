@@ -1,0 +1,70 @@
+<div class="row">
+    <h4>Organização</h4>
+    <!--<button class="btn btn-danger pull-right" data-ng-click="deleteCon($event, selectedThing)">Deletar</button>-->  <!-- Manda DELETE na API através do ID -->
+    <button class="btn btn-danger pull-right" data-ng-click="openModal('confirmationDialog', 'Você deseja excluir esse item da organização?', selectedThing)">Excluir</button>
+
+    <button class="btn btn-success pull-right" data-ng-click="updateThing(selectedThing)">Salvar</button> <!-- Manda SALVAR na API através do ID-->
+    <div class="col-lg-6">
+        <!--<label>Tipo</label>
+        <select name="ttype" class="form-control" ng-model="selectedThing.thingType" ng-options="type.thingType as type.thingType for type in thingTypes| orderBy:'thingType'">
+            <option value="" selected>Selecione um Tipo para a Entidade</option>
+        </select>-->
+        <label for="username">Nome</label>
+        <input type="text" ng-model="selectedThing.name" class="form-control" id="username" placeholder="name">
+        <br>
+        <label for="code">Código</label>
+        <input type="text" ng-model="selectedThing.code" class="form-control" id="password" placeholder="code">
+        <br>
+        <label for="textphysicalConn">Endereço de Conexão</label>
+        <input type="text" ng-model="selectedThing.physicalConn" class="form-control" id="physicalConn" placeholder="Endereço de Conexão">
+        <br>
+        <label>Posição</label>
+        <input ng-required="true" name="posit" type="number" ng-model="selectedThing.position" class="form-control" id="posit" placeholder="Posição" style="width: 60%">
+        <br>
+        <label for="textArea">Descrição</label>
+        <textarea id="textArea" class="form-control" ng-model="selectedThing.description" placeholder="Descrição"></textarea>
+    </div>
+    <button class="btn btn-success pull-right" ng-disabled="selectedThing.parentThingId == 0" data-ng-click="goToParent(selectedThing);  selectParent(selectedThing)">Ver Pai</button> <!-- Manda pro parent-->
+</div>
+<br>
+
+<div class="row">
+    <h4>Características</h4>
+    <div class="row">
+        <label class="col-lg-1" for="keyText">Chave</label>
+        <label class="col-lg-1 col-lg-offset-1" for="keyText">Valor</label>
+    </div>
+    <div class="row">
+        <div class="col-lg-11">
+            <div class="col-lg-7 list-item">
+                <div class="col-lg-5" style="padding-left: 0px;">
+                    <select class="form-control new-characteristic" ng-model="ctc" ng-options="char.key for char in thingsCharacteristics| orderBy:'key' | filter:characteristicsNotAddedFilter_SelectedThing">
+                        <option value="" disabled selected>Selecione uma Chave</option>
+                    </select>
+                </div>
+                <div class="col-lg-6" style="padding-left: 0px;">
+                    <input id="keyText" class="form-control" ng-model="ctc.value" placeholder="Descrição">
+                </div>
+                <div class="col-lg-1 pull-right">
+                    <span data-ng-click="addcharacteristic(ctc, selectedThing);" class="glyphicon glyphicon-plus-sign" style="margin-top:8px"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group col-lg-11" ng-repeat="characteristic in selectedThing.Characteristics">
+        <div class="col-lg-6 list-item">
+            <div class="col-lg-5">
+                {{characteristic.key}}
+            </div>
+            <div class="col-lg-5 division">
+                {{characteristic.value}}
+            </div>
+            <div class="col-lg-1 division pull-right">
+                <span data-ng-click="deletecharacteristic(selectedThing, characteristic);"
+                      class="glyphicon glyphicon-remove list-btn"></span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

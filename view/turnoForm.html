@@ -1,0 +1,284 @@
+<!--Lista de turnos-->
+<div class="row">
+    <h3 class="col-lg-4  col-lg-offset-1 unselectableText" id="title">Turnos</h3>
+</div>
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <button class="btn btn-primary" ng-click="openModal('createModal', '');">Criar Novo</button>
+            <input class="form-control searchbar" type="text" ng-model="searchShift" placeholder="Procurar Turno" />
+        </div>
+        <div class="row">
+            <div class="list-navbar">
+                <div class="col-lg-2 tableHead division" id='order-name'><a href="" ng-click="orderBy2('scheduleName','order-name')">Nome</a></div>
+                <div class="col-lg-2 tableHead division" id='start-time'><a href="" ng-click="orderBy2('Trigger.triggerStartTime','start-time')">Hora Início</a></div>
+                <div class="col-lg-2 tableHead division" id='end-time'><a href="" ng-click="orderBy2('Trigger.triggerEndTime','end-time')">Hora Fim</a></div>
+                <div class="col-lg-1 tableHead division">Gerenciamento</div>
+            </div>
+
+            <img ng-if="dataLoading" class="loadingImg" ng-src="{{loadingSrc}}" />
+
+            <div ng-include="'scheduleDetailsT1.html'"></div>
+        </div>
+    </div>
+</div>
+
+<!--Lista de Exceções-->
+<div class="row">
+    <h3 class="col-lg-4  col-lg-offset-1 unselectableText" id="title">Exceções</h3>
+</div>
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <button class="btn btn-primary" ng-click="openModal('createExceptionModal', '');">Criar Nova</button>
+            <input class="form-control searchbar" type="text" ng-model="searchException" placeholder="Procurar Exceção" />
+        </div>
+        <div class="row">
+            <div class="list-navbar">
+                <div class="col-lg-5 tableHead division" id='exception-order-name'><a href="" ng-click="orderBy3('scheduleName', 'exception-order-name')">Nome</a></div>
+                <div class="col-lg-5 tableHead division" id='exception-date'><a href="" ng-click="orderBy3('Trigger.triggerDate', 'exception-date')">Data</a></div>
+                <!--<div class="col-lg-2 tableHead division" id='exception-start-time'><a href="" ng-click="orderBy3('Trigger.triggerStartTime', 'exception-start-time')">Hora Início</a></div>
+                <div class="col-lg-2 tableHead division" id='end-time'><a href="" ng-click="orderBy3('Trigger.triggerEndTime', 'exception-end-time')">Hora Fim</a></div>-->
+                <div class="col-lg-1 tableHead division">Gerenciamento</div>
+            </div>
+
+            <img ng-if="dataLoading" class="loadingImg" ng-src="{{loadingSrc}}" />
+
+            <div ng-include="'exceptionDetails.html'"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal turnos -->
+<div class="modal" id="createModal">
+    <form class="modal-content col-lg-6 col-lg-offset-3" name="groupForm">
+        <span class="close" ng-click="clearFields(); closeModal('createModal')">×</span>
+        <h4>Criar Novo Turno</h4>
+        <br>
+        <fieldset class="form-group col-lg-6">
+            <label>Nome</label>
+            <input type="text" required ng-model="newSchedule.scheduleName" class="form-control" placeholder="Nome">
+        </fieldset>
+        <fieldset class="form-group col-lg-6">
+            <label>Hora Início</label>
+            <input type="text" ng-pattern="regexHour" id="time" ng-model="newSchedule.Trigger.triggerStartTime"  mask="29:59" class="form-control" placeholder="00:00">
+        </fieldset>
+        <fieldset class="form-group col-lg-6">
+            <label>Hora Término</label>
+            <input type="text" ng-pattern="regexHour" id="time" required  ng-model="newSchedule.Trigger.triggerEndTime" mask="29:59" class="form-control" placeholder="00:00">
+        </fieldset>       
+        <fieldset class="form-group col-lg-4">
+            <label>Dias da semana: </label>
+            <br />
+            <input type="checkbox" ng-checked="containsAllWeekDays(newSchedule.Trigger, 'triggerWeekDays')" ng-true-value="true" ng-false-value="false" ng-click="selectUnselectAllweekDays(newSchedule.Trigger, 'triggerWeekDays')" ng-disabled="newSchedule==undefined||newSchedule==null|| newSchedule.Trigger.triggerStartTime==null || newSchedule.Trigger.triggerStartTime==undefined || newSchedule.Trigger.triggerEndTime == undefined" /> Selecionar Todos
+            <br />
+
+            <input type="checkbox" ng-checked="containsWeekDay(newSchedule.Trigger,'sunday', 'triggerWeekDays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newSchedule.Trigger, 'sunday', 'triggerWeekDays')" ng-true-value="true" ng-false-value="false" ng-disabled="newSchedule==undefined||newSchedule==null|| newSchedule.Trigger.triggerStartTime ==null || newSchedule.Trigger.triggerStartTime==undefined || newSchedule.Trigger.triggerEndTime == undefined"  /> D
+
+            <input type="checkbox" ng-checked="containsWeekDay(newSchedule.Trigger,'monday', 'triggerWeekDays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newSchedule.Trigger, 'monday', 'triggerWeekDays')" ng-true-value="true" ng-false-value="false" ng-disabled="newSchedule==undefined||newSchedule==null|| newSchedule.Trigger.triggerStartTime==null || newSchedule.Trigger.triggerStartTime==undefined || newSchedule.Trigger.triggerEndTime == undefined" /> S
+
+            <input type="checkbox" ng-checked="containsWeekDay(newSchedule.Trigger,'tuesday', 'triggerWeekDays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newSchedule.Trigger, 'tuesday', 'triggerWeekDays')" ng-true-value="true" ng-false-value="false" ng-disabled="newSchedule==undefined||newSchedule==null|| newSchedule.Trigger.triggerStartTime==null || newSchedule.Trigger.triggerStartTime==undefined || newSchedule.Trigger.triggerEndTime == undefined" /> T
+
+            <input type="checkbox" ng-checked="containsWeekDay(newSchedule.Trigger,'wednesday', 'triggerWeekDays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newSchedule.Trigger, 'wednesday', 'triggerWeekDays')" ng-true-value="true" ng-false-value="false" ng-disabled="newSchedule==undefined||newSchedule==null|| newSchedule.Trigger.triggerStartTime==null || newSchedule.Trigger.triggerStartTime==undefined || newSchedule.Trigger.triggerEndTime == undefined" /> Q
+            <br />
+
+            <input type="checkbox" ng-checked="containsWeekDay(newSchedule.Trigger,'thursday', 'triggerWeekDays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newSchedule.Trigger, 'thursday', 'triggerWeekDays')" ng-disabled="newSchedule==undefined||newSchedule==null|| newSchedule.Trigger.triggerStartTime==null || newSchedule.Trigger.triggerStartTime==undefined || newSchedule.Trigger.triggerEndTime == undefined" /> Q
+
+            <input type="checkbox" ng-checked="containsWeekDay(newSchedule.Trigger,'friday', 'triggerWeekDays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newSchedule.Trigger, 'friday', 'triggerWeekDays')" ng-disabled="newSchedule==undefined||newSchedule==null|| newSchedule.Trigger.triggerStartTime==null || newSchedule.Trigger.triggerStartTime==undefined || newSchedule.Trigger.triggerEndTime == undefined" /> S
+
+            <input type="checkbox" ng-checked="containsWeekDay(newSchedule.Trigger,'saturday', 'triggerWeekDays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newSchedule.Trigger, 'saturday', 'triggerWeekDays')" ng-disabled="newSchedule==undefined||newSchedule==null|| newSchedule.Trigger.triggerStartTime==null || newSchedule.Trigger.triggerStartTime==undefined || newSchedule.Trigger.triggerEndTime == undefined" /> S
+        </fieldset>
+        <fieldset class="form-group col-lg-12">
+            <h4>Pausas</h4>
+        </fieldset>
+        <fieldset class="form-group col-lg-4">
+            <label>Descrição</label>
+            <input type="text" ng-model="newBreak.description" class="form-control" placeholder="Nome">
+        </fieldset>
+        <fieldset class="form-group col-lg-2">
+            <label>Hora Inicio</label>
+            <input type="text"  ng-model="newBreak.startTime" mask="29:59" class="form-control" placeholder="00:00">
+        </fieldset>
+        <fieldset class="form-group col-lg-2">
+            <label>Hora Fim</label>
+            <input type="text"  ng-model="newBreak.endTime" mask="29:59" class="form-control" placeholder="00:00">
+        </fieldset>
+        <fieldset class="form-group col-lg-1">
+            <label astyle="color: white;"></label>
+            <button class="btn btn-success form-control" ng-click="addBreakToSchedule(newSchedule, newBreak)" ng-disabled="newSchedule.Trigger == undefined || newSchedule.Trigger == null || newBreak.description == undefined || newBreak.startTime == undefined || newBreak.endTime == undefined || newBreak.description == '' || newBreak.startTime == '' || newBreak.endTime == '' ">+</button>
+        </fieldset>
+        <!--Titulo pausas-->
+        <div class="form-group col-lg-11" ng-if="newSchedule.Trigger.Breaks.length > 0">
+            <div class="col-lg-6">
+                <div class="col-lg-4">
+                    <label>Descrição</label>
+                </div>
+                <div class="col-lg-3">
+                    <label>Hora Inicio</label>
+                </div>
+                <div class="col-lg-3">
+                    <label>Hora Fim</label>
+                </div>
+            </div>
+        </div>
+
+        <!--Dados de pausas-->
+        <div class="form-group col-lg-11" ng-repeat="break in newSchedule.Trigger.Breaks">
+            <div class="col-lg-6 list-item">
+                <div class="col-lg-4">
+                    {{break.description}}
+                </div>
+                <div class="col-lg-3 division">
+                    {{break.startTime}}
+                </div>
+                <div class="col-lg-3 division">
+                    {{break.endTime}}
+                </div>
+                <div class="col-lg-1 division">
+                    <span data-ng-click="removeBreakFromSchedule(newSchedule, break);"
+                          class="glyphicon glyphicon-remove .thinginternal-btn"></span>
+                </div>
+            </div>
+        </div>
+        <fieldset class="form-group col-lg-12">
+            <button class="btn btn-success btnModal" ng-disabled="groupForm.$invalid || newSchedule.Trigger.triggerWeekDays == undefined || newSchedule.Trigger.triggerWeekDays == '' || newSchedule.Trigger.triggerWeekDays.length == 0 " ng-click="createShift(newSchedule); clearScheduleValue(); clearFields(); closeModal('createModal'); ">Criar Turno</button>
+            <button class="btn btn-danger btnModal" ng-click="clearScheduleValue(); clearFields(); closeModal('createModal')">Cancelar</button>
+        </fieldset>
+    </form>
+</div> <!-- End Shift Modal -->
+
+<!-- Modal Exceções -->
+<div class="modal" id="createExceptionModal">
+    <form class="modal-content col-lg-6 col-lg-offset-3 part-line" name="groupsForm">
+        <span class="close" ng-click="clearFields(); closeModal('createExceptionModal')">×</span>
+        <h4>Criar Nova Exceção</h4>
+        <br>
+        <fieldset class="form-group col-lg-4">
+            <label>Nome</label>
+            <input type="text" required ng-model="newSchedule.scheduleName" class="form-control" placeholder="Nome">
+        </fieldset>
+        <fieldset class="form-group col-lg-4">
+            <label>Data</label>
+            <div class="form-control">
+                <md-datepicker class="correcao-calendar" id="triggerDate" ng-model="newSchedule.Trigger.triggerDate"></md-datepicker>
+                {{newSchedule.Trigger.triggerDate | date: 'dd/MM/yyyy'}}
+            </div>
+        </fieldset>
+        <!--<fieldset class="form-group col-lg-4">
+            <label>Hora Início</label>
+            <input type="text" required  ng-model="newSchedule.Trigger.triggerStartTime" mask="29:59" class="form-control" placeholder="00:00">
+        </fieldset>
+        <fieldset class="form-group col-lg-4">
+            <label>Hora Término</label>
+            <input type="text" required  ng-model="newSchedule.Trigger.triggerEndTime"  mask="29:59" class="form-control" placeholder="00:00">
+        </fieldset>-->
+        <fieldset class="form-group col-lg-1">
+            <label>Trabalha<br /><input type="checkbox" ng-model="scheduleType" class="form-control"></label>
+        </fieldset>
+        <!-- *************** PARENT SCHEDULE LIST ******************-->
+        <!--Parent Schedule Form-->
+        <fieldset class="form-group col-lg-12">
+            <h4 ng-show="scheduleType">Vincular com Turnos que trabalha</h4>
+            <h4 ng-show="!scheduleType">Vincular com Turnos que não trabalha</h4>
+
+        </fieldset>
+        <fieldset class="form-group col-lg-4">
+            <label>Turno</label>
+            <select class="form-control" ng-model="newparentSchedule.parentScheduleBindId">
+                <option value="" disabled selected>Selecionar</option>
+                <option ng-show="showShiftOnSelect(shift.scheduleId, newSchedule)" ng-repeat="shift in shiftsList" value="{{shift.scheduleId}}" >{{shift.scheduleName}}</option>
+            </select>
+        </fieldset>        
+        <fieldset class="form-group col-lg-1">
+            <label astyle="color: white;"></label>
+            <button class="btn btn-success form-control" ng-click="addParentScheduleToException(newSchedule, newparentSchedule)" ng-disabled="newparentSchedule.parentScheduleBindId == undefined ||newparentSchedule.parentScheduleBindId == null || newSchedule == undefined ||newSchedule == undefined">+</button>
+        </fieldset>
+        <!--Dados de Parent ScheduleList-->
+        <div class="form-group col-lg-11" ng-repeat="parentScheduleId in newSchedule.ParentScheduleIdLists">
+            <div class="col-lg-6 list-item">
+                <div class="col-lg-4 ">
+                    {{getParentScheduleNameForDisplay(parentScheduleId)}}
+                </div>
+                <div class="col-lg-1 division">
+                    <span data-ng-click="removeParentScheduleFromException(newSchedule, parentScheduleId);"
+                          class="glyphicon glyphicon-remove .thinginternal-btn"></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- *************** PAUSAS ******************-->        
+        <!--Pausas Form-->
+        <!--<fieldset class="form-group col-lg-12">
+            <h4>Pausas</h4>
+        </fieldset>
+        <fieldset class="form-group col-lg-4">
+            <label>Descrição</label>
+            <input type="text" ng-model="newBreak.description" class="form-control" placeholder="Nome">
+        </fieldset>
+        <fieldset class="form-group col-lg-2">
+            <label>Hora Inicio</label>
+            <input type="text"  ng-model="newBreak.startTime" mask="29:59" class="form-control" placeholder="00:00">
+        </fieldset>
+        <fieldset class="form-group col-lg-2">
+            <label>Hora Fim</label>
+            <input type="text"  ng-model="newBreak.endTime" mask="29:59" class="form-control" placeholder="00:00">
+        </fieldset>   
+        <fieldset class="form-group col-lg-1">
+            <label astyle="color: white;"></label>
+            <button class="btn btn-success form-control" ng-click="addBreakToSchedule(newSchedule, newBreak)" ng-disabled="newSchedule.Trigger == undefined || newSchedule.Trigger == null || newBreak.description == undefined || newBreak.startTime == undefined || newBreak.endTime == undefined || newBreak.description == '' || newBreak.startTime == '' || newBreak.endTime == '' ">+</button>
+        </fieldset>-->
+
+        <!--Titulo pausas-->
+        <div class="form-group col-lg-11" ng-if="newSchedule.Trigger.Breaks.length > 0">
+            <div class="col-lg-12">
+                <div class="col-lg-4">
+                    <label>Descrição</label>
+                </div>
+                <div class="col-lg-3">
+                    <label>Hora Inicio</label>
+                </div>
+                <div class="col-lg-3">
+                    <label>Hora Fim</label>
+                </div>
+            </div>
+        </div>
+
+        <!--Dados de pausas-->
+        <div class="form-group col-lg-11" ng-repeat="break in newSchedule.Trigger.Breaks">
+            <div class="col-lg-11 list-item">
+                <div class="col-lg-4">
+                    {{break.description}}
+                </div>
+                <div class="col-lg-3 division">
+                    {{break.startTime | date :  "HH:mm"}}
+                </div>
+                <div class="col-lg-3 division">
+                    {{break.endTime | date :  "HH:mm"}}
+                </div>
+                <div class="col-lg-1 division">
+                    <span data-ng-click="removeBreakFromSchedule(newSchedule, break);"
+                          class="glyphicon glyphicon-remove .thinginternal-btn"></span>
+                </div>
+            </div>
+        </div>
+        '
+        <!-- Botões de cancelar e incluir -->
+        <fieldset class="form-group col-lg-12">
+            <button class="btn btn-success btnModal" ng-disabled="groupsForm.$invalid || !newSchedule.Trigger.triggerDate" ng-click="formatingDate(newSchedule, newSchedule.Trigger.triggerDate); createException(newSchedule, scheduleType); clearScheduleValue(); clearFields(); closeModal('createExceptionModal'); ">Criar Exceção</button>
+            <button class="btn btn-danger btnModal" ng-click="clearScheduleValue(); clearFields(); closeModal('createExceptionModal')">Cancelar</button>
+        </fieldset>        
+    </form>
+</div> <!-- End Exception Modal -->
+
+<!-- Modal confirmação delete -->
+<div class="modal" id="confirmationDialog">
+    <form class="modal-content col-lg-2 col-lg-offset-5">
+        <span class="close" ng-click="closeModal('confirmationDialog')">×</span>
+        <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+        <br>
+        <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="deleteMeta(selectedToDelete); closeModal('confirmationDialog');">Sim</button>
+        <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeModal('confirmationDialog')">Nâo</button>
+        <br>
+    </form>
+</div> <!-- End Confirmation Modal -->
+

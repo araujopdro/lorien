@@ -1,0 +1,127 @@
+
+<div class="row">
+    <h3 class="col-lg-4 col-lg-offset-1 unselectableText" id="title">Organização</h3>
+</div>
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <button class="btn btn-primary" ng-click="openModal('createModal', '');">Criar Novo</button>
+            <select class="form-control selectbox" ng-model="lvlSelected" ng-options="level.thingLvlDescription for level in thingLvls| orderBy:'thingLvl'"></select>
+            <input class="form-control searchbar" type="text" ng-model="search" placeholder="Procurar Organização" />
+        </div>
+        <div class="row">
+            <div class="list-navbar">
+                <div class="list-header col-lg-1" id='order-id'><a href="" ng-click="orderBy('id', 'order-id')">Id <span class="glyphicon "></span></a></div>
+                <div class="list-header col-lg-2 division" id='order-code'><a href="" ng-click="orderBy('code', 'order-code')">Código <span class="glyphicon "></span></a></div>
+                <div class="list-header col-lg-3 division" id='order-name'><a href="" ng-click="orderBy('name', 'order-name')">Nome <span class="glyphicon"></span></a></div>
+                <div class="list-header col-lg-3 division" id='order-parentThingId'><a href="" ng-click="orderBy('parentThingId', 'order-parentThingId')">Pai <span class="glyphicon"></span></a></div>
+                <!--<div class="list-header col-lg-2 division" id='order-status'><a href="" ng-click="orderBy('status', 'order-status')">Status <span class="glyphicon"></span></a></div>-->
+                <div class="col-lg-1 division">Gerenciamento</div>
+            </div>
+
+            <div ng-repeat="thing in thingsList[ lvlSelected.thingLvl - 1 ]| filter:search | orderBy:orderCrit:orderDir" id="thing-{{thing.thingId}}" last-item>
+                <div class="col-lg-12 list-item">
+                    <div class="col-lg-1">{{thing.thingId}}</div>
+                    <div class="col-lg-2 division">{{thing.code}}</div>
+                    <div class="col-lg-3 division">{{thing.name}}</div>
+                    <div class="col-lg-3 division" ng-if='thing.parentThingId !== 0'>{{thing.parentName}}</div>
+                    <div class="col-lg-3 division" ng-if='thing.parentThingId === 0'>Sem Pai</div>
+                    <!--<div class="col-lg-2 division" ng-if='thing.status === "active"'>Ativo        <span class="glyphicon glyphicon-ok-sign"></span></div>
+                    <div class="col-lg-2 division" ng-if='thing.status !== "active"'>Inativo       <span class="glyphicon glyphicon-remove-sign"></span></div>-->
+                    <div class="col-lg-1 division">
+                        <span data-ng-click="selectThing(thing); toggle(thing.thingId, 'details'); bool = !bool"
+                              ng-class="{'glyphicon glyphicon-expand': !bool, 'glyphicon glyphicon-collapse-down': bool}"
+                              class="list-btn"
+                              id='btn-list-{{thing.thingId}}'></span>
+                    </div>
+                </div>
+
+                <div id="view-detail-{{thing.thingId}}" class="details col-lg-10  col-lg-offset-1" ng-include="getInclude(thing.thingLvl)"></div>
+            </div>
+        </div>
+    </div>
+    <!--
+        Modal para a criação de novas Things
+    -->
+
+    <div class="modal" id="createModal">
+        <form class="modal-content col-lg-6 col-lg-offset-3" name="groupForm">
+            <span class="close" ng-click="clearThingFields(value, key.key); closeModal('createModal')">×</span>
+            <h4>Criar Nova Organização</h4>
+            <br>
+
+            <fieldset class="form-group">
+                <label>Nível</label>
+                <select name="tlevel" class="form-control" ng-model="newlevel" ng-options="level.thingLvlDescription for level in thingLvls| orderBy:'thingLvl'">
+                    <option value="" disabled selected>Selecione um Nível para a Organização</option>
+                </select>
+                <!--<label>Run Mode</label>
+                <select name="ttype" class="form-control" ng-model="newtype" ng-options="type.thingType for type in thingTypes| orderBy:'thingType'">
+                    <option value="" selected>Selecione um Run Mode para a Organização</option>
+                </select>-->
+            </fieldset>
+            <br>
+            <fieldset ng-show="!groupForm.tlevel.$pristine">
+                <label>Código</label>
+                <input ng-required="true" name="code" type="text" ng-model="newThing.code" class="form-control" id="code" placeholder="Código" style="width: 60%">
+
+                <label>Nome</label>
+                <input ng-required="true" name="name" type="text" ng-model="newThing.name" class="form-control" id="name" placeholder="Nome" style="width: 60%">
+
+                <label>Endereço de Conexão</label>
+                <input name="physicalConn" type="text" ng-model="newThing.physicalConn" class="form-control" id="phconn" placeholder="Endereço de Conexão" style="width: 60%">
+
+                <label>Posição</label>
+                <input ng-required="false" name="posit" type="number" ng-model="newThing.position" class="form-control" id="posit" placeholder="Posição" style="width: 60%">
+
+                <label>Descrição</label>
+                <input ng-required="true" name="desc" type="text" ng-model="newThing.description" class="form-control" id="description" placeholder="Descrição" style="width: 60%">
+
+            </fieldset>
+
+            <fieldset ng-show="!groupForm.tlevel.$pristine" id="char-content" name="charFrom">
+                <div class="col-lg-11 col-md-11">
+                    <label class="col-lg-4" style="padding-left: 0px;">Chave</label>
+                    <label class="col-lg-4">Valor</label>
+                </div>
+                <select ng-model="ctc" ng-options="char.key for char in thingsCharacteristics| orderBy:'key' | filter:characteristicsNotAddedFilter_NewThing">
+                    <option value="" disabled selected>Selecione uma Chave</option>
+                </select>
+                <input ng-model="ctc.value" placeholder="Valor" type="text">
+                <button class="btn btn-success btnModal" ng-disabled="ctc.value===undefined||ctc===undefined||groupForm.$invalid" data-ng-click="addcharacteristic(ctc, newThing);"><span class="glyphicon glyphicon-plus-sign"></span></button>
+            </fieldset>
+
+            <fieldset class="form-group col-lg-11 col-md-11" ng-repeat="newCharacteristic in newThing.Characteristics" style="margin-top: 1px; margin-left: 20px; padding: 2px;">
+                <div class="col-lg-4">
+                    {{newCharacteristic.key}}
+                </div>
+                <div class="col-lg-4">
+                    {{newCharacteristic.value}}
+                </div>
+                <div>
+                    <span data-ng-click="deletecharacteristic(newThing, newCharacteristic);"
+                          class="glyphicon glyphicon-remove list-btn"></span>
+                </div>
+            </fieldset>
+
+            <button class="btn btn-success btnModal" ng-disabled="groupForm.$invalid" data-ng-click="createThing(newThing, newlevel); clearThingFields(value, key.key); closeModal('createModal')">Criar Organização</button>
+            <button class="btn btn-danger cancel btnModal" ng-click="clearThingFields(value, key.key); closeModal('createModal')">Cancelar</button>
+        </form>
+    </div>
+
+    <!--
+       Dialog para confirmação
+    -->
+    <!-- Modal confirmação delete -->
+    <div class="modal" id="confirmationDialog">
+        <form class="modal-content col-lg-2 col-lg-offset-5">
+            <span class="close" ng-click="closeModal('confirmationDialog')">×</span>
+            <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+            <br>
+            <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="deleteThing(selectedThing); closeModal('confirmationDialog');">Sim</button>
+            <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeModal('confirmationDialog')">Nâo</button>
+            <br>
+        </form>
+    </div> <!-- End Confirmation Modal -->
+
+</div>

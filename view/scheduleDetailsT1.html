@@ -1,0 +1,14 @@
+<!-- Lista de Turnos -->
+<div ng-repeat="shift in shiftsList | filter:searchShift | orderBy:orderCrit1:orderDir1" on-finish-render="ngRepeatFinished">
+    <div class="col-lg-12 list-item">
+        <div class="col-lg-2">{{shift.scheduleName}}</div>
+        <div class="col-lg-2 division">{{shift.Trigger.triggerStartTime}}</div>
+        <div class="col-lg-2 division">{{shift.Trigger.triggerEndTime}}</div>
+        <div class="col-lg-1 division">
+            <span data-ng-click="selectSchedule(shift); toggle('view-detail-'+shift.scheduleId, 'details'); bool=!bool"
+                  ng-class="{'glyphicon glyphicon-expand': !bool, 'glyphicon glyphicon-collapse-down': bool}"
+                  class="list-btn"></span>
+        </div>
+    </div>
+    <div class="details col-lg-10 col-lg-offset-1" id="view-detail-{{shift.scheduleId}}" ng-include="'turnoManagement.html'" style="display: none"></div>
+</div>  

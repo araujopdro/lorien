@@ -1,0 +1,65 @@
+﻿<md-grid-list md-cols="{{tileLayoutShow.numberOfColumns}}" md-gutter="{{tileLayoutShow.gutter}}" md-row-height="1:1">
+    <md-grid-tile ng-repeat="tile in tileLayoutShow.tiles track by $index"
+                  ng-if="tile.show"
+                  ng-style="{'background-color': tile.color, 'background-image': 'url('+tile.image+')'};" md-rowspan="{{tile.tileHeight}}" md-colspan="{{tile.tileWidth}}"
+                  class="rail-{{tile.rail}}" ng-class="{'tile-image-resize':tile.image, 'tile-emphasys': tile.emphasys}">
+
+        <div style="z-index: 60;" class="tile-link {{tile.area}}"
+             ng-style="{
+                 'border-style': tile.border.style,
+                 'border-width': tile.border.witdh+'px',
+                 'border-color': tile.border.color}"
+             id="tile-selector-{{tile.tileId}}"
+             ng-click="useTileLink(tile);"
+             ng-mouseenter="getXY(tile.x, tile.y); addArea(tile.area, tile.tileId, tile.detailsLink)"
+             ng-mouseleave="removeArea(tile.area)">
+        </div>
+
+        <!--<span ng-if="returnType(tile.value, 'string')" ng-style="{'color': tile.textProperty.fontColor,
+                  'font-size': tile.textProperty.fontSize+'vw', 'line-height': tile.textProperty.fontSize+'vw',
+                  'font-weight':tile.textProperty.bold, 'font-style':tile.textProperty.italic, 'left': tile.textProperty.fontSize/1.9+'vw'}"
+              class="{{tile.textProperty.rotate}} unselectable-text"
+              style="z-index:10; font-family:'Arial Black', Gadget, sans-serif; text-align: center">
+            {{tile.value}}
+        </span>-->
+
+
+        <div ng-if="returnType(tile.value, 'string')" style="font-family: 'Helvetica'; font-weight: bolder; text-align: center;" ng-style="{'color': tile.textProperties.fontColor, 'font-size': tile.textProperties.fontSize+'vw',
+                  'line-height': tile.textProperties.fontSize+'vw',
+                  'font-style':tile.textProperties.italic}"
+             class="unselectable-text">
+
+            <span ng-show="tile.textProperties.rotate != 'rotate-vertical-text'">{{tile.value}}</span>
+
+            <div>
+                <div ng-show="tile.textProperties.rotate == 'rotate-vertical-text' && tile.value" ng-repeat="letter in tile.value track by $index">
+                    <span>{{letter}}</span>
+                </div>
+            </div>
+
+            <span ng-show="tile.tileType == 'pagination'">{{paginationRange[0]}} - {{paginationRange[1]}} / {{arrayLength}}</span>
+        </div>
+
+        <table ng-if="returnType(tile.value, 'object')" style="width:100%; height: 100%">
+            <tr>
+                <th ng-style="{'background-color': header.backgroundColor, 'color': header.textProperties.fontColor,
+                       'font-size': header.textProperties.fontSize+'vw',
+                       'font-weight':header.textProperties.bold, 'line-height': header.textProperties.fontSize+'vw',
+                       'font-style':header.textProperties.italic, 'text-align': center}"
+                    ng-repeat="header in tile.value.headers"
+                    style="padding: 0.4vw; text-align: center; border: 1px solid black;">
+                    {{header.headerContent}}
+                </th>
+            </tr>
+
+            <tr style="text-align: center;" ng-repeat="row in  arraySolving(tile.rowQuantity ,tile.value.rows, tile.dynamicTable) track by $index">
+                <td ng-style="{'background-color': row.backgroundColor, 'color': row.textProperties.fontColor, 'font-size': row.textProperties.fontSize+'vw',
+                                   'font-weight':row.textProperties.bold, 'line-height': row.textProperties.fontSize+'vw',
+                                   'font-style':row.textProperties.italic, }"
+                    ng-repeat="cell in tile.value.headers" style="padding: 0.2vw; font-weight: bold; border: 1px solid black">
+                    {{row.rowContent[$index]}}&nbsp;
+                </td>
+            </tr>
+        </table>
+    </md-grid-tile>
+</md-grid-list>

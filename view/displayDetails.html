@@ -1,0 +1,20 @@
+<form id="displayDetails">
+    <h4>Detalhes do display</h4>
+    <div class='col-lg-2 pull-right'>
+        <!--<button class="btn btn-danger pull-right" data-ng-click="deleteDisplay(selectedDisplay)">Deletar</button>--> <!-- Manda DELETE na API através do ID -->
+        <button class="btn btn-danger btn-block" data-ng-click="openModal('confirmationDialog', 'Tem certeza que deseja deletar este display?')">Deletar</button> <!-- Manda DELETE na API através do ID -->
+        <button class="btn btn-success pull-right" data-ng-click="putDisplay(selectedDisplay,displayProfile)">Salvar</button> <!-- Manda SALVAR na API através do ID -->
+    </div>
+    <fieldset class="col-lg-6 form-group">       
+        <label for="name">Nome</label>
+        <input name="name" type="text" ng-model="selectedDisplay.displayName" class="form-control" placeholder="Nome">
+        <p ng-show="displayDetails.name.$invalid && !displayDetails.name.$pristine" class="alert alert-danger help-block">O display deve ter no mínimo 4 characteres</p>
+        <label for="IP">IP</label>
+        <input type="text" ng-model="selectedDisplay.ipAdress" class="form-control" id="IP" placeholder="IP">
+        <label for="message">Mensagem CMES Notifications</label>
+        <textarea ng-model="selectedDisplay.message" class="form-control" id="message" placeholder="Mensagem" style="resize:none;overflow:hidden"></textarea>
+        <label>Perfil</label>
+        <select class="form-control" ng-model="displayProfile" ng-options="profile.profileName for profile in profileList" />        
+        <br />
+    </fieldset>
+</form>

@@ -1,0 +1,265 @@
+.white-slider .md-thumb:after, .md-track{
+    background-color: gray !important;
+    border-color: gray !important;
+}
+
+.bordertest{
+    font-size:0.8vw;
+}
+
+.hover-area{
+    background-color: rgba(130, 130, 130, 0.5);
+    border: none !important;
+}
+
+.hover-tile{
+    box-shadow: 1px 1px 5px #888888 !important;
+}
+
+.rotate-vertical-text {
+    width:1px;
+    word-wrap: break-word;
+    position: absolute;
+}
+
+.layoutlist:hover {
+    background-color: lightgoldenrodyellow;
+}
+
+.selected-tile-focus{
+    border: 4px dotted steelblue !important;
+    outline: none;
+}
+
+.selected-tile-focus-ultra-focus{
+    border-color: gold !important;
+}
+
+.selected-tile-focus:focus{
+    outline: none;
+}
+.view-display-tile{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.no-animate {
+   -webkit-transition: none !important;
+   transition: none !important;
+}
+
+.hidden-button{
+    visibility: hidden !important;
+}
+
+.select-layout-on-show:disabled{
+    background: #b2b2b2 !important;
+}
+
+.tile-image-resize{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.dashboard-footer-button{
+    display:block;
+    width:100%;
+    margin:0px auto;
+    text-align: center;
+    font-size: 2vw;
+    line-height: 1vw;
+    color: black; 
+    cursor: pointer;
+}
+
+.tile-emphasys {   
+   animation: blink-animation 0.5s steps(12, start) infinite;
+}
+@keyframes blink-animation {
+  0% {
+    outline-color: black;
+  }
+  50%{
+    background-color: black;
+  }
+  100% {
+    outline-color: black;
+  }
+}
+
+.stage-details-modal{
+    z-index: 200;
+}
+
+.list-group-item{ 
+        border: 0;
+        border-left: 1px solid;
+        border-bottom: 1px solid;
+        border-right: 1px solid;
+    }
+
+    li.list-group-item.active, .list-group-item.active:hover{
+        background-color:#e51111;
+        text-align:center;
+    }
+    /*th{
+        text-align:center;
+        background-color:#e51111;
+        color: white;
+    }*/
+
+.viewClass{
+    height: 100%;
+}
+
+.overflowhide{
+    overflow:hidden !important;
+}
+
+.blackground{
+    background-color: black;
+}
+.tile-selector{
+    width: 100%; 
+    height: 100%;
+    border: 1px dotted black;
+    position: absolute;
+    outline: none;
+}
+.tile-link{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    outline: none;
+    top: 0;
+    left: 0;
+}
+.carrossel{
+    width: 100%;
+    padding-bottom: 0.5vw;
+    padding-top: 0.5vw;
+    position: relative;
+}
+
+.carrossel marquee{
+    font-size: 2vw;
+}
+
+.sidebar{
+    height: 850px;
+    margin-top: 5px;
+    padding: 25px 25px 25px 15px;
+    z-index: 49;
+    overflow-y: auto;
+    overflow-x:hidden;
+}
+
+
+.sidebar h5, .sidebar h6, .sidebar h4, .sidebar label, .sidebar p, .sidebar span{
+    color:white;
+    /*-webkit-user-select: none;  
+    -moz-user-select: none;     
+    -ms-user-select: none;     
+    user-select: none;*/
+}
+
+.sidebar h5:focus, .sidebar h6:focus, .sidebar h4:focus, .sidebar label:focus, .sidebar p:focus, .sidebar span:focus{
+    outline:none;
+}
+
+.tile-config-tab-icon{
+    margin-right: 5px;
+}
+
+.tile-config-rail-radio-button{
+    height: 30px;
+    margin: 3px;
+    background-color: white;
+}
+
+.tab-back-button{
+    color: white;
+    cursor: pointer;
+}
+
+.tab-config-main-buttons{
+    display: inline-block;
+    background-color: #131313;
+    padding: 10px;
+    font-size: 0.8vw;
+    border: 0px;
+    width: 49%;
+}
+.tab-config-main-buttons-disabled{
+    display: inline-block;
+    padding: 10px;
+    font-size: 12px;
+    border: 0px;
+    background-color: lightgrey;
+    cursor: no-drop !important;
+}
+
+.tab-config-main-buttons:hover{
+    background-color: #337ab7;
+}
+
+.input-group-addon span{
+    cursor:pointer;
+    color: #131313;
+}
+.input-group-addon-disabled span{
+    cursor:no-drop;
+    color: lightgray;
+}
+.white-slider{
+    cursor: pointer;
+}
+
+.param-value-input{
+    width: 42.5%;
+    display: inline-block;
+}
+
+.can-t-add-querry-parameter{
+    color: red;
+}
+
+.white-letter span{
+    color: white;
+}
+
+.black-letter span{
+    color: black;
+}
+
+.tile-color-basic{
+    background-color: gray;
+}
+
+.tile-color-black{
+    background-color: black;
+}
+
+.tile-color-green{
+    background-color: #3fff00;
+}
+
+.tile-color-red{
+    background-color: #ff0000;
+}
+
+.tile-color-yellow{
+    background-color: #ddff00;
+}
+
+.tile-table{
+    height: 100%; 
+    width: 100%; 
+    padding: 5px;
+}
+
+.tile-table table, .tile-table table th, .tile-table table td, .tile-table table tr{
+    border:1px solid gray;
+}

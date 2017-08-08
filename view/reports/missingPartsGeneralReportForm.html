@@ -1,0 +1,111 @@
+
+<!-- ##                                                                         -->
+<!-- # MissingPartsGeneral Report                                               -->
+<!-- ##                                                                         -->
+
+<div class="container">
+
+  <!-- Titulo do Relatorio -->
+  <div class="page-header report-page-header">
+    <h1>Relatório de Peças Faltantes - Geral</h1>
+  </div>
+  <!-- END Titulo do Relatorio -->
+
+  <!-- Formulario de Filtros -->
+  <div class="jumbotron report-jumbotron">
+    <div class="row">
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="missingpartsgeneral-ESN" class="report-label-filter">ESN:</label>
+          <input type="text" class="form-control" id="missingpartsgeneral-ESN" ng-model="modelObj.ESN" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <label class="report-label-filter">SO:</label>
+        <select class="form-control" id="report-missingpartsgeneral-SO" disabled>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="missingpartsgeneral-CurrentWS" class="report-label-filter">Current WS:</label>
+          <input type="text" class="form-control" id="missingpartsgeneral-CurrentWS" ng-model="modelObj.CurrentWS" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="missingpartsgeneral-Avalable" class="report-label-filter">Available</label> <!-- Combo :: Sim|Não -->
+          <input type="text" class="form-control" id="missingpartsgeneral-Avalable" ng-model="modelObj.Avalable" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="missingpartsgeneral-OptionNum" class="report-label-filter">Option Num</label>
+          <input type="text" class="form-control" id="missingpartsgeneral-OptionNum" ng-model="modelObj.OptionNum" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label class="report-label-filter">Part Num:</label>
+          <select class="form-control" id="report-missingpartsgeneral-PartNum" disabled>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="missingpartsgeneral-PartName" class="report-label-filter">Part Name</label>
+          <input type="text" class="form-control" id="missingpartsgeneral-PartName" ng-model="modelObj.PartName" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="missingpartsgeneral-WSPosted" class="report-label-filter">WS Posted</label>
+          <input type="text" class="form-control" id="missingpartsgeneral-WSPosted" ng-model="modelObj.WSPosted" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label class="report-label-filter">Date From (Start)</label>
+          <div class="input-group date datepicker" id="missingpartsgeneral-DateFromStart">
+            <input type="text" class="form-control">
+            <div class="input-group-addon">
+              <span class="glyphicon glyphicon-th"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--      <div class="col-sm-2">
+              <div class="form-group form-group-sm">
+                <label for="missingpartsgeneral-DateAvalableEnd" class="report-label-filter">Date From (End)</label>
+                <input type="text" class="form-control" id="missingpartsgeneral-DateAvalableEnd" ng-model="modelObj.DateAvalableEnd" />
+              </div>
+            </div>-->
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label class="report-label-filter">Date From (Start)</label>
+          <div class="input-group date datepicker" id="missingpartsgeneral-DateAvalableEnd">
+            <input type="text" class="form-control">
+            <div class="input-group-addon">
+              <span class="glyphicon glyphicon-th"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-2">
+        <div class="btn-group report-put-on-bottom" role="group" aria-label="Filters">
+          <input type="button" class="btn btn-default" value="Limpar" ng-click="clearInputs()"/>
+          <input type="button" class="btn btn-primary" value="Gerar " ng-click="generateReport()"/>
+        </div>
+      </div>
+    </div>
+    <!-- END Botões de controle -->
+
+  </div>
+
+  <!-- Report Content Area -->
+  <div id="missingpartsgeneral-report-content" ng-bind-html="reportContent">
+    <p class="report-content">No content yet.</p>
+  </div>
+  <!-- END Report Content Area -->
+
+</div>

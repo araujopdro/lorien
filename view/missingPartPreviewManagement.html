@@ -1,0 +1,69 @@
+<!-- Detalhes da previsão de peça faltante -->
+
+<div class="panel panel-default" style="padding: 15px;">
+    <form role="form" name="missingPartPreviewDetailsForm">
+        <div class="row">
+            <div class="panel-body">
+                <div class="row">
+                    <fieldset class="form-group col-lg-6">
+                        <label>PartNumber</label>
+                        <input type="text" ng-model="partPreview.partNumber" class="form-control" placeholder="partNumber">
+                    </fieldset>
+
+                    <fieldset class="form-group col-lg-6">
+                        <label>Descrição</label>
+                        <input type="text" ng-model="partPreview.description" class="form-control" placeholder="Descrição">
+                    </fieldset>
+
+
+                </div>
+                <div class="row">
+                    <fieldset class="form-group col-lg-6">
+                        <label>Fornecedor</label>
+                        <input type="text" ng-model="partPreview.supplier" class="form-control" placeholder="Fornecedor">
+                    </fieldset>
+
+                    <fieldset class="form-group col-lg-6">
+                        <label>Planner</label>
+                        <input type="text" ng-model="partPreview.plannerId" class="form-control" placeholder="Planner">
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <fieldset class="form-group col-lg-6">
+                        <label>Embarque</label>
+                        <input type="text" ng-model="partPreview.departure" class="form-control" placeholder="Embarque">
+                    </fieldset>
+
+                    <fieldset class="form-group col-lg-5">
+                        <label>Data Prevista</label>
+                        <input type="text" ng-disabled="true" ng-model="partPreview.previewedDate" class="form-control" placeholder="Clique no calendário">
+                    </fieldset>
+
+                    <fieldset class="form-group col-lg-1 pull-left">
+                        <br />
+                        <md-datepicker class="partpreview-line" ng-model="availableDate" ng-change="dateFilter(partPreview, availableDate)" md-placeholder="{{partPreview.previewedDate}}"></md-datepicker>
+                    </fieldset>                  
+                </div>
+
+                <div class="row">
+                    <fieldset class="form-group col-lg-5">
+                        <label>Nova Previsão</label>
+                        <input type="text" ng-disabled="true" ng-model="partPreview.newPreviewedDate" class="form-control" placeholder="Clique no calendário">
+                    </fieldset>
+
+                    <fieldset class="form-group col-lg-1 pull-left">
+                        <br />
+                        <md-datepicker class="partpreview-line" ng-model="availableNewDate" ng-change="newDateFilter(partPreview, availableNewDate)" md-placeholder="{{partPreview.previewedDate}}"></md-datepicker>
+                    </fieldset>
+
+                    <fieldset class="form-group col-lg-6">
+                        <label>Observações</label>
+                        <input type="text" ng-model="partPreview.observation" class="form-control" placeholder="Observações">
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+

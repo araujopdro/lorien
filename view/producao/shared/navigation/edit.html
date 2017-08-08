@@ -1,0 +1,27 @@
+﻿<div class="title-navigation">Editar Mosaico</div>
+
+<section ng-show="select" style="margin-bottom: 10px;">
+    <div class="property-title-display-text">Selecione um Mosaico:</div>
+    <select class="form-control" ng-model="selectedLayout" ng-options="layout as layout.name for layout in layouts | orderBy:'name'">
+        <option value="" disabled>Selecione um Mosaico</option>
+    </select>
+    <div style="height: 60px; margin-top: 10px;">
+        <span class="pull-right glyphicon glyphicon-edit" ng-class="{'select-button-green': selectedLayout.code, 'select-button-disabled': !selectedLayout.code}"
+              ng-click="select = !select; selectLayout(selectedLayout);"
+        >
+            <md-tooltip md-direction="bottom">Selecionar</md-tooltip>
+        </span>
+        <span class="pull-right glyphicon glyphicon-trash" ng-class="{'select-button-red': selectedLayout.code, 'select-button-disabled': !selectedLayout.code}"
+            ng-click="deleteLayout($event, selectedLayout);"      
+        >
+            <md-tooltip md-direction="bottom">Deletar</md-tooltip>
+        </span>
+        <span class="pull-right glyphicon glyphicon-download" ng-class="{'select-button-grey': selectedLayout.code, 'select-button-disabled': !selectedLayout.code}"
+            ng-click="downloadJSON(selectedLayout)"      
+        >
+            <md-tooltip md-direction="bottom">Baixar JSON</md-tooltip>
+        </span>
+    </div>
+</section>
+
+<div ng-show="!select" style="width: 100%;" ng-include="pathB"></div>

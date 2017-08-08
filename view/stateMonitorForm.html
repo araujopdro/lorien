@@ -1,0 +1,115 @@
+<div class="row">
+    <h3 class="col-lg-4 col-lg-offset-1 unselectableText" id="title">Monitor de Estados</h3>
+</div>
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <button class="btn btn-primary" ng-click="openModal('createModal', ''); toggle('nul', 'details');">Criar Novo</button>
+            <input class="form-control searchbar" type="text" ng-model="search" placeholder="Procurar Monitor de Estados" />
+        </div>
+        <div class="row">
+            <div class="list-navbar">
+                <div class="list-header col-lg-2 division" id='order-relationship'><a href="" ng-click="orderBy('thingType', 'order-relationship')">Relacionamento <span class="glyphicon"></span></a></div>
+                <div class="list-header col-lg-3 division" id='order-grupo'><a href="" ng-click="orderBy('thingType', 'order-grupo')">Nome <span class="glyphicon"></span></a></div>
+                <div class="division col-lg-5 list-header">Metricas</div>
+                <div class="division col-lg-1 list-header">Gerenciamento</div>
+            </div>
+
+            <img ng-if="dataLoading" class="loadingImg" ng-,src="{{loadingSrc}}" />
+
+            <div ng-repeat="stateMonitor in stateMonitorList | filter:search:strict | orderBy:orderCrit:orderDir" last-item on-finish-render="ngRepeatFinished">
+
+                <div class="col-lg-12 list-item">
+                    <!--Coluna 1-->
+                    <div class="col-lg-2" ng-model="goalRelationship" ng-if="stateMonitor.thingType">Tipo de Entidade</div>
+                    <div class="col-lg-2" ng-model="goalRelationship" ng-if="stateMonitor.thingName">Entidade</div>
+
+                    <!--Coluna 2-->
+                    <div class="col-lg-3 division" ng-show="stateMonitor.thingName">{{stateMonitor.thingName}}</div>
+                    <div class="col-lg-3 division" ng-show="stateMonitor.thingType">{{stateMonitor.thingType }}</div>
+                
+                    <!--Coluna 4-->
+                    <div class="col-lg-5 division">
+                        <div ng-repeat="stateMonitorMetric in stateMonitor.StateMonitorMetrics | limitTo:4">
+                            <div class="col-lg-2 col-lg-offset-1 meta-line">{{stateMonitorMetric.descMetric}} | {{stateMonitorMetric.measuredTag}}</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 division">
+                        <span data-ng-click="selectStateMonitor(stateMonitor); toggle('view-stateMonitor-' + stateMonitor.stateMonitorId, 'details'); bool = !bool"
+                              ng-class="{'glyphicon glyphicon-expand': !bool, 'glyphicon glyphicon-collapse-down': bool}"
+                              class="goalinternal-btn"></span>
+                    </div>
+                </div>
+                <div class="details col-lg-12" id="view-stateMonitor-{{stateMonitor.stateMonitorId}}" ng-include="'stateMonitorManagement.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal Novo Monitor de Estados-->
+<div class="modal" id="createModal">
+    <form class="modal-content col-lg-10 col-lg-offset-1" name="groupForm" overflow="auto">
+        <span class="close" ng-click="clearAllFields(); closeModal('createModal', stateMonitor)">×</span>
+        <h4>Criar Novo Monitor de Estados</h4>
+        <br>
+        <fieldset class="form-group col-lg-12">
+            <label>Vincular com: </label> <br />
+            <input type="radio" name="relationship" ng-disabled="stateMonitor.thingType || thing" ng-model="goalRelate" ng-value="true" checked /> Entidade
+            <input type="radio" name="relationship" ng-disabled="stateMonitor.thingType || thing" ng-model="goalRelate" ng-value="false" /> Tipo de entidade
+        </fieldset>
+        <!--<fieldset class="form-group col-lg-6">
+            <label>Tipo de Meta</label>
+            <select class="form-control" ng-model="stateMonitor.type" ng-disabled="stateMonitor.thingType || thing">
+                <option value="" disabled selected>Selecionar</option>
+                <option value="production">Produção</option>
+                <option value="measurement">Medição</option>
+            </select>
+        </fieldset>-->
+
+        <!--  TODO: Required. NG-DISPLAY ? -->
+        <fieldset ng-show="!goalRelate" class="form-group col-lg-6">
+            <label>Tipo da Entidade</label>
+            <select name="tt" ng-model="stateMonitor.thingType" class="form-control">
+                <option value="" disabled selected>Selecione o Tipo da Entidade</option>
+                <option ng-repeat="thingTypeItem in thingTypeList" value="{{thingTypeItem.thingType}}">{{thingTypeItem.thingType}}</option>
+            </select>
+        </fieldset>
+
+        <fieldset ng-show="goalRelate" class="form-group col-lg-6">
+            <label>Nível da Entidade</label>
+            <select name="tt" ng-model="stateMonitor.thingLvl" ng-disabled="thing" class="form-control">
+                <option value="" disabled selected>Selecione o Nível da Entidade</option>
+                <option ng-repeat="thingLvl in thingLvlList" value="{{thingLvl.thingLvl}}">{{thingLvl.thingLvlDescription}}</option>
+            </select>
+        </fieldset>
+
+        <fieldset ng-show="goalRelate && stateMonitor.thingLvl" class="form-group col-lg-6">
+            <label>Selecione uma Entidade</label>
+            <select class="form-control" ng-model="thing" ng-options="thing as thing.name for thing in thingsOfLvl(stateMonitor.thingLvl)">
+                <option value="" disabled selected>Selecionar</option>
+            </select>
+        </fieldset>
+
+        <fieldset ng-show="stateMonitor.thingType || thing" class="form-group col-lg-12">
+            <div class="col-lg-12" ng-include="'stateMonitorManagement.html'"></div>
+        </fieldset>
+
+        <div class="col-lg-12">
+            <button class="btn btn-success btnModal" ng-disabled="groupForm.$invalid || !stateMonitor.StateMonitorMetrics" data-ng-click="createStateMonitor(stateMonitor,thing); closeModal('createModal', meta);">Criar Meta</button>
+            <button class="btn btn-danger cancel btnModal" ng-click="clearAllFields(); closeModal('createModal', meta)">Cancelar</button>
+            {{stateMonitor}}
+        </div>
+    </form>
+</div><!--End Modal Novo Monitor de Estados-->
+<!-- Modal confirmação delete -->
+<div class="modal" id="confirmationDialog">
+    <form class="modal-content col-lg-2 col-lg-offset-5">
+        <span class="close" ng-click="closeModal('confirmationDialog')">×</span>
+        <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+        <br>
+        <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="deleteStateMonitor(selectedStateMonitor); closeModal('confirmationDialog');">Sim</button>
+        <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeModal('confirmationDialog')">Nâo</button>
+        <br>
+    </form>
+</div> <!-- End Confirmation Modal -->
+
+

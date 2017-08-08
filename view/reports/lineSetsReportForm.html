@@ -1,0 +1,97 @@
+
+<!-- ##                                                                         -->
+<!-- # Lineset Report                                                           -->
+<!-- ##                                                                         -->
+
+<div class="container">
+
+  <!-- Titulo do Relatorio -->
+  <div class="page-header report-page-header">
+    <h1>Relatório de Linesets</h1>
+  </div>
+  <!-- END Titulo do Relatorio -->
+
+  <!-- Formulario de Filtros -->
+  <div class="jumbotron report-jumbotron">
+    <div class="row">
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="report-lineset-WO" class="report-label-filter">WO:</label>
+          <input type="text" class="form-control" id="report-lineset-ESN" ng-model="modelObj.WO" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="report-lineset-WOStatus" class="report-label-filter">WO Status:</label>
+          <input type="text" class="form-control" id="report-lineset-ESN" ng-model="modelObj.WOStatus" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="report-lineset-Family" class="report-label-filter">Family:</label>
+          <input type="text" class="form-control" id="report-lineset-ESN" ng-model="modelObj.Family" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="report-lineset-ProductNo" class="report-label-filter">Product No:</label>
+          <input type="text" class="form-control" id="report-lineset-ESN" ng-model="modelObj.ProductNo" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="report-lineset-Schedule" class="report-label-filter">Schedule:</label>
+          <input type="text" class="form-control" id="report-lineset-ESN" ng-model="modelObj.Schedule" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="report-lineset-CustomerNumber" class="report-label-filter">Customer Number:</label>
+          <input type="text" class="form-control" id="report-lineset-ESN" ng-model="modelObj.CustomerNumber" />
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label for="report-lineset-QueueName" class="report-label-filter">Queue Name:</label>
+          <input type="text" class="form-control" id="report-lineset-ESN" ng-model="modelObj.QueueName" />
+        </div>
+      </div>
+      <div class="col-sm-2 report-put-on-bottom">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="lineset-Linha1" ng-model="modelObj.Linha1"><strong>B/C/F Line</strong>
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-2 report-put-on-bottom">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="lineset-Linha2" ng-model="modelObj.Linha2"><strong>ISF 2.8</strong>
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-2 report-put-on-bottom">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="lineset-NonEngine" ng-model="modelObj.NonEngine"><strong>Non Engine</strong>
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-2 ">
+        <div class="btn-group report-put-on-bottom" role="group" aria-label="Filters">
+          <input type="button" class="btn btn-default" value="Limpar" ng-click="clearInputs()"/>
+          <input type="button" class="btn btn-primary" value="Gerar " ng-click="generateReport()"/>
+        </div>
+      </div>
+    </div>
+    <!-- END Botões de controle -->
+
+  </div>
+
+  <!-- Report Content Area -->
+  <div id="lineset-report-content" ng-bind-html="reportContent">
+    <p class="report-content">No content yet.</p>
+  </div>
+  <!-- END Report Content Area -->
+
+</div>

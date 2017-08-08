@@ -1,0 +1,90 @@
+<div class="row">
+  <h3 class="col-lg-4 col-lg-offset-1 unselectableText" id="title">Displays</h3>
+</div>
+<div class="row">
+  <div class="list-view col-lg-10 col-lg-offset-1">
+    <div class="row navbar">
+      <button class="createNew btn btn-primary" ng-click="openModal('createModal', '')">Criar Novo</button>
+      <input class="form-control searchbar" type="text" ng-model="search" placeholder="Procurar Display" />
+    </div>
+    <div class="row">
+      <div class="list-navbar">
+        <div class="col-lg-2 tableHead"><a href="" ng-click="orderBy('fullName')">Nome</a></div>
+        <div class="col-lg-2 tableHead"><a href="" ng-click="orderBy('userId')">IP</a></div>
+        <div class="col-lg-2 tableHead"><a href="" ng-click="orderBy('group')">Perfil</a></div>
+        <div class="col-lg-2 tableHead"><a href="" ng-click="orderBy('status')">Mensagem CMES Notifications</a></div>
+        <div class="col-lg-1 tableHead">Gerenciamento</div>
+      </div>
+      <img ng-if="dataLoading" class="loadingImg" ng-src="{{loadingSrc}}" />
+
+      <div class="adjustHeight" ng-repeat="display in displayList| filter:{displayName:search}  | orderBy:orderCrit:orderDir" last-item>
+        <div class="col-lg-12 list-item">
+          <div class="col-lg-2">{{display.displayName}}</div>
+          <div class="col-lg-2 division">{{display.ipAdress}}</div>
+          <div class="col-lg-2 division">{{display.profileName}}</div>
+          <div class="col-lg-2 division">{{display.message}}</div>
+          <div class="col-lg-1" style="padding: 5px;">
+            <!--<img class="view" id="btnDetalhes" data-ng-click="selectDisplay(display)" src="../src/plus.png" alt="" style="height: 20px; margin-left: auto"/>-->
+            <span data-ng-click="selectDisplay(display); toggle(display.displayId, 'details');"
+                  class="list-btn glyphicon glyphicon-expand"
+                  id='btn-list-{{display.displayId}}'>
+            </span>
+          </div>
+        </div>
+        <br>
+        <div class="col-lg-6 details col-lg-offset-3 details-css" id="view-detail-{{display.displayId}}" ng-include="'displayDetails.html'"></div>
+        <br>
+      </div>
+    </div>
+  </div>
+
+  <!--
+      Modal para a criação de novos displays
+  -->
+  <div class="modal" id="createModal">
+    <form class="modal-content col-lg-6" name="profileForm">
+      <span class="close" ng-click="clearDisplayFields()">×</span>
+      <h4>Criar Novo Display</h4>
+      <br>
+      <!-- <select ng-model="userGroup" class="form-control" ng-options="userGroup.groupName for userGroup in gruposLista| orderBy:'groupName'">
+          <option value="n" selected>Selecione um Grupo</option>
+      </select> -->
+
+      <fieldset class="form-groupcol-lg-12">
+        <label for="username">Perfil</label>
+        <select name="profile" ng-model="displayProfile" class="form-control" ng-options="displayProfile.profileName for displayProfile in profileList| orderBy:'profileName'">
+          <option value="" disabled selected>Selecione um Perfil para o Display</option>
+        </select>
+      </fieldset>
+
+      <fieldset ng-show="!profileForm.profile.$pristine" class="form-group col-lg-6">
+        <label for="username">Nome</label>
+        <input type="text" ng-model="display.displayName" ng-required="true" class="form-control" id="username" placeholder="Nome" s>
+        <label for="username">IP </label>
+        <input type="text" ng-model="display.IPAdress" ng-required="true" class="form-control" id="username" placeholder="IP">
+        <label for="username">Perfil </label>
+        <label for="username">Mensagem CMES Notifications </label>
+        <textarea ng-model="display.message" ng-required="true" class="form-control"  placeholder="Mensagem" style="resize:none;overflow:hidden"></textarea>
+      </fieldset>
+
+      <button class="btn btn-success btnModal" data-ng-click="postDisplay(display); closeDialog('createModal', true, false, '', '')">Adicionar</button>
+      <button class="btn btn-danger cancel btnModal" ng-click="closeDialog('createModal', true, false, '', '')">Cancelar</button>
+
+    </form>
+  </div>
+
+  <!--
+     Dialog para confirmação
+  -->
+
+  <div class="modal" id="confirmationDialog">
+    <form class="modal-content col-lg-2 col-lg-offset-5">
+      <span class="close" ng-click="closeDialog('confirmationDialog', false, false, '', '')">×</span>
+      <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+      <br>
+      <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="deleteDisplay(selectedDisplay); closeDialog('confirmationDialog', false, false, '', '')">Sim</button>
+      <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeDialog('confirmationDialog', false, false, '', '')">Nâo</button>
+      <br>
+    </form>
+  </div> 
+</div>

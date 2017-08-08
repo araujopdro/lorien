@@ -1,0 +1,87 @@
+<div style="height: 100%">
+    
+    <md-grid-list 
+        md-cols="{{tileLayoutConfig.numberOfColumns}}"
+        md-gutter="{{tileLayoutConfig.gutter}}" 
+        md-row-height="1:1">  
+        <md-grid-tile ng-repeat="tile in tileLayoutConfig.tiles track by tile.tileId" ng-if="tile.show"
+                      ng-style="{'background-color': tile.fixedColor, 'background-image': 'url('+tile.imageSource+')'};"
+                      md-rowspan="{{tile.tileHeight}}"
+                      md-colspan="{{tile.tileWidth}}"
+                      class="white-slider rail-{{tile.rail}} tile-image-resize"
+                      >
+            
+            <div style="z-index: 60" class="tile-selector {{tile.area}}" ng-style="{
+                 'border-style': tile.border.style,
+                 'border-width': tile.border.witdh+'px', 
+                 'border-color': tile.border.color}" id="tile-selector-{{tile.tileId}}"
+                 ng-click="selectTile(tileLayoutConfig, selectedTiles, tile, $event);"
+                 ng-mouseenter="getXY(tile.x, tile.y); addArea(tile.area, tile.tileId, tile.detailsLink)"
+                 ng-mouseleave="removeArea(tile.area)"
+                 >
+            </div>
+            
+            <table ng-if="tile.gridHeaders.length > 0" style="width:100%; height: 100%; border: 1px solid black">
+                <tr>
+                    <th ng-style="{'background-color': header.backgroundColor, 'color': header.textProperties.fontColor,
+                       'font-size': header.textProperties.fontSize+'vw',
+                       'font-weight':header.textProperties.bold,
+                       'font-style':header.textProperties.italic}"
+                        ng-repeat="header in tile.gridHeaders">
+                        {{header.headerContent}}
+                    </th>
+                </tr>
+
+                <tr ng-repeat="row in arraySolving(tile.rowQuantity, arrayLinha, tileLayoutConfig.tiles[0].dynamicTable) track by $index">
+                    <td ng-style="{'background-color': tile.gridRow.backgroundColor, 'color': tile.gridRow.textProperties.fontColor, 'font-size': tile.gridRow.textProperties.fontSize+'vw',
+                                   'font-weight':tile.gridRow.textProperties.bold, 'line-height': tile.gridRow.textProperties.fontSize+'vw',
+                                   'font-style':tile.gridRow.textProperties.italic}"
+                        style="border: 1px solid black; padding: 8px; text-align: center"
+                        ng-repeat="cell in tile.gridHeaders">{{$index}}{{row}}</td>
+                </tr>
+            </table>
+            <span class="unselectable-text" style="position: absolute; font-family: 'Arial Black'"  ng-style="{'color': tile.textProperties.fontColor, 'font-size': tile.textProperties.fontSize+'vw',
+                  'font-weight':tile.textProperties.bold, 'line-height': tile.textProperties.fontSize+'vw',
+                  'font-style':tile.textProperties.italic}"
+                  
+                  ng-show="tile.dataSource">123</span>
+
+            <div style="position: absolute; text-align: center;"  ng-style="{'color': tile.textProperties.fontColor, 'font-size': tile.textProperties.fontSize+'vw',
+                  'font-weight':tile.textProperties.bold, 'line-height': tile.textProperties.fontSize+'vw',
+                  'font-style':tile.textProperties.italic}"
+                      class="unselectable-text">
+
+                <span ng-show="tile.textProperties.rotate != 'rotate-vertical-text'">{{tile.fixedValueCommon}}&#32;{{tile.fixedValueUnique}}</span>
+                
+                <div>
+                    <div ng-show="tile.textProperties.rotate == 'rotate-vertical-text' && tile.fixedValueCommon" ng-repeat="letter in tile.fixedValueCommon track by $index">
+                        <span>{{letter}} {{tile.area}}</span>
+                    </div>
+                    <div ng-show="tile.textProperties.rotate == 'rotate-vertical-text' && tile.fixedValueUnique" ng-repeat="letter in tile.fixedValueUnique track by $index">
+                        <span>{{letter}}</span>
+                    </div>
+                </div>
+                {{tile.imageSource}}
+                <span ng-show="tile.tileType == 'pagination'">{{paginationRange[0]}} - {{paginationRange[1]}} / {{arrayLength}}</span>
+            </div>
+
+
+            <!--<div style="position:absolute">
+                <span class="unselectable-text" style="font-size:0.5vw; background-color:red; color:white;" ng-if="tile.colorSource">CS</span>
+                <span class="unselectable-text" style="font-size:0.5vw; background-color:blue; color:white;" ng-if="tile.dataSource">DS</span>
+                <span class="unselectable-text" style="font-size:0.5vw; background-color:yellow; color:white;" ng-if="tile.emphasysSource">ES</span>
+            </div>-->
+        </md-grid-tile>
+        
+        <md-grid-tile ng-repeat="newtile in tileLayoutConfig.newtiles track by $index"
+                      class="tile-color-basic new-tile-{{newtile.tileId}} tile-color-{{newtile.tileContentType}}"
+                      ng-style="{'background-color': newtile.fixedColor};"
+                      md-rowspan="{{newtile.tileHeight}}" 
+                      md-colspan="{{newtile.tileWidth}}"
+                      last-item
+                      first-item
+                      >
+        </md-grid-tile>
+        
+    </md-grid-list>
+</div>

@@ -1,0 +1,42 @@
+<!--Sidebar-->
+<div class="col-lg-2 navbar-inverse sidebar">
+    <img ng-if="dataLoading" class="loadingImg" ng-src="{{loadingSrc}}"/>
+    <div class="dashboard-select-div">
+        <h3 class="sidebar-title">Configurar {{name}}</h3>
+
+        <select ng-model="layoutConfig" class="form-control" ng-options="layout as layout.{{layoutName}} for layout in layouts track by gridLayout.gridConfigId">
+            <option value="" disabled selected>Selecione um(a) {{name}}</option>
+        </select>
+        <br>
+        <button class="btn btn-primary btn-block" ng-click="showCreateLayout()">Criar Novo(a)</button>
+    </div>
+    
+    
+    <div class="dashboard-create-div">
+        <h4 class="sidebar-create-title">Criar {{name}}</h4>
+        
+        <form class="dashboard-create-form">
+            <fieldset>
+                
+                <h5>Nome do(a) {{name}}:</h5>
+                <input class="form-control" type="text" name="name" value=""><br>
+                {{layoutTypes[0].key}}
+                
+                
+                <select ng-model="layoutConfig.{{type}}" class="form-control" ng-options="layoutType.value as layoutType.key for layoutType in layoutTypes">
+                    <option selected="selected" disabled>Selecione um Formato</option>
+                </select>
+                 
+            </fieldset>
+        </form>
+        
+        <div class="row sidebar-create-btn">
+            <div class="col-lg-6">
+                <button class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+            <div class="col-lg-6">
+                <button class="btn btn-success btn-block">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>

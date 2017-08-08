@@ -1,0 +1,40 @@
+<!--
+<div class='tile-info'>
+    <div class="tile-info-data pull-left tile-color-{{tile.color}} canbe-selected-show"
+        ng-mouseenter="hoverIn(tile.tileId)"
+        ng-mouseleave="hoverOut(tile.tileId)" ng-if="tile.subtiles.length === 0"
+        
+        id="selected-show-{{tile.tileId}}"
+        >
+        <span class="tile-title">{{tile.title}}</span>
+        <p class="tile-text-big resize" >{{tile.value}}</p>
+        
+        <div class="tile-hover" id="tile-hover-{{tile.tileId}}">
+            <span class="box-icon-big tile-text-big glyphicon glyphicon-cog"
+                  ng-click="showEditTile(tileLayoutConfig, $index, null);">    
+            </span>
+        </div>
+    </div>
+    
+
+    <div ng-repeat="sub in tile.subtiles" ng-if="tile.subtiles.length !== 0"
+        >
+        <div id="selected-show-{{sub.subtileId}}" class='resize-container col-lg-{{subSize(tile.subtiles.length, $index)}}'
+            ng-class="{'box':tile.subtiles.length === 4 || (tile.subtiles.length === 3 && $index !== 0 || tile.subtiles.length === 64 || tile.subtiles.length === 16), 
+                        'box-half':tile.subtiles.length === 2 || (tile.subtiles.length === 3 && $index === 0)}"
+            ng-mouseenter="hoverIn(sub.subtileId)"
+            ng-mouseleave="hoverOut(sub.subtileId)"> 
+            
+            <div class='content tile-color-{{sub.color}} canbe-selected-show' id="selected-show-{{sub.subtileId}}">
+                <span class="tile-title">{{sub.title}}</span>
+                <p class="tile-text-box">
+                    {{sub.value}}
+                </p>
+                <div class="tile-hover resize" id="tile-hover-{{sub.value}}">
+                    <span class="box-icon tile-text-box glyphicon glyphicon-cog"
+                          ng-click="showEditTile(tileLayoutConfig, $parent.$parent.$index, $parent.$index);"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->

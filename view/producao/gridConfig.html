@@ -1,0 +1,249 @@
+<div class="col-lg-2 navbar-inverse sidebar">
+    <img ng-if="dataLoading" class="loadingImg" ng-src="{{loadingSrc}}"/>
+    <form id="select-form">
+        <label class="col-lg-12 lajotinha-label">Editar Lajotinhas</label>
+        <select id="layout-select" name="select" ng-model="gridLayoutConfig" ng-change="configPreviewFirstTime(gridLayoutConfig)" class="form-control lajotinha-select"
+                ng-options="gridLayout as gridLayout.gridConfigName for gridLayout in gridLayouts track by gridLayout.gridConfigId">
+            <option value="" disabled selected>Selecione um Grid</option>
+        </select>
+<!--        <div class="col-lg-6 sidebar-btn" id="sidebar-btn-left">
+            <button class="btn btn-danger btn-block" ng-click="recoverTileLayout()">Cancelar</button>
+        </div>
+        <div class="col-lg-6 sidebar-btn" id="sidebar-btn-right">
+            <button class="btn btn-success btn-block" ng-click="saveTileLayout(gridLayoutConfig)">Salvar Alterações</button>
+        </div>-->
+        <br/>
+        <label class="col-lg-12 lajotinha-label">Criar Grid</label>
+        <button class="btn btn-primary btn-block" ng-click="showCreateGridLayout()">Criar Novo</button>
+    </form>
+    
+    <!--    Create-->
+    <form class="create-tile-layout-form" id="creation-form" name="groupForm">
+        <h4 class="col-lg-12 lajotinha-label">Criar Grid</h4>
+        <br>
+        <fieldset class="col-lg-12 form-group">
+            <label class="col-lg-12 lajotinha-label">Nome do Grid</label>
+            <input ng-pattern="regex" type="text" ng-model="gridLayoutConfig.gridConfigName" ng-required="true" ng-minlength="3" class="form-control" style="margin-bottom: 10px;" ng-class="{'has-error':groupForm.name.$invalid && !groupForm.name.$pristine}" name="name" placeholder="Nome do Grid">
+            <p ng-show="groupForm.name.$invalid && !groupForm.name.$pristine" class="alert alert-danger help-block" style="margin-bottom: 20px;">O Nome do Grupo deve ter no mínimo 4 characteres</p>
+            
+            <label class="col-lg-12 lajotinha-label">Formato</label>
+            <select name="select" ng-model="gridLayoutConfig.gridType" ng-change="createGridLayout_AdjustSize(gridLayoutConfig)" class="form-control lajotinha-select">   
+                <option selected="selected" disabled>Selecione um Formato</option>
+                <option value="full">Full</option>
+                <option value="vhalf">Vertical Half</option>
+                <option value="hhalf">Horizontal Half</option>
+                <option value="upperThird">Upper Third</option>
+                <option value="lowerThird">Lower Third</option>
+                <option value="leftThird">Left Third</option>
+                <option value="rightThird">Right Third</option>
+                <option value="quarter">Quarter</option>
+            </select>
+        </fieldset>
+
+        <button class="btn btn-success btn-block" ng-disabled="groupForm.$invalid" ng-click="createTileLayout(gridLayoutConfig)">Criar Grid</button>
+        <button class="btn btn-danger btn-block" ng-click="cancelCreateTileLayout()">Cancelar</button>
+    </form>
+    
+    <!--Edit-->
+    <form id="config-form" name="editForm">
+        <div class="grid-content-edit-selector">
+            <h4 class="col-lg-12 lajotinha-label">Editar Grid</h4>
+            <br/>
+            <div class="col-lg-6 sidebar-btn" id="sidebar-btn-left">
+                <button class="btn btn-danger btn-block" ng-click="cancelGridEdit(backUpGrid, gridLayoutConfig)">Cancelar</button>
+            </div>
+            <div class="col-lg-6 sidebar-btn" id="sidebar-btn-right">
+                <button class="btn btn-success btn-block" ng-click="saveGridEdit(tileBeingEdited);">Salvar</button>
+            </div>
+            <br>
+            <fieldset class="col-lg-12 form-group">
+                <label class="col-lg-12 lajotinha-label">Formato</label>
+                <select name="select" ng-model="gridLayoutConfig.gridType" ng-change="createGridLayout_AdjustSize(gridLayoutConfig)" class="form-control lajotinha-select">   
+                    <option selected="selected" disabled>Selecione um Formato</option>
+                    <option value="full">Full</option>
+                    <option value="vhalf">Vertical Half</option>
+                    <option value="hhalf">Horizontal Half</option>
+                    <option value="upperThird">Upper Third</option>
+                    <option value="lowerThird">Lower Third</option>
+                    <option value="leftThird">Left Third</option>
+                    <option value="rightThird">Right Third</option>
+                    <option value="quarter">Quarter</option>
+                </select>
+            </fieldset>
+
+
+            <fieldset class="col-lg-12 form-group">
+                <h5>Editar Conteúdo</h5>
+                <div ng-repeat="grid in gridLayoutConfig.gridList">
+                    <div class='tile-preview {{boxClass(gridLayoutConfig, $index)}}' id="grid-id-{{grid.gridID}}">
+                        <div class='content'>
+                            <div class='tile-info format-selector-tile tile-info-data'>
+                                <div class="tile-info-data pull-left tile-color-{{grid.color}}"
+                                    id="format-selector-{{grid.gridID}}" 
+                                    ng-click="selectGridToEditNG(grid); handleThisElement($event, grid.gridID);"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <br>
+        <fieldset class="col-lg-12 form-group" ng-show="hasSelectedGrid">
+            <div class="col-lg-12 grid-content-edit-selector" id='grid-content-edit-selector-1'>
+                <label>Editar Título do Grid</label>
+                <span   data-ng-click="toggleIcon('1'); slideToggleElements('grid-edit-header-1', grid-edit-header); slideUpElements('grid-content-edit-selector-1', 'grid-content-edit-selector');"
+                        class="list-btn glyphicon glyphicon-expand pull-right"
+                        id='btn-list-1'
+                        style="vertical-align:middle"
+                        >
+                </span>
+            </div>
+            <div class="col-lg-12 grid-content-edit-selector" id='grid-content-edit-selector-2'>
+                <label>Editar Cabeçalhos</label>
+                <span   data-ng-click="toggleIcon('2'); slideToggleElements('grid-edit-header-2', grid-edit-header); slideUpElements('grid-content-edit-selector-2', 'grid-content-edit-selector');"
+                        class="list-btn glyphicon glyphicon-expand pull-right"
+                        id='btn-list-2'
+                        style="vertical-align:middle"
+                        >
+                </span>
+            </div>
+            <div class="col-lg-12 grid-content-edit-selector" id='grid-content-edit-selector-3'
+                 ng-class="{'grid-content-edit-selector-disabled':!gridBeingEdited.headers.length > 0}">
+                <label>Editar Células</label>
+                <span   ng-click="!gridBeingEdited.headers.length > 0 || toggleIcon('3') || slideToggleElements('grid-edit-header-3', grid-edit-header) || slideUpElements('grid-content-edit-selector-3', 'grid-content-edit-selector')"
+                        class="list-btn glyphicon glyphicon-expand pull-right"
+                        id='btn-list-3'
+                        style="vertical-align:middle"
+                        >
+                </span>
+            </div>
+        </fieldset>
+        
+        <fieldset class="col-lg-12 form-group grid-edit-header" id='grid-edit-header-1'>
+            <label>Título do Grid</label>
+            <br/>
+            
+            <br/>
+            <input ng-model='gridBeingEdited.gridTitle' class='form-control'/>
+            
+            <label>Fonte do Cabeçalho</label>
+            <select name="select" ng-model="gridBeingEdited.gridTitleFontSize" class="form-control lajotinha-select">
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="14">14</option>
+                        <option value="16">16</option>
+                        <option value="18">18</option>
+                        <option value="20">20</option>
+                        <option value="22">22</option>
+                        <option value="24">24</option>
+                        <option value="26">26</option>
+                        <option value="28">28</option>
+                        <option value="30">30</option>
+                        <option value="32">32</option>
+                        <option value="36">36</option>
+                        <option value="40">40</option>
+                        <option value="48">48</option>
+                    </select>
+                <br>
+            
+                <div class="pull-left">
+                    Fonte <span style="color: {{gridBeingEdited.gridTitleFontColor}}; font-size: 24px;">&#9724</span>
+                </div>
+                <br>
+                <br>
+                <input ng-model='rr' class='form-control col-lg-3' type="number" style="width: 32%; margin-right: 1%;"/>
+                <input ng-model='gg' class='form-control col-lg-3' type="number" style="width: 32%; margin-right: 1%;"/>
+                <input ng-model='bb' class='form-control col-lg-3' type="number" style="width: 32%; margin-right: 1%;"/>
+                <span style="color: rgb({{rr}},{{gg}},{{bb}}); font-size: 48px; line-height: 35px; display:table; margin:0 auto;">&#9605&#9605&#9605&#9605</span>
+                <br/>
+                <button class="btn btn-block btn-primary" ng-click="hexColor(rr , gg, bb, gridBeingEdited, 'gridTitleFontColor')" >Aplicar</button>
+        </fieldset>
+        
+        
+        
+        
+        <fieldset class="col-lg-12 form-group grid-edit-header" id='grid-edit-header-2'>
+            <label>Número de Cabeçalhos</label>
+            <input class='form-control' ng-model='n' ng-maxlength='2' ng-change='changeNoFHeaders(gridBeingEdited, n)' type="number"/>
+            <br>
+            <fieldset ng-show="n > 0">
+                <label>Cabeçalho: </label><select ng-model="selectedHead"
+                                                ng-options="head.headerDescription for head in gridBeingEdited.headers| orderBy:'$index'"
+                                                style="margin: 5px; margin-top: 10px; color: black;">
+                                                <option></option>
+                                                <option selected="selected" disabled value=''>Selecione um Cabeçalho bara Editar</option>
+                                        </select>
+                <br/>
+                <input ng-model='selectedHead.headerDescription' class='form-control'/>
+                <br>
+                <label>Fonte do Cabeçalho</label>
+                <select name="select" ng-model="selectedHead.fontSize" ng-change="resizeGridHeaderHeight('grid-header-content', gridBeingEdited.headers)" class="form-control lajotinha-select">
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="14">14</option>
+                        <option value="16">16</option>
+                        <option value="18">18</option>
+                        <option value="20">20</option>
+                        <option value="22">22</option>
+                        <option value="24">24</option>
+                        <option value="26">26</option>
+                        <option value="28">28</option>
+                        <option value="30">30</option>
+                        <option value="32">32</option>
+                        <option value="36">36</option>
+                        <option value="40">40</option>
+                        <option value="48">48</option>
+                    </select>
+                <br>
+
+                <div class="pull-left">
+                    <input type="radio" ng-model='fontOrback' value="font" style=" margin-left: 5px;"> Fonte 
+                    <span style="color: {{selectedHead.fontColor}}; font-size: 24px;">&#9724</span>
+                </div>
+                <div class="pull-right">
+                    <input type="radio" ng-model='fontOrback' value="background"> Fundo 
+                    <span style="color: {{selectedHead.backgroundColor}}; font-size: 24px; margin-right: 5px;">&#9724</span>
+                </div>
+                <br>
+                <input ng-model='rr' class='form-control col-lg-3' type="number" style="width: 32%; margin-right: 1%;"/>
+                <input ng-model='gg' class='form-control col-lg-3' type="number" style="width: 32%; margin-right: 1%;"/>
+                <input ng-model='bb' class='form-control col-lg-3' type="number" style="width: 32%; margin-right: 1%;"/>
+                <span style="color: rgb({{rr}},{{gg}},{{bb}}); font-size: 48px; line-height: 35px; display:table; margin:0 auto;">&#9605&#9605&#9605&#9605</span>
+                <br/>
+                <button class="btn btn-block btn-primary" ng-click="hexColor(rr ,gg ,bb ,selectedHead , fontOrback+'Color')" >Aplicar</button>
+
+                <br/>
+                <label>Largura</label>
+                    <select name="select" ng-model="selectedHead.width" class="form-control lajotinha-select">   
+                        <option selected="selected" disabled>Selecione um Tamanho</option>
+                        <option value="12">1</option>
+                        <option value="6">1/2</option>
+                        <option value="4">1/3</option>
+                        <option value="3">1/4</option>
+                        <option value="2">1/6</option>
+                        <option value="1">1/12</option>
+                    </select>
+                <br/>
+            </fieldset>
+        </fieldset>
+        
+        <fieldset class="col-lg-12 form-group grid-edit-header" id='grid-edit-header-3'>
+            <label>Quantidade de Linhas</label>
+            <br/>
+            <input class='form-control' ng-model='gridBeingEdited.rowQuantity' ng-change="changeGridRow(gridBeingEdited, gridBeingEdited.rowQuantity, gridBeingEdited.headers.length)" ng-maxlength='2' type="number"/>
+        </fieldset>
+    </form>
+</div>
+
+<div class="col-lg-9 grid-preview">
+    <div class="row">
+        <h3 id="grid-preview-title">Preview do Grid {{gridLayoutConfig.gridConfigName}}</h3>
+    </div>
+    <div class="row" id="display-preview">
+        <div ng-include="'producao/shared/dashboard.html'"></div>
+        <img ng-if="dataLoading" class="loadingImg" ng-src="{{loadingSrc}}"/>
+    </div>
+</div>
+

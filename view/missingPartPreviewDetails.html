@@ -1,0 +1,23 @@
+<form class="modal-content col-lg-10 col-lg-offset-1">
+    <div ng-include="'missingPartPreviewManagement.html'"></div>
+
+    <div class="row">
+
+    </div>
+    <!--<div class="col-sm-offset-7 col-sm-2">
+        <label> Peça Suprida <input type="checkbox" ng-checked="checkSupplied(partPreview)" ng-model="supplied" class="form-control">  </label>
+    </div>-->
+      
+    <div class="row">
+        <div class="col-sm-3 text-right">
+            <div class="form-group">
+                <br />
+                <!--<button class="btn btn-danger" data-ng-click="openModal('confirmationDialog', 'Você deseja excluir esse turno?', shift)">Excluir</button>-->
+                <button class="btn btn-danger" data-ng-click="openModal('confirmationDialog', 'Tem certeza que deseja excluir essa previsão de peça faltante?')">Excluir</button>
+                <button class="btn btn-success" ng-disabled="missingPartPreviewDetailsForm.$invalid" ng-click="updatePartPreview(partPreview, supplied); clearFields();">Salvar</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+

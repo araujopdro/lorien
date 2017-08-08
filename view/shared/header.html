@@ -1,0 +1,65 @@
+<nav class="container-fluid navbar-inverse">
+    <a href="#/home" style="margin-right: 15px;">
+        <img src="../src/logo-cummins.jpg" alt="img" />
+    </a>
+
+    <div class="dropdown navbar-btn">
+        <button class="custom-dropdown-menucontainer btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+            Cadastros
+            <span class="caret"></span>
+        </button>
+        <ul class="custom-dropdown-menu-properties dropdown-menu" style="margin-top:17px">
+            <li><a href="#/users">Usuários</a></li>
+            <li><a href="#/groups">Grupos de Usuários</a></li>
+            <li><a href="#/things">Organização</a></li>
+            <li><a href="#/metas">Metas</a></li>
+            <li><a href="#/parts">Peças Faltantes</a></li>
+            <li><a href="#/partspreview">Previsão de Peças Faltantes</a></li>
+            <li><a href="#/turnos">Turnos</a></li>
+            <li><a href="#/profiles">Setup Display</a></li>
+            <li><a href="#/display">Displays</a></li>
+            <!-- <li><a href="#/stage">Stage</a></li>-->
+            <!--<li><a href="#/groupMails">Grupos de E-mails</a></li>
+            <li><a href="#/stateMonitors">Monitor de Estados</a></li>-->
+        </ul>
+    </div>
+
+    <div class="dropdown navbar-btn">
+        <button class="custom-dropdown-menucontainer btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+            Produção
+            <span class="caret"></span>
+        </button>
+        <ul class="custom-dropdown-menu-properties dropdown-menu" style="margin-top:17px">
+            <!-- *CICERO* #1 -->
+            <li><a href="#/tileConfig">Configurar Telas</a></li>
+            <li><a href="#/tileDisplay">Apresentação de Telas</a></li>
+		<!-- *CICERO* -->
+        </ul>
+    </div>
+
+   <!-- *CICERO* START -->
+  <div class="dropdown navbar-btn">
+    <button class="custom-dropdown-menucontainer btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+      Relatórios
+      <span class="caret"></span>
+    </button>
+    <ul class="custom-dropdown-menu-properties dropdown-menu" style="margin-top:17px">
+      <li><a href="#/cycleTimeWorkStation">Cycle Times - Estação</a></li>
+      <li><a href="#/cycleTimeLine">Cycle Times - Linha</a></li>
+      <!--<li><a href="#/statisticsStation">Estatísticas - Estação</a></li>-->
+      <li><a href="#/lineSets">Linesets</a></li>
+      <li><a href="#/missingPartsConsolidated">Peças Faltantes - Motores em WIP</a></li>
+      <li><a href="#/missingPartsGeneral">Peças Faltantes - Geral</a></li>
+      <li><a href="#/missing-parts-preview">Peças Faltantes - Previsão</a></li>
+      <li><a href="#/wip-report">WIP</a></li>
+    </ul>
+  </div>
+  <!-- *CICERO* END -->
+
+    <ul ng-hide="currentLocation == '/login'" class="nav navbar-nav pull-right">
+        <li ng-click="logout()" style="border-left:solid 1px white;" class="logButton menuBt pull-right">
+            <a href="#/login"><span class="glyphicon glyphicon-log-out"></span> LogOut</a>
+        </li>
+        <li class="logButton menuBt pull-right"><a><span class="glyphicon glyphicon-user"></span> {{globals.currentUser.name}}</a></li>
+    </ul>
+</nav>

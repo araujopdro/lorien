@@ -1,0 +1,113 @@
+<div class="row">
+    <h3 class="col-lg-4 col-lg-offset-1 unselectableText" id="title">Grupos</h3>
+</div>
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <button class="btn btn-primary" ng-click="openModal('createModal', '');">Criar Novo</button>
+            <input class="form-control searchbar" type="text" ng-model="search" placeholder="Procurar Grupo"/>
+        </div>
+
+        <div class="row">
+            <div class="list-navbar">
+                <div class="list-header col-lg-2" id='order-groupName'><a href="" ng-click="orderBy('groupName', 'order-groupName')">Nome <span class="glyphicon glyphicon-triangle-bottom"></span></a></div>
+                <div class="list-header col-lg-4 division" id='order-description'><a href="" ng-click="orderBy('description', 'order-description')">Descrição <span class="glyphicon"></span></a></div>
+                <div class="list-header col-lg-2 division" id='order-status'><a href="" ng-click="orderBy('status', 'order-status')">Status <span class="glyphicon"></span></a></div>
+                <div class="col-lg-2 pull-right division">Gerenciamento</div>
+            </div>
+                        
+            <div ng-repeat="grupo in gruposLista| filter:search | orderBy:orderCrit:orderDir" on-finish-render="ngRepeatFinished" ng-if="grupo.groupName !== defaultGroup.groupName">
+                <div class="col-lg-12 list-item">
+                    <div class="col-lg-2">{{grupo.groupName}}</div>
+                    <div class="col-lg-4 division">{{grupo.description}}</div>  
+
+                    <div class="col-lg-2 division" ng-if='grupo.status === "active"'>Ativo   <span class="glyphicon glyphicon-ok-sign"></span></div>
+                    <div class="col-lg-2 division" ng-if='grupo.status !== "active"'>Inativo  <span class="glyphicon glyphicon-remove-sign"></span></div>
+                    <div class="col-lg-2 division pull-right">
+                        <span data-ng-click="selectGroup(grupo); toggle(grupo.groupId, 'details');"
+                              class="list-btn glyphicon glyphicon-expand"
+                              id='btn-list-{{grupo.groupId}}'
+                              >
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="col-lg-10 details col-lg-offset-1 details-css" id="view-detail-{{grupo.groupId}}" ng-include="'cadastro/gruposUsuariosDetalhes.html'"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 
+        Modal para a criação de novos grupos
+    -->
+
+    <div class="modal" id="createModal">
+        <form class="modal-content col-lg-6 col-lg-offset-3" name="groupForm">
+            <span class="close" ng-click="clearGroupFields(newGroup); closeModal('createModal')">×</span>
+            <h4>Criar Novo Grupo</h4>
+            <br>
+            <fieldset class="form-group modal-div">
+                <label for="regexFullname">Nome do Grupo</label>
+                <input ng-pattern="regexFullnamemin3max20" type="text" ng-model="newGroup.groupName" ng-required="true" ng-minlength="4" class="form-control" style="margin-bottom: 10px;" ng-class="{'has-error':groupForm.name.$invalid && !groupForm.name.$pristine}" name="name" placeholder="Nome do Grupo">
+                <p ng-show="groupForm.name.$invalid && !groupForm.name.$pristine" class="alert alert-danger help-block" style="margin-bottom: 20px;">O Nome do Grupo deve ter no mínimo 4 characteres e no máximo 20! Não são permitidos caracteres especiais.</p>
+                <label for="regexFullname">Descrição</label>
+                <input ng-pattern="regexmin0max50" type="text" ng-model="newGroup.description" ng-required="true" class="form-control" name="desc" style="margin-bottom: 10px;" placeholder="Descrição do Grupo" ng-class="{'has-error':groupForm.desc.$invalid && !groupForm.desc.$pristine}">
+                <p ng-show="groupForm.desc.$invalid && !groupForm.desc.$pristine" class="alert alert-danger help-block">Escreva a descrição do grupo! Máximo de 50 characteres. Não são permitidos caracteres especiais.</p>
+            </fieldset>
+
+            
+            <fieldset ng-show='!groupForm.name.$pristine' class="modal-div" >
+                <p ng-show="!newGroup.Endpoints.length"class="alert alert-danger help-block">Um grupo precisa de no mínimo 1 Endpoint</p>
+                <div class="col-lg-5" style="padding: 0px;">
+                    <label style="margin-top: 8px;">Acessos não-permitidos</label>
+                    <div class="adjustHeight" ng-repeat="sysEndpoint in sysEndpoints" ng-if="hasEndpoint(sysEndpoint, newGroup)">
+                        <a href="" class="btn btn-default btn-block col-lg-2"  style="padding: 7px; margin: 2px; text-align: left" ng-click="addEntpointToGroup(sysEndpoint, newGroup, n)">{{sysEndpoint.displayUrl}}</a>                
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-lg-offset-1" style="padding: 0px;">
+                    <label style="margin-top: 8px;">Acessos permitidos</label>
+                    <div class="adjustHeight" ng-repeat="sysEndpoint in newGroup.Endpoints| unique: 'displayUrl'">
+                        <a href="" class="btn btn-default btn-block col-lg-2"  style="padding: 7px; margin: 2px; text-align: left" ng-click="removeEndpointFromGroup(sysEndpoint, newGroup)">{{sysEndpoint.displayUrl}}</a>                
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset ng-show='!groupForm.name.$pristine'>
+                <div class="col-lg-5">
+                    <br>
+                    <label>Usuários:</label>
+                    <input class="form-control" id="searchbarGroupModal" type="text" ng-model="searchUserGModal" placeholder="Procurar Usuário"/>
+                    <div class="group-detail-users-list">
+                        <div ng-repeat="user in usersList| filter:{userId:searchUserGModal}" ng-if="user.groupId === defaultGroup.groupId">
+                            <a href="" class="btn btn-default btn-block col-lg-2" ng-click="addUserToGroup_groupSide(user, newGroup)">{{user.userId}}</a>                
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2">
+                    <label style="margin-top: 8px;">Usuários deste Grupo:</label>
+                    <div class="adjustHeight" ng-repeat="user in usersList" ng-if="user.groupId === newGroup.groupId">
+                        <a href="" class="btn btn-default btn-block col-lg-2"  style="padding: 7px; margin: 2px; text-align: left" ng-click="removeUserFromGroup(user, newGroup, false)">{{user.userId}}</a>                
+                    </div>
+                </div>
+            </fieldset>
+            <button class="btn btn-success btnModal" ng-disabled="groupForm.$invalid || !newGroup.Endpoints.length" ng-click="adicionarGrupo(newGroup); clearGroupFields(newGroup); closeModal('createModal')">Criar Grupo</button>
+            <button class="btn btn-danger btnModal" ng-click="clearGroupFields(newGroup); closeModal('createModal')">Cancelar</button>
+        </form>
+    </div>
+
+    <!-- 
+        Dialog para confirmação
+    -->
+
+    <div class="modal" id="confirmationDialog">
+        <form class="modal-content col-lg-2 col-lg-offset-5">
+            <span class="close" ng-click="closeDialog('confirmationDialog', false, false, '', '')">×</span>
+            <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+            <br>
+            <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="apagarGrupo(gruposelecionado); closeDialog('confirmationDialog', false, false, '', '')">Sim</button>
+            <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeDialog('confirmationDialog', false, false, '', '')">Nâo</button>
+            <br>
+        </form>
+    </div> 
+</div>

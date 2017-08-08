@@ -1,0 +1,20 @@
+﻿<md-dialog aria-label="List dialog" style="left: 15px;">
+    <md-dialog-content>
+        <div style="margin: 15px;">
+            <input type="radio" ng-change="setTileValue('detailsLinkStyle', detailsLinkStyle)" name="detailsLinkStyle" ng-model="detailsLinkStyle" value="modal"><span>Modal</span><br>
+            <input type="radio" ng-change="setTileValue('detailsLinkStyle', detailsLinkStyle)" name="detailsLinkStyle" ng-model="detailsLinkStyle" value="navigation"><span>Navigation</span><br>
+            <input type="radio" ng-change="setTileValue('detailsLinkStyle', detailsLinkStyle)" name="detailsLinkStyle" ng-model="detailsLinkStyle" value="link"><span>Link</span><br>
+
+
+            <input ng-show="detailsLinkStyle != 'navigation'" ng-model-options='{ debounce: 1000 }' ng-change="setTileValue('detailsLink', detailsLink)" class="form-control" type="text" ng-model="detailsLink">
+
+            <select ng-show="detailsLinkStyle == 'navigation'" class="form-control" ng-change="setTileValue('detailsLink', detailsLink)" ng-model="detailsLink" ng-options="layout.code as layout.name for layout in layouts | orderBy:'name'">
+                <option value="" disabled>Selecione um Mosaico</option>
+            </select>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-click="cancel()" class="md-primary">Cancelar</md-button>
+        <md-button ng-click="ok()" class="md-primary">OK</md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,26 @@
+﻿<md-dialog aria-label="List dialog" style="left: 15px;">
+    <md-dialog-content>
+        <div style="margin: 15px; max-width: 225px">
+            <h5>Selecione um Trilho</h5>
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="" > <img src="../src/rail/@no.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="no">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="5-d"> <img src="../src/rail/@5_d.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="5-d">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="5-l"> <img src="../src/rail/@5_l.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="5-l">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="456">  <img src="../src/rail/@456.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="456">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="852">  <img src="../src/rail/@852.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="852">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="452">  <img src="../src/rail/@452.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="452">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="652">  <img src="../src/rail/@652.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="652">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="658">  <img src="../src/rail/@658.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="658">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="458">  <img src="../src/rail/@458.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="458">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="4568"> <img src="../src/rail/@4568.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="4568">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="4562"> <img src="../src/rail/@4562.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="4562">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="8524"> <img src="../src/rail/@8524.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="8524">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="8526"> <img src="../src/rail/@8526.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="8526">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="7419635"> <img src="../src/rail/@7419635.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="7419635">
+            <input ng-change="setTileValue('rail', rail)" ng-model="rail" type="radio" value="7891235"> <img src="../src/rail/@7891235.png" style="border: 2px solid #333" class="tile-config-rail-radio-button" alt="7891235">        
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-click="cancel()" class="md-primary">Cancelar</md-button>
+        <md-button ng-click="ok(api, level, id)" class="md-primary">OK</md-button>
+    </md-dialog-actions>
+</md-dialog>

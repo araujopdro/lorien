@@ -1,0 +1,99 @@
+<form role="form">
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="text-uppercase text-center">Gerenciamento de Estados</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <fieldset class="form-group col-lg-4">
+                        <label>Cor: </label> <br />
+                        <select class="form-control" ng-model="newState.color" id="colorSelector" ng-style="selectColorBackground(newState.color)">
+                            <option ng-repeat="color in colorList" value="{{color}}" ng-style="{'background-color': '{{color}}'}"></option>
+                        </select>
+                    </fieldset>
+                    <fieldset class="form-group col-lg-4">
+
+                        <label>Descri&#231;&#227;o: </label>
+                        <input type="text" ng-model="newState.descState" class="form-control" placeholder="Descri&#231;&#227;o">
+                    </fieldset>
+                    <fieldset class="form-group col-lg-4">
+                        <label>Prioridade: </label>
+                        <select class="form-control" ng-model="newState.priority" ng-options="priority as priority for priority in priorityList">
+                            <option value="" disabled selected>Selecionar</option>
+                        </select>
+                    </fieldset>
+                    
+                </div>
+                <div class="row">
+                    <fieldset class="form-group col-lg-4">
+                        <label>Valor Inicial: </label>
+                        <input type="text" ng-model="newState.startValue" class="form-control" placeholder="Valor Inicial">
+                    </fieldset>
+                    <fieldset class="form-group col-lg-4">
+                        <label>Valor Final: </label>
+                        <input type="text" ng-model="newState.endValue" class="form-control" placeholder="Valor Final">
+                    </fieldset>
+                    
+                    <fieldset class="form-group col-lg-4">
+                        <label>Mensagem: </label>
+                        <input type="text" ng-model="newState.message" class="form-control" placeholder="Mensagem">
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <fieldset class="form-group col-lg-2 pull-right">
+                        <button class="btn btn-success form-control" ng-disabled="!newState.descState || !newState.color || (!newState.startValue && !newState.endValue)  || !newState.priority" ng-click="addStateToMetric(stateMonitorMetric, newState); loadPriorityList(stateMonitorMetric)">+</button>
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <fieldset class="form-group col-lg-11 col-md-11" style="margin-top: 1px; margin-left: 20px; padding: 2px;">
+                        <div class="col-lg-2">
+                            <label>Cor</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Prioridade</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Valor Inicial</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Valor Final</label>
+                        </div>
+                        
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <fieldset class="form-group col-lg-11 col-md-11" ng-repeat="stateItem in stateMonitorMetric.States" style="margin-top: 1px; margin-left: 20px; padding: 2px;">
+                        <div class="col-lg-1" ng-style="selectColorBackground(stateItem.color)">
+                            &nbsp;
+                        </div>
+                        <!-- Priority -->
+                        <div class="col-lg-offset-1 col-lg-2">
+                            {{stateItem.priority}}
+                        </div>
+                        <!-- Values -->
+                        <div class=" col-lg-2">
+                            {{stateItem.startValue}}
+                        </div>
+                        <div class="col-lg-2">
+                            {{stateItem.endValue}}
+                        </div>
+                        
+                        <div class="col-lg-1 division">
+                            <span data-ng-click="selectState(stateItem); toggle('view-state-'+ stateItem.stateId, 'details3'); bool=!bool"
+                                  class="glyphicon glyphicon-info-sign goalinternal-btn"></span>
+                        </div>
+                        <div class="col-lg-1 division">
+                            <span data-ng-click="removeStateFromMetric(stateMonitorMetric, stateItem); loadPriorityList(stateMonitorMetric)"
+                                  class="glyphicon glyphicon-remove .thinginternal-btn"></span>
+                        </div>
+                        <div class="details3 col-lg-10 col-lg-offset-1" id="view-state-{{stateItem.stateId}}" ng-include="'stateManagement.html'"></div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,87 @@
+
+<!-- ##                                                                         -->
+<!-- # WIP Report                                                               -->
+<!-- ##                                                                         -->
+
+<div class="container">
+
+  <!-- Titulo do Relatorio -->
+  <div class="page-header report-page-header">
+    <h1>Relatório de WIP</h1>
+  </div>
+  <!-- END Titulo do Relatorio -->
+
+  <!-- Formulario de Filtros -->
+  <div class="jumbotron report-jumbotron">
+    <div class="row">
+      <div class="col-sm-2">
+        <label class="report-label-filter">Fora de Linha:</label>
+        <select class="form-control" id="report-wip-LineNamesOutOfLine" multiple="multiple" disabled>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <label class="report-label-filter">Última Estação:</label>
+        <select class="form-control" id="report-wip-WS" multiple="multiple" disabled>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <label class="report-label-filter">WIP:</label>
+        <select class="form-control" id="report-wip-LineWIP" multiple="multiple" disabled>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <label class="report-label-filter">SO:</label>
+        <select class="form-control" id="report-wip-SO" multiple="multiple" disabled>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <label class="report-label-filter">WO:</label>
+        <select class="form-control" id="report-wip-WO" multiple="multiple" disabled>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <label class="report-label-filter">Family:</label>
+        <select class="form-control" id="report-wip-Family" multiple="multiple" disabled>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <label class="report-label-filter">Status:</label>
+        <select class="form-control" id="report-wip-StatusWIP" multiple="multiple" disabled>
+        </select>
+      </div>
+      <div class="col-sm-2">
+        <label class="report-label-filter">Customer Name:</label>
+        <select class="form-control" id="report-wip-CustomerName" multiple="multiple" disabled>
+        </select>
+      </div>
+        <div class="col-sm-2">
+          <div class="form-group form-group-sm">
+            <label for="report-wip-ESN" class="report-label-filter">ESN:</label>
+            <input type="text" class="form-control" id="report-wip-ESN" ng-model="modelObj.ESN" />
+          </div>
+        </div>
+        <div class="col-sm-2 report-put-on-bottom">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="report-wip-WithMissingPart" ng-model="modelObj.WithMissingPart"><strong>Somente com P.F.</strong>
+            </label>
+          </div>
+        </div>
+        <div class="col-sm-2 ">
+          <div class="btn-group report-put-on-bottom" role="group" aria-label="Filters">
+            <input type="button" class="btn btn-default" value="Limpar" ng-click="clearInputs()"/>
+            <input type="button" class="btn btn-primary" value="Gerar " ng-click="generateReport()"/>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Report Content Area -->
+  <div id="report-wip-report-content" ng-bind-html="reportContent">
+    <p class="report-content">No content yet.</p>
+  </div>
+  <!-- END Report Content Area -->
+
+</div>

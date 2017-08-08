@@ -1,0 +1,204 @@
+﻿<div class="sub-title-navigation">
+    Editar Tiles
+    <span ng-show="pathB == 'producao/shared/navigation/manageTiles.html'" class="pull-left glyphicon glyphicon-chevron-left edit-button" ng-click="unManageTiles(); unselectAllTiles(tileLayoutConfig, selectedTiles)">
+        <md-tooltip md-direction="right">Voltar</md-tooltip>
+    </span>
+    <span ng-show="pathB == 'producao/shared/navigation/editTile.html'" class="pull-left glyphicon glyphicon-chevron-left edit-button" ng-click="manageTiles(); unselectAllTiles(tileLayoutConfig, selectedTiles)">
+        <md-tooltip md-direction="right">Voltar</md-tooltip>
+    </span>
+</div>
+
+<section class="section-basic">
+    <div class="property-title-display-text">Tipo de Tile</div>
+
+    <select class="form-control" ng-model="type" ng-options="tType.label for tType in tileTypes" ng-change="setTilesValue(tileLayoutConfig, [{'name': 'tileType', 'value': type.type}, {'name': 'tileContentType', 'value': type.cType}], selectedTiles.tiles)">
+        <option value="" disabled selected>Selecione um Tipo de Tile</option>
+    </select>
+</section>
+
+<div style="width: 100%;" class="edit-tile-div" ng-include="'producao/shared/navigation/tileActionPanel.html'"></div>
+
+<div style="width: 100%;" class="edit-tile-div" ng-include="'producao/shared/navigation/tileEditPanel.html'"></div>
+
+<!--FIXED VALUE-->
+<section ng-show="type.cType == 'fixedValue'" class="section-basic">
+    <section>
+        <div class="property-title-display-text">Valor:</div>
+        <div class="pull-right" ng-click="showCommon = !showCommon">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+
+    <br />
+    <div class="property-display-text">{{fixedValueCommon}}</div>
+    <br />
+
+    <input ng-show="showCommon" ng-model="fixedValueCommon"  ng-change="setTilesValue(tileLayoutConfig, [{'name': 'fixedValueCommon', 'value': fixedValueCommon}], selectedTiles.tiles)" class="form-control layout-basic-input" placeholder="Valor">
+</section>
+
+<section ng-show="type.cType == 'fixedValue' && selectedTiles.tiles.length > 1" class="section-basic">
+    <section>
+        <div class="property-title-display-text">Valor Único:</div>
+        <div class="pull-right" ng-click="showUnique = !showUnique">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+
+    <select class="form-control" ng-model="uniqueId" ng-change="selectTileFocus(tileLayoutConfig, uniqueId, dataSourceCharateristics)">
+        <option value="" disabled selected>Selecione um Tile</option>
+        <option ng-repeat="selectedTile in selectedTiles.tiles" value="{{selectedTile}}">{{selectedTile}}</option>
+    </select>
+
+    <br />
+    <div class="property-display-text">{{fixedValueUnique}}</div>
+    <br />
+
+    <input ng-show="showUnique" ng-model="fixedValueUnique" ng-change="setTilesValue(tileLayoutConfig, [{'name': 'fixedValueUnique', 'value': fixedValueUnique}], [uniqueId])" class="form-control layout-basic-input" placeholder="Valor Único">
+</section>
+<!--FIXED VALUE-->
+
+<!--DS-->
+<section ng-show="type.cType == 'dataSource'" class="section-basic">
+    <section>
+        <div class="property-title-display-text">Data Source</div>
+    </section>
+    <div class="source-tab">
+        <span class="glyphicon" ng-class="{'glyphicon-unchecked': !tileLayoutConfig.tiles[selectedTiles.tiles[0]].dataSource, 'glyphicon-check': tileLayoutConfig.tiles[selectedTiles.tiles[0]].dataSource}" ng-click="openSource($event, 'dataSource')"></span>
+        <span>Data Source</span>
+
+        <span id="tester-dataSource" ng-click="testDS(tileLayoutConfig.tiles[selectedTiles.tiles[0]], 'dataSource')" class="glyphicon glyphicon-refresh pull-right"><md-tooltip md-direction="right">Testar Resposta ('Apenas 1 Tile pode estar selecionado')</md-tooltip></span>
+
+    </div>
+    <div class="source-tab">
+        <span class="glyphicon" ng-class="{'glyphicon-unchecked': !tileLayoutConfig.tiles[selectedTiles.tiles[0]].colorSource, 'glyphicon-check': tileLayoutConfig.tiles[selectedTiles.tiles[0]].colorSource}" ng-click="openSource($event, 'colorSource')"></span>
+        <span>Color Source</span>
+
+        <span id="tester-colorSource" ng-click="testDS(tileLayoutConfig.tiles[selectedTiles.tiles[0]], 'colorSource')" class="glyphicon glyphicon-refresh pull-right"><md-tooltip md-direction="right">Testar Resposta</md-tooltip></span>
+
+    </div>
+    <div class="source-tab">
+        <span class="glyphicon" ng-class="{'glyphicon-unchecked': !tileLayoutConfig.tiles[selectedTiles.tiles[0]].emphasysSource, 'glyphicon-check': tileLayoutConfig.tiles[selectedTiles.tiles[0]].emphasysSource}" ng-click="openSource($event, 'emphasysSource')"></span>
+        <span>Emphasys Source</span>
+
+        <span id="tester-emphasysSource" ng-click="testDS(tileLayoutConfig.tiles[selectedTiles.tiles[0]], 'emphasysSource')" class="glyphicon glyphicon-refresh pull-right"><md-tooltip md-direction="right">Testar Resposta</md-tooltip></span>
+
+    </div>
+</section>
+<!--DS-->
+
+<!--TABLE-->
+<section class="section-basic-red" ng-show="type.cType == 'table' && selectedTiles.tiles.length > 1">
+    <div class="property-title-display-text">Selecione apenas 1 tile para editar a tabela</div>
+</section>
+
+<section class="section-basic" ng-show="type.cType == 'table' && selectedTiles.tiles.length == 1">
+    <section>
+        <div class="property-title-display-text">Cabeçalho:</div>
+        <div class="pull-right" ng-click="showHeader = !showHeader">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+    
+    <section ng-show="showHeader" class="section-basic" style="margin-top: 10px">
+        <section>
+            <div class="property-title-display-text">Número de Cabeçalhos:</div>
+            <div class="pull-right" ng-click="showNoH = !showNoH">
+                <span class="glyphicon glyphicon-edit edit-button">
+                    <md-tooltip md-direction="right">Editar</md-tooltip>
+                </span>
+            </div>
+        </section>
+
+        <br />
+        <div class="property-display-text">{{nOfHeaders}}</div>
+        <br />
+
+        <md-slider aria-label="Close" ng-show="showNoH" class="md-primary white-slider" min="1" step="1" max="20" ng-model="nOfHeaders" ng-change="changeNumberOfHeader(tileLayoutConfig, selectedTiles, nOfHeaders)"></md-slider>
+        
+        <section>
+            <div class="property-title-display-text">Contúdo do Cabeçalho:</div>
+            <select class="form-control" ng-model="selectedHeader" ng-options="idx as idx for (idx, header) in tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridHeaders">
+                <option value="" disabled selected>Selecione um Cabeçalho</option>
+            </select>
+        </section>
+        
+        <br />
+        <br />
+        <div class="property-display-text">{{tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridHeaders[selectedHeader].headerContent}}</div>
+        <br />
+        <input class="form-control" ng-model="tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridHeaders[selectedHeader].headerContent" ng-model-options='{ debounce: 1000 }' placeholder="Único">
+        <br />
+
+        <div class="source-tab" ng-click="openDialog($event, 'producao/shared/navigation/dialogs/fontProperties_dialog.html', 'gridHeaders', selectedHeader)">
+            <span class="glyphicon glyphicon-text-color"></span>
+            <span>Editar Fonte</span>
+        </div>
+        <div class="source-tab" ng-click="openDialog($event, 'producao/shared/navigation/dialogs/header_bcolor_dialog.html', 'gridHeaders', selectedHeader)">
+            <span class="glyphicon glyphicon-tint"></span>
+            <span>Mudar Cor do Cabeçalho</span>
+        </div>
+    </section>
+</section>
+
+<section class="section-basic" ng-show="type.cType == 'table' && selectedTiles.tiles.length == 1">
+    <section>
+        <div class="property-title-display-text">Linhas:</div>
+        <div class="pull-right" ng-click="showLine = !showLine">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+
+    <section ng-show="showLine" class="section-basic" style="margin-top: 10px">
+        <section>
+            <div class="property-title-display-text">Número de Linhas:</div>
+            <div class="pull-right" ng-click="showNoL = !showNoL">
+                <span class="glyphicon glyphicon-edit edit-button">
+                    <md-tooltip md-direction="right">Editar</md-tooltip>
+                </span>
+            </div>
+        </section>
+
+        <br />
+        <div class="property-display-text">{{tileLayoutConfig.tiles[selectedTiles.tiles[0]].rowQuantity}}</div>
+        <br />
+
+        <md-slider ng-show="showNoL" aria-label="Close" class="md-primary white-slider" min="1" step="1" max="20" ng-model="tileLayoutConfig.tiles[selectedTiles.tiles[0]].rowQuantity"></md-slider>
+
+        <div class="source-tab" ng-click="openDialog($event, 'producao/shared/navigation/dialogs/fontProperties_dialog.html', 'gridRow')">
+            <span class="glyphicon glyphicon-text-color"></span>
+            <span>Editar Font</span>
+        </div>
+
+    </section>
+</section>
+
+<section class="section-basic" ng-show="type.cType == 'table' && selectedTiles.tiles.length == 1">
+    <section>
+        <div class="property-title-display-text">Data Source da Tabela:</div>
+        <div class="pull-right" ng-click="openSource($event)">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+</section>
+
+<section class="section-basic" ng-show="type.cType == 'table' && selectedTiles.tiles.length == 1">
+    <section>
+        <div class="property-title-display-text">Tabela Dinâmica:</div>
+        <div class="pull-right" ng-click="tileLayoutConfig.tiles[selectedTiles.tiles[0]].dynamicTable = !tileLayoutConfig.tiles[selectedTiles.tiles[0]].dynamicTable">
+            <span class="glyphicon edit-button" ng-class="{'glyphicon-unchecked':!tileLayoutConfig.tiles[selectedTiles.tiles[0]].dynamicTable, 'glyphicon-check':tileLayoutConfig.tiles[selectedTiles.tiles[0]].dynamicTable}">
+                <md-tooltip md-direction="right">Ativo / Inativo</md-tooltip>
+            </span>
+        </div>
+    </section>
+</section>
+<!--TABLE-->

@@ -1,0 +1,20 @@
+﻿<md-dialog aria-label="List dialog">
+    <md-dialog-content>
+        <div style="margin: 15px;">
+            <h5>API</h5>
+            <select class="form-control" ng-model="api">
+                <option value="8032/api/things">8032/api/things</option>
+            </select>
+
+            <h5>Thing Level</h5>
+            <select class="form-control" ng-model="level" ng-options="thing.thingLvlId as thing.thingLvlDescription for thing in thingLvls"></select>
+
+            <h5>ThingId</h5>
+            <select class="form-control" ng-model="id" ng-options="thing.thingId as thing.name for thing in thingsList | filter:{'thingLvl':tileLayoutConfig.thingLevel}:true"></select>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-click="cancel()" class="md-primary">Cancelar</md-button>
+        <md-button ng-click="ok(api, level, id)" class="md-primary">OK</md-button>
+    </md-dialog-actions>
+</md-dialog>

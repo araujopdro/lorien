@@ -1,0 +1,58 @@
+<form name="groupDetailsForm">
+    <h4>Administração do Usuário</h4>
+    <div class='col-lg-3 pull-right'>
+        <button ng-show="selectedUser.status === 'inactive'" class="btn btn-primary btn-block" data-ng-click="reactivateUser(selectedUser); putUser(selectedUser)">Reativar</button>
+        <button ng-show="selectedUser.status === 'active'" class="btn btn-danger btn-block" data-ng-click="openModal('confirmationDialog', 'Você deseja inativar este Usuário?')">Desativar</button> <!-- Manda DELETE na API através do ID -->
+        
+        <button class="btn btn-success btn-block" ng-disabled="groupDetailsForm.$invalid || invalidPass" data-ng-click="addUserToGroup_userSide(selectedUser, userGroup, 'y')">Salvar</button> <!-- Manda SALVAR na API através do ID -->
+    </div>
+    <fieldset class='col-lg-6 form-group'>
+        <label>Grupo do Usuário</label>
+        <select class="form-control" ng-model="userGroup" ng-options="group.groupName for group in gruposLista"></select>
+        <br>
+        <!--<label for="username">Nome Completo</label>
+        <input ng-pattern="regexFullnamemin3max20" name='name' type="text" ng-model="selectedUser.fullName" class="form-control" placeholder="Nome Completo">
+        <p ng-show="groupDetailsForm.name.$invalid && !groupDetailsForm.name.$pristine" class="alert alert-danger help-block">Digite o Nome Completo do Usuário, este deve ter no mínimo 3 caracteres e no máximo 20!</p>-->
+        
+		<label for="name">Nome Completo</label>
+        <input ng-pattern="regexFullnamemin3max20" name="fullName" type="text" ng-model="selectedUser.fullName" ng-required="true" class="col-lg-6 form-control" id="fullName" placeholder="Nome Completo" ng-class="{'has-error':groupDetailsForm.fullName.$invalid && !groupDetailsForm.fullName.$pristine}">
+        <div ng-show="groupDetailsForm.fullName.$invalid && !groupDetailsForm.fullName.$pristine" class="alert alert-danger help-block">
+            <ul>
+                <li>Digite o Nome Completo do Usuário, este deve ter no mínimo 3 caracteres e no máximo 20! Não são permitidos caracteres especiais.</li>
+            </ul>
+        </div>
+		
+		
+		<!--
+		<label for="username">Usuário</label>
+        <input ng-pattern="regexEmail" name='fullName' type="text" ng-model="selectedUser.fullName" class="form-control" placeholder="Full Name">
+        <p ng-show="groupDetailsForm.fullName.$invalid && !groupDetailsForm.fullName.$pristine" class="alert alert-danger help-block">Digite um nome válido!</p>
+		-->
+		
+        <br>
+        <label for="username">Email</label>
+        <input ng-pattern="regexEmail" name='email' type="text" ng-model="selectedUser.email" class="form-control" placeholder="E-mail">
+        <p ng-show="groupDetailsForm.email.$invalid && !groupDetailsForm.email.$pristine" class="alert alert-danger help-block">Digite um e-mail válido!</p>
+        <br>
+        <!--<label for="password">Senha</label>
+        <input ng-pattern="regexPasswordmin6max12" name="pass" type="password" ng-model="user.pass" ng-required="true" ng-minlength="6" class="form-control" id="password" placeholder="Password" ng-class="{'has-error':groupDetailsForm.pass.$invalid && !groupDetailsForm.pass.$pristine}">
+        <p ng-show="groupDetailsForm.pass.$invalid && !groupDetailsForm.pass.$pristine" class="alert alert-danger help-block">A senha deve ter no mínimo 6 caracteres e no máximo 12, não pode conter espaços e nem aspas!</p>
+        <br>-->
+        <br>
+        <label for="pass">Senha</label>
+        <input ng-pattern="regexPasswordmin6max12" name="pass" type="password" ng-required="true" class="form-control" id="newuserpassword" ng-model="selectedUser.pass" placeholder="Senha" ng-class="{'has-error':groupDetailsForm.pass.$invalid && !groupDetailsForm.pass.$pristine}">
+        <div ng-show="groupDetailsForm.pass.$invalid && !groupDetailsForm.pass.$pristine" class="alert alert-danger help-block">
+            <ul>
+                <li>A senha deve ter no mínimo 6 caracteres e no máximo 12, não pode conter espaços e nem aspas!</li>
+            </ul>
+        </div>
+        <label for="chkpass">Confirma Senha</label>
+        <input ng-model="selectedUser.confirmpass" ng-keyup="checkPass(false)" name="chkpass" type="password" ng-required="true" class="form-control" id="chkpassword" placeholder="Confirme sua Senha" ng-class="{'has-error':invalidPass}">
+        <div ng-show="invalidPass" class="alert alert-danger help-block">
+            <ul>
+                <li>A senha digitada deve ser igual a senha digitada no campo acima!</li>
+            </ul>
+        </div>
+
+    </fieldset>
+</form>

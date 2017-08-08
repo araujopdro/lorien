@@ -1,0 +1,14 @@
+<!-- Lista de Turnos -->
+<div class="adjustHeight" ng-repeat="shift in shiftsList | filter:{name:search}" last-item>
+  <div class="col-lg-12 col-md-12 hover unselectableText cells adjustHeight">
+    <div style="padding: 5px; border-right: 1px solid #6D6D6D; display: inline;">{{shift.scheduleName}}</div>
+    <div style="padding: 5px; border-right: 1px solid #6D6D6D; display: inline;">{{shift.status}}</div>
+    <div style="padding: 5px; border-right: 1px solid #6D6D6D; display: inline;">{{shift.triggers[0].triggerStartTime}}</div>
+    <div style="padding: 5px; border-right: 1px solid #6D6D6D; display: inline;">{{shift.triggers[0].lunchTime}}</div>
+    <div style="padding: 5px; border-right: 1px solid #6D6D6D; display: inline;">{{shift.triggers[0].triggerEndTime}}</div>
+    <div style="padding: 5px; display: inline;">
+      <img class="view-lv0" src="../src/plus.png" alt="" style="height: 20px">
+    </div>
+  </div>
+  <div class="details-lv-0 col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1 unselectableText" ng-include="'turnoManagement.html'" style="display: none"></div>
+</div>  

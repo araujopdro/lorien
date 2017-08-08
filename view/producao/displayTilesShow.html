@@ -1,0 +1,54 @@
+﻿<style>
+    /*Francisco*/
+    /*Useful for blocking all buttons of a div*/
+    .disabledbutton {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+
+    .tilesGridList {
+        display: none;
+        height: 25%;         
+    }
+
+    .internalTileGridList {
+        padding-top:6px;
+        padding-left:6px;
+        padding-right:6px;
+        padding-bottom:6px;
+    }
+</style>
+<div id="displayTilesContainer">
+    <!-- TODO: Criar uma partial view para os tiles mais internos (onde o código é igual)-->
+    <!-- DONE: Arrumar essa div para antes de carregar alguma coisa, fundo branco e título vermelho seguindo o padrão -->
+    <div style="height: 0%; display:inline; background-color:white" id="welcomeScreen">
+        <h2>ATPU - Sistema de Gestão de Produção</h2>
+        <!--<p ng-if="canSelect">Lendo configuração das telas... </p>-->
+        <p ng-if="showWelcomeMessage" >Selecione uma tela no menu acima ou clique no play para iniciar a apresentação.</p>
+        <p ng-if="noConfiguredLayouts">Não há nenhuma tela cadastrada para esse display ou as telas não estão disponíveis</p>
+    </div>
+
+    <!--<div style="height: 25%; display:none" id="firstLoad">
+        <div ng-if="!allowManualNavigation" style="width:100%; background-color:#800000"> <p style="color:white"> <b>Carregando...</b></p> </div>
+    </div>-->
+    <div ng-if="!allowManualNavigation" style="position:relative; z-index:2000; width:100%;">
+        <span style="position: absolute; width:100%; color:white; background-color:#800000">
+            <b>Carregando...</b>
+        </span>
+    </div>
+    <div class="tilesGridList" id="mdGridList" ng-if="plotGridList">
+        <!--Uncomment for testing. Troubleshoot why plotting is broken-->
+        <!--<p>--------------------------- plotGridList {{plotGridList}}</p>
+        <p>--------------------------- plotGridList2 {{plotGridList2}}</p>-->
+        <!--<p>Grid1</p>-->
+        <div class="internalTileGridList" ng-include="'producao/tileShowGrid1.html'"></div>
+    </div>
+
+    <div class="tilesGridList" id="mdGridList2" ng-if="plotGridList2">
+        <!--Uncomment for testing. Troubleshoot why plotting is broken-->
+        <!--<p>--------------------------- plotGridList {{plotGridList}}</p>
+        <p>--------------------------- plotGridList2 {{plotGridList2}}</p>-->
+        <!--<p>Grid2</p>-->
+        <div class="internalTileGridList" ng-include="'producao/tileShowGrid2.html'"></div>
+    </div>
+</div>

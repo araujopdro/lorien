@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2 col-lg-offset-5 login-form">
+            <img src="../src/cummins.png" class="img-responsive" alt="Image">
+            <p class="login-title unselectable-text">Sistema Supervisório Cummins</p>
+            <br>
+            <form name="loginForm" ng-keyup="$event.keyCode == 13 && login()" class="form-group" ng-enter="login()">
+                <label for="usr">Usuário</label>
+                <input class="form-control" type="text" id="usr" ng-model="$username" placeholder="Usuário"/>
+                <br>
+                <label for="pwd">Senha</label>
+                <input class="form-control" type="password" id="pwd" ng-model="$pass" placeholder="Senha"/>
+            </form>
+            <br>
+            <button class="btn btn-primary btn-block" ng-click="login()">Entrar</button>
+            <br>
+            <!--<img ng-if="dataLoading" class="loadingImg" ng-src="{{loadingSrc}}"/>--> 
+        </div>
+        <br/>
+    </div>
+</div>

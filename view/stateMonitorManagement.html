@@ -1,0 +1,70 @@
+<form role="form">    
+    <div class="row">
+        <div class="col-lg-12">
+            <h4 class="text-uppercase text-center">Gerenciamento de métricas</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <fieldset class="form-group col-lg-4">
+                    <label>Descrição</label>
+                    <input type="text" ng-model="newStateMonitorMetric.descMetric" class="form-control" placeholder="Descrição">
+                </fieldset>               
+                <fieldset class="form-group col-lg-4">
+                    <label>Tag medição</label>
+                    <input type="text" ng-model="newStateMonitorMetric.measuredTag" class="form-control" placeholder="Tag para medição">
+                </fieldset>
+                <fieldset class="form-group col-lg-4">
+                    <label>Timeout</label>
+                    <input type="text" ng-model="newStateMonitorMetric.timeout" class="form-control" placeholder="Timeout Offline">
+                </fieldset>
+                <fieldset class="form-group col-lg-2 pull-right">
+                    <label style="color: white;">.</label>
+                    <button class="btn btn-success form-control" ng-disabled="!newStateMonitorMetric.descMetric||!newStateMonitorMetric.measuredTag || !newStateMonitorMetric.timeout" ng-click="addMetricToStateMonitor(stateMonitor, newStateMonitorMetric)">+</button>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <label>Descrição</label>
+        </div>        
+        <div class="col-lg-offset-1 col-lg-2">
+            <label>Tag Medição</label>
+        </div>
+        <div class="col-lg-offset-1 col-lg-2">
+            <label>Timeout</label>
+        </div>
+    </div>
+    <div class="row">
+        <!-- TODO; Verificar se ao alterar algum desses itens, ele já está binded ao item correto, ou terá que fazer via javascript puro -->
+        <div ng-repeat="stateMonitorMetric in stateMonitor.StateMonitorMetrics">
+            <div class="col-lg-12 list-item">
+                <div class="col-lg-2">{{stateMonitorMetric.descMetric}}</div>                
+                <div class="col-lg-offset-1 col-lg-2 division">{{stateMonitorMetric.measuredTag}}</div>
+                <div class="col-lg-offset-1 col-lg-2 division">
+                    <label>{{stateMonitorMetric.timeout}}</label>
+                </div>
+                <div class="col-lg-1 division">
+                    <span data-ng-click="selectStateMonitorMetric(stateMonitorMetric); loadPriorityList(stateMonitorMetric); toggle('view-stateMonitorMetric-'+ stateMonitorMetric.stateMonitorMetricId, 'details2'); bool=!bool"
+                          ng-class="{'glyphicon glyphicon-expand': !bool, 'glyphicon glyphicon-collapse-down': bool}"
+                          class="goalinternal-btn"></span>
+                </div>
+                <div class="col-lg-1 division">
+                    <span data-ng-click="removeMetricFromStateMonitor(stateMonitor,stateMonitorMetric)"
+                          class="glyphicon glyphicon-remove .thinginternal-btn"></span>
+                </div>
+            </div>
+            <div class="details2 col-lg-10 col-lg-offset-1" id="view-stateMonitorMetric-{{stateMonitorMetric.stateMonitorMetricId}}" ng-include="'stateMonitorMetricManagement.html'"></div>
+        </div>
+    </div>
+    <div ng-show="!creating" class="row">
+        <div class="col-sm-12 text-right">
+            <div class="form-group">
+                <button class="btn btn-danger" ng-click="openModal('confirmationDialog', 'Você deseja excluir esse monitor de estados?')">Excluir</button>
+                <button class="btn btn-success" ng-click="updateStateMonitor(stateMonitor)">Salvar</button>
+            </div>
+        </div>
+    </div>
+</form>

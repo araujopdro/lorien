@@ -1,0 +1,38 @@
+﻿<section class="section-basic">
+    <div class="edit-tile-button-container">
+        <span class="glyphicon glyphicon-th edit-tile-button"
+              ng-click="openDialog($event, 'producao/shared/navigation/dialogs/group_dialog.html')">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Agrupar</md-tooltip>
+        </span>
+
+        <span class="glyphicon glyphicon-link edit-tile-button"
+              ng-click="openDialog($event,  'producao/shared/navigation/dialogs/link_dialog.html')">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Linkar</md-tooltip>
+        </span>
+
+        <span class="glyphicon glyphicon-unchecked edit-tile-button"
+              ng-click="openDialog($event, 'producao/shared/navigation/dialogs/border_dialog.html')">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Borda</md-tooltip>
+        </span>
+
+        <span class="glyphicon glyphicon-tint edit-tile-button"
+              ng-click="openDialog($event, 'producao/shared/navigation/dialogs/bcolor_dialog.html')">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Mudar a Cor do Fundo</md-tooltip>
+        </span>
+
+        <span ng-show="type.cType == 'image'" class="glyphicon glyphicon-picture edit-tile-button special-button"
+              ng-click="openDialog($event, 'producao/shared/navigation/dialogs/image_dialog.html')">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Imagem</md-tooltip>
+        </span>
+
+        <span ng-show="type.cType == 'rail'" class="glyphicon glyphicon-film edit-tile-button special-button"
+              ng-click="openDialog($event, 'producao/shared/navigation/dialogs/rails_dialog.html')">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Trilhos</md-tooltip>
+        </span>
+
+        <span ng-show="(type.type == 'tile' && type.cType != 'rail') || type.cType == 'Pagination'" class="glyphicon glyphicon-text-color edit-tile-button special-button"
+              ng-click="openDialog($event, 'producao/shared/navigation/dialogs/fontProperties_dialog.html')">
+            <md-tooltip ng-if="selectedTiles.tiles.length > 0" md-direction="bottom">Fonte e Propriedades</md-tooltip>
+        </span>
+    </div>
+</section>

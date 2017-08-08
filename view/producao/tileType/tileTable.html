@@ -1,0 +1,18 @@
+<table style="width:100%">
+    <tr>
+        <th ng-style="{'backgrounf-color': header.textProperties.fontColor, 'color': header.textProperties.fontColor, 
+                       'font-size': header.textProperties.fontSize+'vw', 
+                       'font-weight':header.textProperties.bold, 'line-height': header.textProperties.fontSize+'vw',
+                       'font-style':header.textProperties.italic, 'text-align': center}" 
+            ng-repeat="header in tile.gridHeaders">
+                {{header.headerContent}}
+        </th>
+    </tr>
+
+    <tr ng-style="{'background-color': tile.gridRow.textProperties.backgroundColor}" ng-repeat="row in returnArray(tile.rowQuantity) track by $index">
+        <th ng-style="{'color': tile.gridRow.textProperties.fontColor, 'font-size': tile.gridRow.textProperties.fontSize+'vw', 
+                  'font-weight':tile.gridRow.textProperties.bold, 'line-height': tile.gridRow.textProperties.fontSize+'vw',
+                  'font-style':tile.gridRow.textProperties.italic, 'text-align': center}" 
+            ng-repeat="cell in tile.gridHeaders">{{$index}}</th>
+    </tr>
+</table>

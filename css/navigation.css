@@ -1,0 +1,260 @@
+﻿.table-option{
+    color: lightgray;
+    cursor: not-allowed;
+}
+
+.source-dialog-section{
+    display: inline-grid;
+    width: 250px;
+    padding: 10px;
+    margin: 15px;
+    max-height: 450px;
+    overflow: auto;
+}
+
+.source-dialog-section::-webkit-scrollbar {
+    width: 3px;
+}
+ 
+.source-dialog-section::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.source-dialog-section::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+
+.source-dialog-section table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+.source-dialog-section td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    text-align: center;
+}
+
+.source-dialog-section tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+
+.source-tab{
+    padding: 5px;
+    margin: 3px;
+    background-color: #444444;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 0px;
+}
+ 
+.sidebar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+.edit-button{
+    color: lightgray;
+}
+
+.title-navigation{
+    color: white;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.sub-title-navigation{
+    border-top: 1px solid white;
+    color: white;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+.edit-tile-button{
+    cursor: pointer;
+    padding: 7px;
+    background-color:dimgrey;
+    color: white;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.edit-tile-button-disabled{
+    cursor: not-allowed;
+    padding: 7px;
+    background-color:dimgrey;
+    color: gray !important;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.edit-tile-button-container {
+    height: 90px; margin-top: 10px; text-align: center
+}
+
+.edit-tile-div .edit-tile-button-container {
+    height: 26px; margin-top: 5px; text-align: center
+}
+
+.special-button{
+    border: 1px solid #009e15;
+}
+
+.edit-tile-div .edit-tile-button{
+    font-size: 16px;
+    margin: 0px;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 4px;
+    border-radius: 2px;
+}
+
+.edit-tile-button:focus {
+    outline:none;
+}
+
+.edit-tile-div .edit-tile-button-disabled{
+    font-size: 16px;
+    margin: 0px;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 4px;
+    border-radius: 2px;
+}
+
+.edit-tile-button-disabled:focus {
+    outline:none;
+}
+
+
+.select-button-red{
+    cursor: pointer;
+    padding: 7px;
+    background-color:red;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.select-button-red:focus {
+    outline:none;
+}
+
+.select-button-grey{
+    cursor: pointer;
+    padding: 7px;
+    background-color:grey;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.select-button-grey:focus {
+    outline:none;
+}
+
+.select-button-disabled{
+    cursor: not-allowed;
+    padding: 7px;
+    background-color:#727272;
+    color: #adadad !important;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.select-button-disabled:focus {
+    outline:none;
+}
+
+.select-button-blue{
+    cursor: pointer;
+    padding: 7px;
+    background-color: cornflowerblue;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.select-button-green{
+    cursor: pointer;
+    padding: 7px;
+    background-color:green;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+.color-white{
+    color: white;
+}
+
+.select-button-green:focus {
+    outline:none;
+}
+
+.property-title-display-text{
+    text-overflow: ellipsis;
+    color: white;
+    word-wrap: break-word;
+    display: inline;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.property-display-text{
+    text-overflow: ellipsis;
+    color: white;
+    font-size: 14px;
+    word-wrap: break-word;
+    border-bottom: 1px solid white;
+    text-align: center;
+}
+
+.property-display-table{
+    text-overflow: ellipsis;
+    color: white;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+.section-basic{
+    margin-bottom: 10px;
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #333333;
+}
+
+.section-basic-red{
+    margin-bottom: 10px;
+    border: 1px solid #f92402;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #7c291c;
+}
+
+.layout-basic-input{
+    margin-bottom: 10px;
+}

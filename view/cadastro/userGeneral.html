@@ -1,0 +1,140 @@
+<div class="row">
+    <h3 class="col-lg-4 col-lg-offset-1 unselectableText" id="title">Usuários</h3>
+</div>
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <button class="btn btn-primary" ng-click="openModal('createModal', ''); toggle('nul', 'details');">Criar Novo</button>
+            <input class="form-control searchbar" type="text" ng-model="search" placeholder="Procurar Usuário" />
+        </div>
+        <div class="row">
+            <div class="list-navbar">
+                <div class="list-header col-lg-2" id='order-name'><a href="" ng-click="orderBy('fullName', 'order-name')">Nome <span class="glyphicon glyphicon-triangle-bottom"></span></a></div>
+                <div class="list-header col-lg-2 division" id='order-user'><a href="" ng-click="orderBy('userId', 'order-user')">Usuário <span class="glyphicon"></span></a></div>
+                <div class="list-header col-lg-2 division" id='order-grupo'><a href="" ng-click="orderBy('groupName', 'order-grupo')">Grupo <span class="glyphicon"></span></a></div>
+                <div class="list-header col-lg-2 division" id='order-status'><a href="" ng-click="orderBy('status', 'order-status')">Status <span class="glyphicon"></span></a></div>
+                <div class="col-lg-1 division">Gerenciamento</div>
+            </div>
+
+            <div ng-repeat="user in usersList| filter:search | orderBy:orderCrit:orderDir" on-finish-render="ngRepeatFinished">
+                <br>
+                <div class="col-lg-12 list-item">
+                    <div class="col-lg-2">{{user.fullName}}</div>
+                    <div class="col-lg-2 division">{{user.userId}}</div>
+                    <div class="col-lg-2 division">{{user.groupName}}</div>
+                    <div class="col-lg-2 division" ng-if='user.status === "active"'>Ativo        <span class="glyphicon glyphicon-ok-sign"></span></div>
+                    <div class="col-lg-2 division" ng-if='user.status !== "active"'>Inativo       <span class="glyphicon glyphicon-remove-sign"></span></div>
+                    <div class="col-lg-1 division">
+                        <span data-ng-click="selectUser(user); toggle(user.userId, 'details');"
+                              class="list-btn glyphicon glyphicon-expand"
+                              id='btn-list-{{removeDotFromString(user.userId)}}'>
+                        </span>
+                    </div>
+                </div>
+                <br>
+                    <div class="col-lg-6 details col-lg-offset-3 details-css" id="view-detail-{{removeDotFromString(user.userId)}}" ng-include="'cadastro/userDetails.html'"></div>
+                <br>
+            </div>
+            <br>
+        </div>
+    </div>
+
+    <!--
+        Modal para a criação de novos usuários
+    -->
+    <div class="modal" id="createModal">
+        <form class="modal-content col-lg-6" name="groupForm">
+            <span class="close" ng-click="clearUserFields(); closeModal('createModal')">×</span>
+            <h4>Criar Novo Usuário</h4>
+            <br>
+
+            <fieldset class="form-group col-lg-12">
+                <label for="username">Grupo</label>
+                <select name="group" ng-model="userGroup" class="form-control" ng-options="userGroup.groupName for userGroup in gruposLista| orderBy:'groupName'">
+                    <option value="" disabled selected>Selecione um Grupo para o Usuário</option>
+                </select>
+            </fieldset>
+
+            <br>
+
+            <fieldset ng-show="!groupForm.group.$pristine" class="form-group col-lg-12">
+                <label for="name">Nome Completo</label>
+                <input ng-pattern="regexFullnamemin3max20" name="name" type="text" ng-model="user.fullName" ng-required="true" class="col-lg-6 form-control" id="name" placeholder="Nome Completo" ng-class="{'has-error':groupForm.name.$invalid && !groupForm.name.$pristine}">
+                <div ng-show="groupForm.name.$invalid && !groupForm.name.$pristine" class="alert alert-danger help-block">
+                    <ul>
+                        <li>Digite o Nome Completo do Usuário, este deve ter no mínimo 3 caracteres e no máximo 20! Não são permitidos caracteres especiais.</li>
+                    </ul>
+                </div>
+                <br>
+                <label for="email">E mail</label>
+                <input ng-pattern="regexEmail" name="email" type="text" ng-model="user.email" ng-required="true" class="form-control" id="email" placeholder="E-mail" ng-class="{'has-error':groupForm.email.$invalid && !groupForm.email.$pristine}">
+                <div ng-show="groupForm.email.$invalid && !groupForm.email.$pristine" class="alert alert-danger help-block">
+                    <ul>
+                        <li>Digite um e-mail válido!</li>
+                    </ul>
+                </div>
+                <br>
+                <label style="display:block; " for="user">Usuário</label>
+                <input style="width:73.5%; display:inline-block" ng-pattern="regexUsernamemin4max12" name="user" type="text" ng-model="user.userId" ng-required="true" class="form-control" id="username" placeholder="Usuário" ng-class="{'has-error':groupForm.user.$invalid && !groupForm.user.$pristine || repeatedUser}">
+                <button style="width:25%; display:inline-block" class="btn btn-success form-control pull-right" ng-disabled="!user.userId" ng-click="testUserId(user.userId, usersList)">Checar Usuário</button>
+                <br>
+                <div ng-show="groupForm.user.$invalid && !groupForm.user.$pristine" class="alert alert-danger help-block">
+                    <ul>
+                        <li>O Usuário deve ter no mínimo 4 caracteres e no máximo 12 e pode ser composto apenas por letras, números, underline(_) ou ponto.</li>
+                        <li>Não são permitidos caracteres especiais.</li>
+                    </ul>
+                </div>
+                <div ng-show="repeatedUser" class="alert alert-danger help-block">
+                    <ul>
+                        <li>Usuário já existe</li>
+                    </ul>
+                </div>
+
+                <div ng-show="userOk" class="alert alert-success help-block">
+                    <ul>
+                        <li>Esse usuário está verificado</li>
+                    </ul>
+                </div>
+
+                <br>
+                <label for="pass">Senha</label>
+                <input ng-pattern="regexPasswordmin6max12" name="pass" type="password" ng-required="true" class="form-control" id="newuserpassword" ng-model="user.pass" placeholder="Senha" ng-class="{'has-error':groupForm.pass.$invalid && !groupForm.pass.$pristine}">
+                <div ng-show="groupForm.pass.$invalid && !groupForm.pass.$pristine" class="alert alert-danger help-block">
+                    <ul>
+                        <li>A senha deve ter no mínimo 6 caracteres e no máximo 12, não pode conter espaços e nem aspas!</li>
+                    </ul>
+                </div>
+
+                <br>
+                <label for="chkpass">Confirma Senha</label>
+                <input ng-model="user.confirmpass" ng-keyup="checkPass(true)" name="chkpass" type="password"  ng-required="true" class="form-control" id="chkpassword" placeholder="Confirme sua Senha" ng-class="{'has-error':invalidPass}">
+                <div ng-show="invalidPass" class="alert alert-danger help-block">
+                    <ul>
+                        <li>A senha digitada deve ser igual a senha digitada no campo acima!</li>
+                    </ul>
+                </div>
+
+            </fieldset>
+
+            <div class="col-lg-12">
+                <button class="btn btn-success btnModal" ng-disabled="groupForm.$invalid || invalidPass || repeatedUser || testedUserOnce" data-ng-click="postUser(user); clearUserFields(); closeModal('createModal')">Criar Usuário</button>
+                <button class="btn btn-danger cancel btnModal" ng-click="clearUserFields(); closeModal('createModal')">Cancelar</button>
+            </div>          
+        </form>
+    </div>
+
+    <!--
+       Dialog para confirmação
+    -->
+
+    <div class="modal" id="confirmationDialog">
+        <form class="modal-content col-lg-2 col-lg-offset-5">
+            <span class="close" ng-click="closeDialog('confirmationDialog', false, false, '', '')">×</span>
+            <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+            <br>
+            <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="deleteUser(selectedUser); closeDialog('confirmationDialog', false, false, '', '')">Sim</button>
+            <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeDialog('confirmationDialog', false, false, '', '')">Nâo</button>
+            <br>
+        </form>
+    </div>
+</div>

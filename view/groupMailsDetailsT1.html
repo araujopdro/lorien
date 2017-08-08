@@ -1,0 +1,22 @@
+<!-- Lista de Turnos -->
+<div ng-repeat="group in groupMail | filter:{nameGroup:searchEmail} | orderBy:orderCrit:orderDir" on-finish-render="ngRepeatFinished">
+    <div class="col-lg-12 list-item">
+        <div class="col-lg-10">{{group.nameGroup}}</div>
+        <div class="col-lg-1 division">
+            <span data-ng-click="selectGroupMails(listEmails, listUser,usersList, selectableUsers, group.groupMailsId); toggle('view-detail-'+ group.groupMailsId, 'details'); grupoSelecionado(group.groupMailsId); bool=!bool"
+                  ng-class="{'glyphicon glyphicon-expand': !bool, 'glyphicon glyphicon-collapse-down': bool}"
+                  class="list-btn"></span>
+        </div>
+    </div>
+    <div class="details col-lg-10 col-lg-offset-1" id="view-detail-{{group.groupMailsId}}" style="display: none">
+        <form name="groupForm">
+            <div ng-include="'groupMailsProperties.html'"></div>
+            <div class="row">
+                <fieldset class="form-group col-lg-4 col-lg-push-4">
+                    <button class="btn btn-danger" data-ng-click="openModal('confirmationDialog', 'Você deseja excluir esse grupo de emails?')">Excluir</button>
+                    <button class="btn btn-success" ng-disabled="" ng-click="UpdateGroup(newObjUser, newObj,group); updateGroupMails(ObjectUpdate)">Salvar</button>  
+                </fieldset>
+            </div>
+        </form>
+    </div>
+</div>

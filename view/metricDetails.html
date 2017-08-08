@@ -1,0 +1,75 @@
+﻿    <fieldset class="form-group col-lg-3">
+        <label>Descrição</label>
+        <input type="text" ng-keyup="validateMetricDescription(meta.Metrics, newMetric)" ng-model="newMetric.descMetric" class="form-control" placeholder="Descrição">
+    </fieldset>
+
+    <fieldset class="form-group col-lg-3">
+        <label>Ciclo</label>
+        <select class="form-control" ng-model="newMetric.cycle">
+            <option value="">Selecionar</option>
+            <option value="hour">Hora</option>
+            <option value="schedule">Turno</option>
+            <option value="day">Dia</option>
+            <option value="week">Semana</option>
+            <option value="month">Mês</option>
+            <option value="year">Ano</option>
+        </select>
+    </fieldset>
+    <fieldset class="form-group col-lg-3">
+        <label>Progressão</label>
+        <select class="form-control" ng-model="newMetric.progression">
+            <option value="">Selecionar</option>
+            <option value="fix">Fixo</option>
+            <option ng-if="meta.type != 'lineset_queue'" value="min">Minuto</option>
+            <option ng-if="meta.type != 'lineset_queue'" value="hour">Hora</option>
+            <option ng-if="meta.type != 'lineset_queue'" value="schedule">Turno</option>
+            <option ng-if="meta.type != 'lineset_queue'" value="day">Dia</option>
+            <option ng-if="meta.type != 'lineset_queue'" value="week">Semana</option>
+            <option ng-if="meta.type != 'lineset_queue'" value="month">Mês</option>
+            <option ng-if="meta.type != 'lineset_queue'" value="year">Ano</option>
+        </select>
+    </fieldset>
+
+    <fieldset class="form-group col-lg-3">
+        <label>Valor</label>
+        <input type="number" ng-model="newMetric.value" class="form-control" placeholder="Valor">
+    </fieldset>
+
+    <fieldset class="form-group col-lg-3">
+        <label>Processar de Paradas de Produção </label>
+        <select class="form-control" ng-model="newMetric.processBreaksProduction">
+            <option value="">Selecionar</option>
+            <option value="zero">Zero</option>
+            <option value="include">Incluir</option>
+            <option value="window">Janela de Tempo</option>
+        </select>
+    </fieldset>
+
+    <fieldset class="form-group col-lg-3">
+        <label>Processar de Paradas de Predição </label>
+        <select class="form-control" ng-model="newMetric.processBreaksPrediction">
+            <option value="">Selecionar</option>
+            <option value="zero">Zero</option>
+            <option value="include">Incluir</option>
+            <option value="window">Janela de Tempo</option>
+        </select>
+    </fieldset>
+
+    <fieldset class="form-group col-lg-3">
+        <label>
+            Considera Turno
+            <br>
+            <input type="checkbox" ng-model="newMetric.considerSchedule" class="form-control" placeholder="Valor">
+        </label>
+
+    </fieldset>
+
+    <fieldset class="form-group col-lg-2">
+        <label>
+            Tempo Completo
+            <br>
+            <input type="checkbox" ng-model="newMetric.fulltime" class="form-control" placeholder="Valor">
+        </label>
+    </fieldset>
+
+<div ng-include="'MetricFormError.html'"></div>

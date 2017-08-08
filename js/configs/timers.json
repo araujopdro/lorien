@@ -1,0 +1,7 @@
+{
+	"moveNavigationTimer" : 25000,
+	"enableCurrentScreenTimeout" : 6000,
+	"updateCurrentScreenTimer" : 3000,
+  "retryGetLayoutTimer": 5000,
+  "retryGetLayoutLimit":  5
+}

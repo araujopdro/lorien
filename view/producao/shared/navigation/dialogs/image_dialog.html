@@ -1,0 +1,11 @@
+﻿<md-dialog aria-label="List dialog" style="left: 15px;">
+    <md-dialog-content>
+        <div style="margin: 15px;">
+            <input class="form-control" type="text" ng-model-options='{ debounce: 1000 }' ng-change="setTileValue('imageSource', imageSource)" ng-model="imageSource" placeholder="/src/nome_do_arquivo.tipo">
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <!--<md-button ng-click="cancel()" class="md-primary">Cancelar</md-button>-->
+        <md-button ng-click="ok()" class="md-primary">OK</md-button>
+    </md-dialog-actions>
+</md-dialog>

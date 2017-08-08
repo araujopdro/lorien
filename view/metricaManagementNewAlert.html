@@ -1,0 +1,15 @@
+﻿<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div ng-include="'alertDetails.html'"></div>
+            <!-- Incluir alertDetails e botão. Depois inculuir essa tela la no metricaManagement geral -->
+
+
+            <div class="row">
+                <fieldset class="form-group col-lg-2 pull-right">
+                    <button class="btn btn-success form-control" ng-disabled="!newAlert.color || (!newAlert.startValue && !newAlert.endValue)  || !newAlert.priority || newAlert.Weekdays == undefined || newAlert.Weekdays == null || newAlert.Weekdays.length == 0 " ng-click="addAlertToMetric(Metric, newAlert, schedule, groupMail, weekdayOpt); loadPriorityList(Metric)">+</button>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

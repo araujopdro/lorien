@@ -1,0 +1,81 @@
+﻿<div class="sub-title-navigation">
+    Administrar Tiles 
+    <span class="pull-left glyphicon glyphicon-chevron-left edit-button" ng-click="unManageTiles(); unselectAllTiles(tileLayoutConfig, selectedTiles)">
+        <md-tooltip md-direction="right">Voltar</md-tooltip>
+    </span>
+</div>
+
+<section class="section-basic">
+    <section>
+        <div class="property-title-display-text">Espaçamento dos Tiles:</div>
+        <div class="pull-right" ng-click="showGap = !showGap">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+
+    <br />
+    <div class="property-display-text">{{tileLayoutConfig.gutter}}</div>
+    <br />
+
+    <md-slider ng-show="showGap" aria-label="Close" class="md-primary white-slider" min="0" step="0.2" max="10" ng-model="tileLayoutConfig.gutter"></md-slider>
+</section>
+
+<section class="section-basic">
+    <section>
+        <div class="property-title-display-text">Proporção dos Tiles:</div>
+        <div class="pull-right" ng-click="showRatio = !showRatio">
+            <span class="glyphicon glyphicon-edit edit-button">
+                <md-tooltip md-direction="right">Editar</md-tooltip>
+            </span>
+        </div>
+    </section>
+
+    <br />
+    <div class="property-display-text">{{tileLayoutConfig.tileRatio}}</div>
+    <br />
+
+    <md-slider ng-show="showRatio" aria-label="Close" class="md-primary white-slider" min="1" step="1" max="100" ng-model="tileLayoutConfig.tileRatio"></md-slider>
+</section>
+
+<section class="section-basic">
+    <div class="property-title-display-text">Adicionar Tiles</div>
+    <div class="pull-right" ng-click="openAddTile = !openAddTile; clearNewTileArray(tileLayoutConfig)">
+        <span class="glyphicon edit-button" ng-class="{'glyphicon-chevron-right': !openAddTile, 'glyphicon-chevron-down': openAddTile}"></span>
+    </div>
+    <section  ng-show="openAddTile">
+        <br />
+        <label><input type="checkbox" value="true" ng-model="squared"> Quadrado</label>
+        <div ng-show="squared">
+            <div class="property-title-display-text">Dimensão do Tile: {{newTile.dimension}}</div>
+            <md-slider aria-label="Close" class="md-primary white-slider" min="1" step="1" max="{{tileLayoutConfig.numberOfColumns}}" ng-model="newTile.dimension" ng-change="squareTile(newTile)"></md-slider>
+        </div>
+
+        <div ng-show="!squared">
+            <div class="property-title-display-text">Dimensões do Tile</div>
+            <br />
+            <br />
+            <div class="property-title-display-text">Largura do Tile: {{newTile.tileWidth}}</div>
+            <md-slider aria-label="Close" class="md-primary white-slider" min="1" step="1" max="{{tileLayoutConfig.numberOfColumns}}" ng-model="newTile.tileWidth"></md-slider>
+
+            <div class="property-title-display-text">Altura do Tile: {{newTile.tileHeight}}</div>
+            <md-slider aria-label="Close" class="md-primary white-slider" min="1" step="1" max="{{tileLayoutConfig.numberOfColumns}}" ng-model="newTile.tileHeight"></md-slider>
+        </div>
+
+        <div class="property-title-display-text">Quantidade de Tiles: {{numberOfTiles.number}}</div>
+        <input class="form-control" type="number" ng-model="numberOfTiles.number" ng-change="changeNumberOfTiles(tileLayoutConfig, newTile, numberOfTiles.number)">
+
+        <div style="height: 30px; margin-top: 5px; margin-bottom: 5px;">
+            <span class="pull-right glyphicon glyphicon-plus select-button-green" ng-click="addTile(newTile, tileLayoutConfig, numberOfTiles.number)">
+                <md-tooltip md-direction="bottom">Adicionar Tiles ao Mosaico</md-tooltip>
+            </span>
+        </div>
+    </section>
+</section>
+
+<div class="sub-title-navigation">
+    Editar Tiles
+</div>
+
+<div style="width: 100%;" ng-include="'producao/shared/navigation/tileActionPanel.html'"></div>

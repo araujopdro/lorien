@@ -1,0 +1,123 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <form role="form">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="text-uppercase text-center">Gerenciamento de métricas</h4>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" ng-click="selectMetric(); toggle('view-metric-new-' + meta.goalId , 'details2')">
+                <span class="glyphicon glyphicon-plus" />
+                Adicionar
+            </button>
+
+
+            <!--<span data-ng-click="selectMetric(); toggle('view-metric-new-' + meta.goalId , 'details2')"
+                  ng-class="'glyphicon glyphicon-plus'"
+                  class="goalinternal-btn" style="font-size:16px">Adicionar</span>-->
+
+            <div class="details2" id="view-metric-new-{{meta.goalId}}" ng-include="'MetaManagementNewMetric.html'"></div>
+
+            <br />
+            <br />
+            <br />
+
+            <!-- ********** -->
+            <!-- TABELA -->
+            <!-- ********** -->
+            <!--Titulos-->
+            <div class="row">
+                <div class="col-lg-4">
+                    <label>Descrição</label>
+                </div>
+                <div class="col-lg-2">
+                    <label>Valor</label>
+                </div>
+                <div class="col-lg-2">
+                    <label>Ciclo</label>
+                </div>
+                <div class="col-lg-1">
+                    <label>Progressão</label>
+                </div>
+                <!--<div class="col-lg-offset-1 col-lg-2">
+                    <label>Tag Medição</label>
+                </div>-->
+            </div>
+
+            <!--Conteudo-->
+            <div class="row">
+                <!-- TODO; Verificar se ao alterar algum desses itens, ele já está binded ao item correto, ou terá que fazer via javascript puro -->
+                <div ng-repeat="Metric in meta.Metrics">
+                    <div class="col-lg-12 list-item">
+                        <div class="col-lg-4">{{Metric.descMetric}}</div>
+                        <!-- Value-->
+                        <div class="col-lg-2 division">{{Metric.value}}</div>
+                        <!-- Cycle -->
+                        <div class="col-lg-2 division" ng-if="Metric.cycle == 'fix'">Fixo</div>
+                        <div class="col-lg-2 division" ng-if="Metric.cycle == 'min'">Minuto</div>
+                        <div class="col-lg-2 division" ng-if="Metric.cycle == 'hour'">Hora</div>
+                        <div class="col-lg-2 division" ng-if="Metric.cycle == 'schedule'">Turno</div>
+                        <div class="col-lg-2 division" ng-if="Metric.cycle == 'day'">Dia</div>
+                        <div class="col-lg-2 division" ng-if="Metric.cycle == 'week'">Semana</div>
+                        <div class="col-lg-2 division" ng-if="Metric.cycle == 'month'">Mês</div>
+                        <div class="col-lg-2 division" ng-if="Metric.cycle == 'year'">Ano</div>
+                        <!-- Progression -->
+                        <div class="col-lg-2 division" ng-if="Metric.progression == 'fix'">Fixo</div>
+                        <div class="col-lg-2 division" ng-if="Metric.progression == 'min'">Minuto</div>
+                        <div class="col-lg-2 division" ng-if="Metric.progression == 'hour'">Hora</div>
+                        <div class="col-lg-2 division" ng-if="Metric.progression == 'schedule'">Turno</div>
+                        <div class="col-lg-2 division" ng-if="Metric.progression == 'day'">Dia</div>
+                        <div class="col-lg-2 division" ng-if="Metric.progression == 'week'">Semana</div>
+                        <div class="col-lg-2 division" ng-if="Metric.progression == 'month'">Mês</div>
+                        <div class="col-lg-2 division" ng-if="Metric.progression == 'year'">Ano</div>
+
+                        <!-- Tipo-->
+                        <!--<div class="col-lg-offset-1 col-lg-2 division">{{Metric.measuredTag}}</div>-->
+                        <div class="col-lg-1 division">
+                            <span data-ng-click="selectMetric(Metric); loadPriorityList(Metric); toggle('view-metric-'+ Metric.metricId, 'details2'); bool=!bool"
+                                  ng-class="{'glyphicon glyphicon-expand': !bool, 'glyphicon glyphicon-collapse-down': bool}"
+                                  class="goalinternal-btn" />
+                        </div>
+                        <div class="col-lg-1 division">
+                            <span data-ng-click="removeMetricFromGoal(meta,Metric)"
+                                  class="glyphicon glyphicon-remove .thinginternal-btn"></span>
+                        </div>
+                    </div>
+                    <div class="details2 col-lg-10 col-lg-offset-1" id="view-metric-{{Metric.metricId}}" ng-include="'metricaManagement.html'"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div ng-show="showUpdateValidationError" class="alert alert-danger help-block">
+                        <ul>
+                            <li>Existem campos obrigatórios nas métricas e/ou alertas que não foram editados corretamente</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div ng-show="showCommunicationError" class="alert alert-danger help-block">
+                        <ul>
+                            <li>Erro ao comunicar com o servidor</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div ng-show="!creating" class="row">
+                <div class="col-sm-12 text-right">
+                    <div class="form-group">
+                        <button class="btn btn-danger" ng-click="openModal('confirmationDialog', 'Você deseja excluir essa meta?')">Excluir</button>
+                        <button class="btn btn-success" ng-disabled="invalidOrDuplicatedMetricDescription || duplicatedPriority" ng-click="updateMeta(meta)">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

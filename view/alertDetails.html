@@ -1,0 +1,80 @@
+﻿<div class="row">
+    <fieldset class="form-group col-lg-4 col-lg-offset-1">
+        <label>Cor: </label> <br />
+        <div form-control md-color-picker ng-model="newAlert.color"></div>
+        <!-- <select class="form-control" ng-model="newAlert.color" id="colorSelector" ng-style="selectColorBackground(newAlert.color)">-->
+        <!--<input type="text" ng-style="{'background-color': '{{color}}'}"></input>-->
+        <!--
+        </select>-->
+        <!--</fieldset>-->
+    </fieldset>
+    <fieldset class="form-group  col-lg-4">
+        <label>Cor da Fonte: </label> <br />
+        <div form-control md-color-picker ng-model="newAlert.fontColor"></div>
+    </fieldset>
+</div>
+<div class="row">
+    <fieldset class="form-group col-lg-4 col-lg-offset-1">
+        <label>Valor Inicial: </label>
+        <input type="text" ng-model="newAlert.endValue" class="form-control" placeholder="Valor Inicial">
+    </fieldset>
+    <fieldset class="form-group col-lg-4">
+        <label>Valor Final: </label>
+        <input type="text" ng-model="newAlert.startValue" class="form-control" placeholder="Valor Final">
+    </fieldset>
+</div>
+<div class="row">
+    <fieldset class="form-group col-lg-4 col-lg-offset-1">
+        <label>Prioridade: </label>
+        <select class="form-control" ng-model="newAlert.priority" ng-options="priority as priority for priority in priorityList" ng-change="validadeAlertPriority(Metric.Alerts,newAlert)">
+            <option value="" disabled selected>Selecionar</option>
+        </select>
+    </fieldset>
+    <fieldset class="form-group col-lg-4">
+        <label>Mensagem: </label>
+        <input type="text" ng-model="newAlert.message" class="form-control" placeholder="Mensagem">
+        <!--<label>Turno: </label>
+        <select class="form-control" ng-model="newAlert.scheduleId" ng-options="schedule.scheduleId as schedule.scheduleName for schedule in scheduleList | filter: scheduleFilter">
+            <option value="" disabled selected>Selecionar</option>
+        </select>-->
+    </fieldset>
+    <fieldset class="form-group col-lg-3">
+        <label>Dias da semana: </label>
+        <br />
+        <input type="checkbox" ng-checked="containsAllWeekDays(newAlert, 'Weekdays')" ng-true-value="true" ng-false-value="false" ng-click="selectUnselectAllweekDays(newAlert, 'Weekdays')" ng-disabled="newAlert == undefined ||  newAlert == null" /> Selecionar Todos
+        <br />
+        <input type="checkbox" ng-checked="containsWeekDay(newAlert,'sunday','Weekdays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newAlert, 'sunday', 'Weekdays')" ng-true-value="true" ng-false-value="false" ng-disabled="newAlert == undefined ||  newAlert == null" /> D
+
+        <input type="checkbox" ng-checked="containsWeekDay(newAlert,'monday','Weekdays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newAlert, 'monday', 'Weekdays')" ng-true-value="true" ng-false-value="false" ng-disabled="newAlert == undefined ||  newAlert == null" /> S
+
+        <input type="checkbox" ng-checked="containsWeekDay(newAlert,'tuesday','Weekdays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newAlert, 'tuesday', 'Weekdays')" ng-true-value="true" ng-false-value="false" ng-disabled="newAlert == undefined ||  newAlert == null" /> T
+
+        <input type="checkbox" ng-checked="containsWeekDay(newAlert,'wednesday','Weekdays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newAlert, 'wednesday', 'Weekdays')" ng-true-value="true" ng-false-value="false" ng-disabled="newAlert == undefined ||  newAlert == null" /> Q
+        <br />
+
+        <input type="checkbox" ng-checked="containsWeekDay(newAlert,'thursday','Weekdays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newAlert, 'thursday', 'Weekdays')" ng-disabled="newAlert == undefined ||  newAlert == null" /> Q
+
+        <input type="checkbox" ng-checked="containsWeekDay(newAlert,'friday','Weekdays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newAlert, 'friday', 'Weekdays')" ng-disabled="newAlert == undefined ||  newAlert == null" /> S
+
+        <input type="checkbox" ng-checked="containsWeekDay(newAlert,'saturday','Weekdays')" ng-click="addOrRemoveWeekDayToWeekDaysList(newAlert, 'saturday', 'Weekdays')" ng-disabled="newAlert == undefined ||  newAlert == null" /> S
+    </fieldset>
+</div>
+<!--<div class="row">
+    <fieldset class="form-group col-lg-4">
+        <label>Grupo de Emails: </label>
+        <input type="email" ng-model="email" class="form-control" placeholder="Email" ng-disabled="newAlert===undefined||newAlert===null||newAlert==''||(newAlert.color=='' && newAlert.value=='' && newAlert.priority=='')">
+
+        <select class="form-control" ng-model="groupMail" ng-options="groupMail as groupMail.nameGroup for groupMail in groupMailList">
+            <option value="" disabled selected>Selecionar</option>
+        </select>
+
+        <<label>Emails: </label>
+        <input type="email" ng-model="email" class="form-control" placeholder="Email" ng-disabled="newAlert===undefined||newAlert===null||newAlert==''||(newAlert.color=='' && newAlert.value=='' && newAlert.priority=='')">
+    </fieldset>-->
+<!--<fieldset class="form-group col-lg-2">
+        <br />
+        <button class="btn btn-success btnModal" ng-disabled="email===undefined" data-ng-click="addEmail(email, newAlert);"><span class="glyphicon glyphicon-plus-sign"></span></button>
+    </fieldset>
+</div>-->
+
+<div ng-include="'AlertFormError.html'"></div>

@@ -1,0 +1,76 @@
+
+<!-- ##                                                                         -->
+<!-- # Hotbuild Report                                                 -->
+<!-- ##                                                                         -->
+
+<div class="container">
+
+  <!-- Titulo do Relatorio -->
+  <div class="page-header report-page-header">
+    <h1>Relatório de Hotbuild</h1>
+  </div>
+  <!-- END Titulo do Relatorio -->
+
+  <!-- Formulario de Filtros -->
+  <div class="jumbotron report-jumbotron">
+    <div class="row">
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label class="report-label-filter">Date From:</label>
+          <div class="input-group date datepicker" id="report-hotbuild-InitialDate">
+            <input type="text" class="form-control">
+            <div class="input-group-addon">
+              <span class="glyphicon glyphicon-th"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="form-group form-group-sm">
+          <label class="report-label-filter">Date To:</label>
+          <div class="input-group date datepicker" id="report-hotbuild-FinalDate">
+            <input type="text" class="form-control">
+            <div class="input-group-addon">
+              <span class="glyphicon glyphicon-th"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <label class="report-label-filter">WS:</label>
+        <select class="form-control" id="report-hotbuild-WS" multiple="multiple" disabled>
+        </select>
+      </div>
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="form-group form-group-sm">
+            <label for="report-hotbuild-ESN" class="report-label-filter">ESN:</label>
+            <input type="text" class="form-control" id="report-hotbuild-ESN" ng-model="modelObj.ESN" />
+          </div>
+        </div>
+        <div class="col-sm-2 report-put-on-bottom">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="report-hotbuild-ProcessStatistics" ng-model="modelObj.ProcessStatistics"><strong>Tratar Estatística</strong>
+            </label>
+          </div>
+        </div>
+        <div class="col-sm-2 ">
+          <div class="btn-group report-put-on-bottom" role="group" aria-label="Filters">
+            <input type="button" class="btn btn-default" value="Limpar" ng-click="clearInputs()"/>
+            <input type="button" class="btn btn-primary" value="Gerar " ng-click="generateReport()"/>
+          </div>
+        </div>
+      </div>
+      <!-- END Botões de controle -->
+
+    </div>
+  </div>
+
+  <!-- Report Content Area -->
+  <div id="report-hotbuild-report-content" ng-bind-html="reportContent">
+    <p class="report-content">No content yet.</p>
+  </div>
+  <!-- END Report Content Area -->
+
+</div>

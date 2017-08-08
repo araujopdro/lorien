@@ -1,0 +1,37 @@
+<span style=" 
+    position: absolute; 
+    top: 0.25vh; 
+    right: 0.25vh; 
+    z-index: 20; 
+    font-size: 1vh; 
+    cursor: pointer"
+    
+    class="tile-selector glyphicon glyphicon-unchecked"
+    id="tile-selector-{{tile.tileId}}"
+    
+    ng-mouseover="mousePosition($index)"
+    
+    ng-click="selectTile(tileLayoutConfig, selectedTiles, tile)"
+    ng-show="isSelectingTiles  && (selectedTiles.type === 'tile' || selectedTiles.type === '')">
+</span>
+
+<div ng-show="tile.tileContentType === 'dataSourced'">
+    <span class="tile-selector glyphicon glyphicon-check" ng-click="showTileData(tile, $event, 'dataSource')" ng-class="{'glyphicon-unchecked': tile.dataSource === null}" style="color: {{tile.tileFontColor}}; font-size: 1vh; cursor: pointer">Data</span><br/>
+    <span class="tile-selector glyphicon glyphicon-check" ng-click="showTileData(tile, $event, 'colorSource')" ng-class="{'glyphicon-unchecked': tile.colorSource === null}" style="color: {{tile.tileFontColor}}; font-size: 1vh; cursor: pointer">Color</span><br/>
+    <span class="tile-selector glyphicon glyphicon-check" ng-click="showTileData(tile, $event, 'emphasysSource')" ng-class="{'glyphicon-unchecked': tile.emphasysSource === null}" style="color: {{tile.tileFontColor}}; font-size: 1vh; cursor: pointer">Emphasys</span>
+</div>
+            
+<span style="font-weight: bold; font-size: {{tile.tileFontSize}}{{tile.fontSize}}vw; color: {{tile.tileFontColor}}{{tile.fontColor}};">{{tile.fixedValueCommon}}{{tile.fixedValueUnique}}{{tile.data}}</span>
+<!--            <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels"
+            chart-series="series" chart-options="options" 
+            chart-dataset-override="datasetOverride"
+            chart-click="onClick"</canvas> -->
+<!--            {{tile.tileId}} {{tile.dataSource}}-->
+<!--            <div class="tile-hover" id="tile-hover-{{tile.tileId}}" style="color:white">
+                Teste123   deleteTile($event, removeTile, nothingFunction, 'Vai deletar o tile pra sempre', tileLayoutConfig, tile)
+                <ol><li>teste123</li></ol>
+                <p>teste123</p>
+                <span>teste321</span>
+            </div>-->
+
+

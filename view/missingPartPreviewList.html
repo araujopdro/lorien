@@ -1,0 +1,23 @@
+<!-- Lista de Previsões -->
+<div ng-repeat="partsPreview in partsPreviewList | filter:searchPreview | orderBy:orderCrit:orderDir" on-finish-render="ngRepeatFinished">
+    <div class="col-lg-12 list-item partpreview-line">
+        <div class="col-lg-2 ">{{partsPreview.partNumber}}</div>
+        <div class="col-lg-2 division">{{partsPreview.description}}</div>
+        <div class="col-lg-1 division">{{partsPreview.supplier}}</div>
+        <div class="col-lg-1 division">{{partsPreview.plannerId}}</div>
+        <div class="col-lg-2 division">{{partsPreview.departure}}</div>
+
+        <div class="col-lg-1 division">{{partsPreview.previewedDate}}</div>
+        <div class="col-lg-1 division">{{partsPreview.newPreviewedDate}}</div>
+
+        <!--<div class="col-lg-2 division">{{partsPreview.newPeviewedDate}}</div>-->
+        <!--<div class="col-lg-3 division">{{formatDatabaseDate(partsPreview)}}</div>-->
+        <!--<div class="col-lg-2 division"><span ng-class="{'glyphicon glyphicon-ok-sign': partsPreview.supplied == 'true', 'glyphicon glyphicon-remove-sign':  partsPreview.supplied == 'false'}"></span></div>-->
+        <div class="col-lg-1 division">
+            <span data-ng-click="selectPartPreview(partsPreview, supplied); toggle('view-detail-'+partsPreview.partId, 'details'); bool=!bool;  clearPartPreview();"
+                  ng-class="{'glyphicon glyphicon-expand': !bool, 'glyphicon glyphicon-collapse-down': bool}"
+                  class="list-btn"></span>
+        </div>
+    </div>
+    <div class="details col-lg-10 col-lg-offset-1" id="view-detail-{{partsPreview.partId}}" ng-include="'missingPartPreviewDetails.html'" style="display: none"></div>
+</div>

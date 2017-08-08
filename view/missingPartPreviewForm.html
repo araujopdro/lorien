@@ -1,0 +1,62 @@
+<!--Lista de Previsões-->
+<div class="row">
+    <h3 class="col-lg-4  col-lg-offset-1 unselectableText" id="title">Previsão de Peças Faltantes</h3>
+</div>
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <button class="btn btn-primary" ng-click="openModal('createModal', ''); ">
+                Criar Nova
+            </button>
+            <input class="form-control searchbar" type="text" ng-model="searchPreview" placeholder="Procurar Previsões" />
+        </div>
+        <div class="row">
+            <div class="list-navbar">
+                <div class="col-lg-2 tableHead division" id='order-partnumber'><a href="" ng-click="orderBy('partNumber','order-partnumber')">PartNumber</a></div>
+                <div class="col-lg-2 tableHead division" id='order-departure'><a href="" ng-click="orderBy('description','order-description')">Descrição</a></div>
+                <div class="col-lg-1 tableHead division" id='order-departure'><a href="" ng-click="orderBy('supplier','order-supplier')">Fornecedor</a></div>
+                <div class="col-lg-1 tableHead division" id='order-departure'><a href="" ng-click="orderBy('plannerId','order-plannerId')">Planner</a></div>
+                <div class="col-lg-2 tableHead division" id='order-departure'><a href="" ng-click="orderBy('departure','order-departure')">Embarque</a></div>
+                <div class="col-lg-1 tableHead division" id='order-previeweddate'><a href="" ng-click="orderBy('previewedDate','order-previeweddate')">Data Prevista</a></div>
+                <div class="col-lg-1 tableHead division" id='order-previeweddate'><a href="" ng-click="orderBy('newPreviewedDate','order-newprevieweddate')">Nova Previsão</a></div>
+
+                <!--
+                <div class="col-lg-2 tableHead division" id='order-previeweddate'><a href="" ng-click="orderBy('newPreviewedDate','order-newPreviewedDate')">Nova Previsão</a></div>
+                <div class="col-lg-2 tableHead division" id='order-postedeventime'><a href="" ng-click="orderBy('postedEventTime','order-postedeventime')">Data do Registro</a></div>
+                <div class="col-lg-2 tableHead division" id='order-supplied'><a href="" ng-click="orderBy('supplied','order-supplied')">Peça Suprida</a></div>
+                -->
+
+                <div class="col-lg-1 tableHead division">Gerenciamento</div>
+            </div>
+
+            <div ng-include="'missingPartPreviewList.html'"></div>
+        </div>
+    </div>
+</div>
+<!-- Modal Previsões -->
+<div class="modal" id="createModal">
+    <form class="modal-content col-lg-6 col-lg-offset-1">
+        <span class="close" ng-click="closeModal('createModal')">×</span>
+        <div class="panel-heading">
+            <h4>Criar nova Previsão de Peça Faltante</h4>
+        </div>
+
+        <div ng-include="'missingPartPreviewManagement.html'"></div>
+
+        <fieldset class="form-group col-lg-12">
+            <button class="btn btn-success btnModal" ng-disabled="missingPartPreviewDetailsForm.$invalid" ng-click="createPartPreview(partPreview); clearPartPreview(); clearFields(); closeModal('createModal');">Criar Previsão</button>
+            <button class="btn btn-danger btnModal" ng-click="clearPartPreview(); clearValue(); clearFields(); closeModal('createModal')">Cancelar</button>
+        </fieldset>
+    </form>
+</div> <!-- End Shift Modal -->
+<!-- Modal confirmação delete -->
+<div class="modal" id="confirmationDialog">
+    <form class="modal-content col-lg-2 col-lg-offset-5">
+        <span class="close" ng-click="closeModal('confirmationDialog')">×</span>
+        <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+        <br>
+        <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="deletePartPreview(partPreview); closeModal('confirmationDialog');">Sim</button>
+        <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeModal('confirmationDialog')">Nâo</button>
+        <br>
+    </form>
+</div> <!-- End Confirmation Modal -->

@@ -1,0 +1,115 @@
+<div class="row">
+    <h3 class="col-lg-4 col-lg-offset-1 unselectableText" id="title">Perfils</h3>
+</div>
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <button class="btn btn-primary" ng-click="openModal('createModal','')">Criar Novo</button>
+            <input class="form-control searchbar" type="text" ng-model="search" placeholder="Procurar Perfil" />
+        </div>
+        <div class="row">
+            <div class="list-navbar">
+                <div class="col-lg-2"><a class="order-text" href="" ng-click="orderBy('profileName')">Nome &#8661</a></div>
+                <!--<div class="col-lg-2 col-lg-offset-7"><a class="order-text" href="" ng-click="orderBy('status')">Status &#8661</a></div>-->
+                <div class="col-lg-1 col-lg-offset-8">Gerenciamento</div>
+            </div>
+            <img ng-if="dataLoading" class="loadingImg" ng-src="{{loadingSrc}}" />
+            <div ng-repeat="profile in profileList| filter:{profileName:search} | orderBy:orderCrit:orderDir" last-item ng-if="profile.profileName !== defaultProfile.profileName">
+                <div class="col-lg-12 list-item">
+                    <div class="col-lg-2">{{profile.profileName}}</div>
+                    <!--<div class="col-lg-2 col-lg-offset-7">{{profile.status}}</div>-->
+                    <div class="col-lg-1 division pull-right">
+                        <span data-ng-click="selectProfile(profile); toggle(profile.profileId, 'details');"
+                              class="list-btn glyphicon glyphicon-expand"
+                              id='btn-list-{{profile.profileId}}'>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-10 details col-lg-offset-1 details-css" id="view-detail-{{profile.profileId}}" ng-include="'profileDetails.html'"></div>
+            </div>
+        </div>
+
+        <!--
+            Modal para a criação de novos perfils
+        -->
+        <div class="modal" id="createModal">
+            <form class="modal-content" name="profileForm">
+                <span class="close" ng-click="clearProfileFields(newProfile); closeModal('createModal')">&#10006</span>
+                <h4 style="padding-bottom: 20px;">Novo Perfil</h4>
+                <fieldset class="form-group modal-div">
+                    <label for="username">Nome</label>
+                    <input type="text" ng-model="newProfile.profileName" ng-required="true" ng-minlength="4" class="form-control" style="margin-bottom: 10px;" ng-class="{'has-error':profileForm.name.$invalid && !profileForm.name.$pristine}" name="name" placeholder="Nome do Perfil">
+                    <p ng-show="profileForm.name.$invalid && !profileForm.name.$pristine" class="alert alert-danger help-block" style="margin-bottom: 20px;">O Nome do Perfil deve ter no mínimo 4 characteres</p>
+                </fieldset>
+                <fieldset ng-show='!profileForm.name.$invalid' class="modal-div">
+                    <p ng-show="!profileForm.name.$invalid" class="alert alert-danger help-block">Um perfil precisa de no mínimo 1 Endpoint</p>
+                    <div class="col-lg-5" style="padding: 0px;">
+                        <label style="margin-top: 8px;">Telas:</label>
+                        <div class="adjustHeight" ng-repeat="sysEndpoint in sysEndpoints" ng-if="hasEndpoint(sysEndpoint, newProfile)">
+                            <a href="" class="btn btn-default btn-block col-lg-2" style="padding: 7px; margin: 2px; text-align: left" ng-click="addEndPointToProfile(sysEndpoint, newProfile, n)">{{sysEndpoint.displayUrl}}</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5" style="padding: 0px;">
+                        <label style="margin-top: 8px;">Telas Permitidas:</label>
+                        <div class="adjustHeight" ng-repeat="sysEndpoint in newProfile.Endpoints| unique: 'displayUrl'">
+                            <a href="" class="btn btn-default btn-block col-lg-2" style="padding: 7px; margin: 2px; text-align: left" ng-click="removeEndpointFromProfile(sysEndpoint, newProfile)">{{sysEndpoint.displayUrl}}</a>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset ng-show='!profileForm.name.$invalid' class="modal-div">
+                    <div class="col-lg-5" style="padding: 0px;">
+                        <label style="margin-top: 8px;">Displays:</label>
+                        <input class="form-control" id="searchbarGroupModal" type="text" ng-model="searchUserGModal" placeholder="Procurar Display" />
+                        <div class="adjustHeight" ng-repeat="display in displayList | filter:{displayName:searchUserGModal}" ng-if="display.profileId == defaultProfile.profileId">
+                            <a href="" class="btn btn-default btn-block col-lg-2" style="padding: 7px; margin: 2px; text-align: left" ng-click="addDisplayToProfile_profileSide(display, newProfile)">{{display.displayName}}</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-lg-offset-2" style="padding: 0px;">
+                        <label style="margin-top: 8px;">Displays Permitidos</label>
+                        <div class="adjustHeight" ng-repeat="display in displayList" ng-if="display.profileId === newProfile.profileId">
+                            <a href="" class="btn btn-default btn-block col-lg-2" style="padding: 7px; margin: 2px; text-align: left" ng-click="removeDisplayFromProfile(display, newProfile)">{{display.displayName}}</a>
+                        </div>
+                    </div>
+                </fieldset>
+                <button class="btn btn-success btnModal clear" ng-disabled="profileForm.$invalid" ng-click="createProfile(newProfile); closeDialog('createModal', true, false, '', '')">Criar Perfil</button>
+                <button class="btn btn-danger btnModal clear" ng-click="closeDialog('createModal', true, false, '', '')">Cancel</button>
+            </form>
+        </div>
+
+        <!--
+           Dialog para confirmação de delete
+        -->
+
+        <div class="modal" id="confirmationDialog">
+            <form class="modal-content col-lg-2 col-lg-offset-5">
+                <span class="close" ng-click="closeDialog('confirmationDialog', false, false, '', '')">×</span>
+                <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+                <br>
+                <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="disableProfile(selectedProfile); closeDialog('confirmationDialog', false, false, '', '')">Sim</button>
+                <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeDialog('confirmationDialog', false, false, '', '')">Nâo</button>
+                <br>
+            </form>
+        </div>
+
+
+        <!--
+        Dialog para inserir ordem e tempo
+         -->
+
+        <div class="modal" id="orderTimeDialog">
+            <form class="modal-content col-lg-2 col-lg-offset-5">
+                <span class="close" ng-click="closeDialog('orderTimeDialog', false, false, '', '')">×</span>
+                <p class="dialog-text col-lg-12">Preencha o valor da ordem em que essa tela aparece e quantos segundos fica no display</p>
+                <br>
+                <label>Ordem</label>
+                <input class="form-control" style="margin-bottom: 10px;" type="text" ng-model="order" placeholder="Ordem" \>
+                <label>Tempo (segundos)</label>
+                <br />
+                <input class="form-control" style="margin-bottom: 10px;" type="text" ng-model="time" placeholder="Tempo" \>
+                <button class="dialog-btn btn btn-primary col-lg-5" ng-disabled="!order||!time" data-ng-click="confirmEndpointToProfile(time,order); closeDialog('orderTimeDialog', false, false, '', ''); clearFields('orderTimeDialog')">Ok</button>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
+

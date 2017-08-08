@@ -1,0 +1,112 @@
+<!-- Detalhes do turno -->
+
+<div class="panel panel-default">
+    <form role="form" name="shiftDetailsForm">
+        <div class="row">
+            <div class="panel-heading">
+                <h4>Lista de E-mails</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <fieldset class="form-group col-lg-4">
+                        <label>Usuário</label>
+                        <input type="text" ng-model="selectedGroupMails.users.userIdAPIUser" required class="form-control" placeholder="Usuário">
+                    </fieldset>
+                    <fieldset class="form-group col-lg-1">
+                        <label astyle="color: white;"></label>
+                        <button class="btn btn-success form-control" ng-click="addUserToGroupMails(selectedGroupMails, userIdAPIUser)" ng-disabled="selectedGroupMails.users.userIdAPIUser == undefined && selectedGroupMails.users.userIdAPIUser == null ">+</button>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <!--</div>-->
+        <!--<div class="panel panel-default">-->
+        <div class="row">
+            <div class="panel-heading">
+                <h4>Lista de E-mails</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <fieldset class="form-group col-lg-4">
+                        <label>Email</label>
+                        <input type="text" ng-model="selectedGroupMails.emails.email" class="form-control" placeholder="Email">
+                    </fieldset>
+                    <fieldset class="form-group col-lg-1">
+                        <label astyle="color: white;"></label>
+                        <button class="btn btn-success form-control" ng-click="addEmailToGroupMails(selectedGroupMails, email)" ng-disabled="selectedGroupMails.emails.email == undefined && selectedGroupMails.emails.email == null ">+</button>
+                    </fieldset>
+                </div>
+
+                <!--Titulo pausas-->
+                <div class="form-group col-lg-11" ng-if="selectedGroupMails.emails.email > 0">
+                    <div class="col-lg-6">
+                        <div class="col-lg-4">
+                            <label>Email</label>
+                        </div>
+                    </div>
+                </div>
+                <!--Dados de pausas-->
+                <div class="form-group col-lg-11" ng-repeat="emailsList in selectedGroupMails.emails.email">
+                    <div class="col-lg-6 list-item">
+                        <div class="col-lg-4">
+                            {{emailsList.emails.email}}
+                        </div>
+                        <div class="col-lg-1 division">
+                            <span data-ng-click="removeEmailFromGroupMails(selectedGroupMails, emailsList);"
+                                  class="glyphicon glyphicon-remove .thinginternal-btn"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--OLD: Exceção dentro do turno-->
+        <!--<div class="row">
+            <div class="panel-heading">
+                <h4>Exceções</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel-body">
+                <div class="row">
+                    <fieldset class="form-group col-lg-4">
+                        <label>Nome</label>
+                        <input type="text" ng-model="exception.scheduleName" class="form-control" placeholder="Nome">
+                    </fieldset>
+                    <fieldset class="form-group col-lg-2">
+                        <label>Hora Inicio</label>
+                        <input type="text" ng-model="triggerDate" class="form-control" placeholder="00:00">
+                    </fieldset>
+                    <fieldset class="form-group col-lg-2">
+                        <label>Hora Fim</label>
+                        <input type="text" ng-model="triggerDate" class="form-control" placeholder="00:00">
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <fieldset class="form-group col-lg-4">
+                        <label>Data</label>
+                        <input type="text" ng-model="triggerDate" class="form-control" placeholder="dd/mm/yyyy">
+                    </fieldset>
+                    <fieldset class="form-group col-lg-1">
+                        <label>Trabalha <br /><input type="checkbox" ng-model="scheduleType" class="form-control"></label>
+
+                    </fieldset>
+                    <fieldset class="form-group col-lg-offset-3 col-lg-1">
+                        <label astyle="color: white;"></label>
+                        <button class="btn btn-success form-control" ng-click="">+</button>
+                    </fieldset>
+                </div>
+            </div>
+        </div>-->
+    </form>
+    <div class="row">
+        <div class="col-sm-9 text-right">
+            <div class="form-group">
+                <button class="btn btn-danger" data-ng-click="openModal('confirmationDialog', 'Você deseja excluir esse grupo?')">Excluir</button>
+                <button class="btn btn-success" ng-disabled="shiftDetailsForm.$invalid ||selectedGroupMails.emails.email == undefined || selectedSchedule.trigger.triggerWeekDays.length == 0" ng-click="updateShift(selectedSchedule)">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

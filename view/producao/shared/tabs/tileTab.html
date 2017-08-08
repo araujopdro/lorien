@@ -1,0 +1,307 @@
+<h4>Editar Tiles</h4>
+
+<div ng-show="selectedTiles.tiles.length > 0" id="tile-content">
+    <select ng-show="!showTableHeaderOptions && !showTableRowOptions" class="form-control" ng-model="tileConfig.tileType" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'tileType')">
+        <option value="" disabled selected>Selecione um Tipo de Tile</option>
+        <option value="tile">Dados</option>
+        <option value="grid">Tabela</option>
+        <option value="image">Image</option>
+        <option value="pagination">Pagination</option>
+    </select>
+
+    <span ng-show="!showTableHeaderOptions && !showTableRowOptions && !showTableDataSourceOptions" ng-click="linkOrnot = !linkOrnot" class="glyphicon glyphicon-link"></span>
+    <div ng-show="linkOrnot">
+        <input type="radio" name="detailsLinkStyle" ng-model="tileConfig.detailsLinkStyle" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'detailsLinkStyle')" value="modal"><span>Modal</span><br>
+        <input type="radio" name="detailsLinkStyle" ng-model="tileConfig.detailsLinkStyle" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'detailsLinkStyle')" value="navigation"><span>Navigation</span><br>
+        <input type="radio" name="detailsLinkStyle" ng-model="tileConfig.detailsLinkStyle" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'detailsLinkStyle')" value="link"><span>Link</span><br>
+    </div>
+    {{tileConfig.detailsLink}}
+    <input ng-show="linkOrnot && tileConfig.detailsLinkStyle != 'navigation'" class="form-control" type="text" ng-model="tileConfig.detailsLink" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'detailsLink')">
+    
+    <select ng-show="linkOrnot && tileConfig.detailsLinkStyle == 'navigation'" class="form-control" ng-model="tileConfig.detailsLink" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'detailsLink')" ng-options="layout.code as layout.name for layout in layouts | orderBy:'name'">
+        <option value="" disabled>Selecione um Mosaico</option>
+    </select>
+
+
+    <span ng-show="tileConfig.tileType == 'image'" class="glyphicon glyphicon-picture"></span>
+    <input ng-show="tileConfig.tileType == 'image'" class="form-control" type="text" ng-model="tileConfig.imageSource" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'imageSource')">
+
+
+    <span ng-show="!showTableHeaderOptions && !showTableRowOptions && !showTableDataSourceOptions" ng-click="showFontOptions = !showFontOptions" class="glyphicon glyphicon-font"></span>
+    <span ng-show="!showTableHeaderOptions && !showTableRowOptions && !showTableDataSourceOptions" ng-click="showBorderOptions = !showBorderOptions" class="glyphicon glyphicon-unchecked"></span>
+
+    <h5>Área</h5>
+    <input class="form-control" ng-model="tileConfig.area" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'area')" placeholder="Comun">
+    
+    <div ng-show="showFontOptions">
+        <h5>Tamanho da Fonte: {{tileConfig.textProperties.fontSize}}</h5>
+        <md-slider aria-label="Close" class="md-primary white-slider" min="0.2" step="0.1" max="10" ng-model="tileConfig.textProperties.fontSize" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'textProperties')"></md-slider>
+
+        <label>Font Color</label>
+        <div md-color-picker ng-model="tileConfig.textProperties.fontColor" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'textProperties')"></div>
+
+
+        <input type="checkbox" ng-true-value="'bold'" ng-false-value="''" name="bold" ng-model="tileConfig.textProperties.bold" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'textProperties')" value="bold"><span>Negrito</span><br>
+        <input type="checkbox" ng-true-value="'italic'" ng-false-value="''" name="italic" ng-model="tileConfig.textProperties.italic" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'textProperties')" value="italic"><span>Itálico</span><br>
+        <input type="checkbox" ng-true-value="'rotate-vertical-text'" ng-false-value="''" name="rotate" ng-model="tileConfig.textProperties.rotate" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'textProperties')" value="rotate"><span>Rotate</span><br>
+    </div>
+
+    <div ng-show="showBorderOptions">
+        <h5>Expessura da Borda:</h5>
+        <md-slider aria-label="Close" class="md-primary white-slider" min="1" step="1" max="5" ng-model="tileConfig.border.witdh" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'border')"></md-slider>
+
+        <label>FontColor</label>
+        <div md-color-picker ng-model="tileConfig.border.color" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'border')"></div>
+
+        <input type="checkbox" ng-true-value="'solid'" ng-false-value="''" name="bold" ng-model="tileConfig.border.style" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'border')" value="bold"><span>Sólida</span><br>
+        <input type="checkbox" ng-true-value="'dotted'" ng-false-value="''" name="italic" ng-model="tileConfig.border.style" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'border')" value="italic"><span>Pontilhada</span><br>
+        <input type="checkbox" ng-true-value="'dashed'" ng-false-value="''" name="rotate" ng-model="tileConfig.border.style" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'border')" value="rotate"><span>Tracejada</span><br>
+    
+        <span class="glyphicon glyphicon-minus-sign pull-right" ng-click="RemoveConfigValueFromTile(tileLayoutConfig, selectedTiles, tileConfig, 'border')"> Remover Borda</span>
+    </div>
+
+    {{tileConfig.border}}
+
+    <div ng-hide="tileConfig.tileType == 'grid'" ng-show="dataSourceCharateristics != 'colorSource'">
+        <h5 ng-show="!showTableHeaderOptions && !showTableRowOptions">Cor do Fundo</h5>
+        <div ng-show="!showTableHeaderOptions && !showTableRowOptions" md-color-picker ng-model="tileConfig.fixedColor" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'fixedColor')"></div>
+    </div>
+
+    <select class="form-control" ng-show="tileConfig.tileType == 'tile'" ng-model="tileConfig.contentType" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'contentType')">
+        <option value="" disabled selected>Selecione um Tipo de Conteúdo</option>
+        <option value="fixed">Valores Fixos</option>
+        <option value="rail">Trilho</option>
+        <option value="dataSourced">Data Source</option>
+    </select>
+</div>
+
+<div ng-show="tileConfig.contentType === 'fixed' && tileConfig.tileType == 'tile'"   id="tile-content-fixed">
+    <h5  >Conteúdo Fixo</h5>
+
+    <div ng-show="selectedTiles.tiles.length > 1">
+        <h5 >Valor Fixo (Comun)</h5>
+        <input class="form-control" ng-model="tileConfig.fixedValueCommon" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'fixedValueCommon')" placeholder="Comun">
+
+        <h5>Valor Fixo (Único)</h5>
+        <select class="form-control" ng-model="uniqueId" ng-change="selectTileFocus(tileLayoutConfig, uniqueId, dataSourceCharateristics)">
+            <option value="" disabled selected>Selecione um Tile</option>
+            <option ng-repeat="selectedTile in selectedTiles.tiles" value="{{selectedTile}}">{{selectedTile}}</option>
+        </select>
+        <br/>
+
+        <input class="form-control" ng-model="tileConfig.fixedValueUnique" ng-change="SetConfigValueToMultipleTiles(tileLayoutConfig, selectedTiles, tileConfig, 'fixedValueUnique', uniqueId)" placeholder="Único">
+    </div>
+    <div ng-show="selectedTiles.tiles.length === 1">
+        <h5  >Valor Fixo (Único)</h5>
+        <input class="form-control" ng-model="tileConfig.fixedValueUnique" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'fixedValueUnique')" placeholder="Único">
+    </div>
+</div>
+
+<div ng-show="tileConfig.contentType === 'rail' && tileConfig.tileType == 'tile'"  id="tile-content-rail">
+    <h5 >Selecione um Trilho</h5>
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="5-d"> <img src="../src/rail/@5_d.png"   style="border: 2px solid white" class="tile-config-rail-radio-button" alt="5-d">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="5-l"> <img src="../src/rail/@5_l.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="5-l">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="456">  <img src="../src/rail/@456.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="456">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="852">  <img src="../src/rail/@852.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="852">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="452">  <img src="../src/rail/@452.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="452">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="652">  <img src="../src/rail/@652.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="652">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="658">  <img src="../src/rail/@658.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="658">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="458">  <img src="../src/rail/@458.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="458">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="4568"> <img src="../src/rail/@4568.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="4568">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="4562"> <img src="../src/rail/@4562.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="4562">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="8524"> <img src="../src/rail/@8524.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="8524">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="8526"> <img src="../src/rail/@8526.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="8526">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="7419635"> <img src="../src/rail/@7419635.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="7419635">
+    <input ng-model="tileConfig.rail" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'rail')" type="radio" value="7891235"> <img src="../src/rail/@7891235.png" style="border: 2px solid white" class="tile-config-rail-radio-button" alt="7891235">
+</div>
+
+<div ng-show="tileConfig.contentType === 'dataSourced' && tileConfig.tileType == 'tile'" id="tile-content-dataSourced">
+    <h5 >Configuração de DataSource</h5>
+
+    <select class="form-control" ng-model="dataSourceCharateristics">
+        <option value="">Selecione o Source</option>
+        <option value="dataSource">Data Source</option>
+        <option value="colorSource">Color Source</option>
+        <option value="emphasysSource">Emphasys Source</option>
+    </select>
+
+    <br/>
+    
+    <h5 >URL</h5>
+    <select class="form-control" ng-model="tileConfig[dataSourceCharateristics].url" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" ng-options="array for array in arrayAPI"></select>
+    <!--<input class="form-control" ng-model="tileConfig[dataSourceCharateristics].url" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" placeholder="url">-->
+
+    <div ng-show="tileConfig.colorSource">
+        <h5>Font Color Path</h5>
+        <input class="form-control" ng-model="tileConfig[dataSourceCharateristics].fontColorPath" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" placeholder="path">
+    </div>
+
+    <h5 >Path</h5>
+    <select class="form-control" ng-model="tileConfig[dataSourceCharateristics].path" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" ng-options="array for array in pathAPI"></select>
+    <!--<input class="form-control" ng-model="tileConfig[dataSourceCharateristics].path" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" placeholder="path">-->
+
+    <h5>Query Parameters</h5>
+    <h6>Comum</h6>
+    <input class="form-control param-value-input" ng-model="query.param" placeholder="param">
+    <input class="form-control param-value-input" ng-model="query.value" placeholder="value">
+    <span class="glyphicon glyphicon-plus-sign" ng-show="query.param !== '' && query.value !== ''" ng-click="addCommonQuery(query); addQueryParam(tileConfig, dataSourceCharateristics, query); SetConfigValueToMultipleTiles(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)"></span>
+
+    <div>
+        <div ng-repeat="commonQuery in commonQueries">
+            <span> {{commonQuery.param}}  </span><span>  {{commonQuery.value}} </span>
+            <span class="glyphicon glyphicon-minus-sign pull-right" ng-click="removeCommonQuery(commonQuery); removeQueryParam(tileConfig, dataSourceCharateristics, commonQuery); SetConfigValueToMultipleTiles(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)"></span>
+        </div>
+    </div>
+
+    <h6>Único</h6>
+    <div ng-show="selectedTiles.tiles.length > 1">
+        <select class="form-control" ng-model="uniqueId" ng-change="selectTileFocus(tileLayoutConfig, uniqueId, dataSourceCharateristics)">
+            <option value="" disabled default selected>Selecione um Tile</option>
+            <option ng-repeat="selectedTile in selectedTiles.tiles" value="{{selectedTile}}">{{selectedTile}}</option>
+        </select>
+        <br/>
+
+        <input class="form-control param-value-input" ng-model="query.param" placeholder="param">
+        <input class="form-control param-value-input" ng-model="query.value" placeholder="value">
+        <span class="glyphicon glyphicon-plus-sign" ng-show="query.param !== '' && query.value !== ''"  ng-click="addQueryParam(tileConfig, dataSourceCharateristics, query); SetConfigValueToMultipleTiles(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics, uniqueId)"></span>
+
+
+
+        <div>
+            <div ng-repeat="uniqueQuery in tileLayoutConfig.tiles[uniqueId][dataSourceCharateristics].queryParameters" >
+                <span> {{uniqueQuery.param}}  </span><span>  {{uniqueQuery.value}} </span>
+                <span class="glyphicon glyphicon-minus-sign pull-right"  ng-click="removeQueryParam(tileConfig, dataSourceCharateristics, uniqueQuery); SetConfigValueToMultipleTiles(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics, uniqueId)"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-show="selectedTiles.tiles.length === 1">
+        <input class="form-control param-value-input" ng-model="query.param"   placeholder="param">
+        <input class="form-control param-value-input" ng-model="query.value"   placeholder="value">
+
+        <span class="glyphicon glyphicon-plus-sign" ng-show="query.param !== '' && query.value !== ''"  ng-click="addQueryParam(tileConfig, dataSourceCharateristics, query); SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'dataSource')"></span>
+
+        <div ng-repeat="query in tileConfig[dataSourceCharateristics].queryParameters" >
+            <span> {{query.param}}  </span><span>  {{query.value}} </span>
+            <span class="glyphicon glyphicon-minus-sign pull-right" ng-click="removeQueryParam(tileConfig, dataSourceCharateristics, query); SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'dataSource')"></span>
+        </div>
+    </div>
+
+    <div style="height: 180px; border: 1px solid white; margin-top: 10px;">
+        <span class="glyphicon glyphicon-refresh" ng-click="testDataSource(tileConfig)" style="font-size: 20px; color: white; cursor: pointer; float: right; margin-right: 0.5vw; margin-top: 60px;"></span>
+    
+        <div style="width: 150px; height: 150px; margin: 15px 5px; border: 2px dotted white; display: inline-block">
+            <table style="height: 100%; width: 100%; color: white;">
+                <tr>
+                    <th>Data Source:</th>
+                </tr>
+                <tr>
+                    <td>{{testDSresult}}</td>
+                </tr>
+                <tr>
+                    <th>Color Source:</th>
+                </tr>
+                <tr>
+                    <td>{{testCSresult}}</td>
+                </tr>
+                <tr>
+                    <th>Emphasys Source:</th>
+                </tr>
+                <tr>
+                    <td>{{testESresult}}</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div ng-show="tileConfig.tileType === 'grid' && selectedTiles.tiles.length > 1">
+    <div >
+        <h4  >Para configurar Tabelas você pode selecionar no máximo 1 tile.</h4>
+    </div>
+</div>
+
+<div ng-show="tileConfig.tileType === 'grid' && selectedTiles.tiles.length === 1" id="tile-content-fixed">
+    <!-- Rounded switch -->
+    <label class="switch">
+        <input type="checkbox" ng-model="tileConfig.dynamicTable" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'dynamicTable')">
+        <div class="slider round"></div>
+    </label>
+    <div ng-hide="showTableRowOptions && showTableDataSourceOptions" ng-click="showTableHeaderOptions = !showTableHeaderOptions"><h5 style="display: inline-block">Cabeçalhos</h5><span style="display: inline-block" class="glyphicon glyphicon-chevron-right"></span></div>
+    <div ng-show="showTableHeaderOptions">
+
+        <h6>Número de Cabeçalhos</h6>
+        <md-slider aria-label="Close" class="md-primary white-slider" min="1" step="1" max="20" ng-model="nOfHeaders" ng-change="changeNumberOfHeader(tileLayoutConfig, selectedTiles, nOfHeaders)"></md-slider>
+        
+        <h6>Tamanho da Fonte: {{headerText.textProperties.fontSize}}</h6>
+        <md-slider aria-label="Close" class="md-primary white-slider" min="0.2" step="0.1" max="10" ng-model="headerText.textProperties.fontSize" ng-change="SetHeaderValueToMultipleHeaders(tileLayoutConfig, selectedTiles, headerText.textProperties)"></md-slider>
+
+        <h6>FontColor</h6>
+        <div md-color-picker ng-model="headerText.textProperties.fontColor" ng-change="SetHeaderValueToMultipleHeaders(tileLayoutConfig, selectedTiles, headerText.textProperties)"></div>
+
+        <h6>Cabeçalhos</h6>
+        <select class="form-control" ng-model="selectedHeader" ng-options="header as header.headerContent for header in tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridHeaders">
+            <option value="" disabled selected>Selecione um Cabeçalho</option>
+        </select>
+        <br />
+        <h6>Conteúdo:</h6>
+        <input class="form-control" ng-model="selectedHeader.headerContent" placeholder="Único">
+
+        <h6>Cor do Fundo</h6>
+        <div md-color-picker ng-model="selectedHeader.backgroundColor" ng-change="SetHeaderValueToMultipleHeaders(tileLayoutConfig, selectedTiles, headerText.textProperties)"></div>
+    </div>
+
+    <div ng-hide="showTableHeaderOptions && showTableDataSourceOptions" ng-click="showTableRowOptions = !showTableRowOptions"><h5 style="display: inline-block">Linhas</h5><span style="display: inline-block" class="glyphicon glyphicon-chevron-right"></span></div>
+    <div ng-show="showTableRowOptions">
+        <h6>Número de Linhas {{tileLayoutConfig.tiles[selectedTiles.tiles[0]].rowQuantity}}</h6> 
+        <md-slider aria-label="Close" class="md-primary white-slider" min="1" step="1" max="20" ng-model="tileLayoutConfig.tiles[selectedTiles.tiles[0]].rowQuantity"></md-slider>
+
+        <h6>Tamanho da Fonte: {{tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridRow.textProperties.fontSize}}</h6>
+        <md-slider aria-label="Close" class="md-primary white-slider" min="0.2" step="0.1" max="10" ng-model="tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridRow.textProperties.fontSize"></md-slider>
+
+        <h6>FontColor</h6>
+        <div md-color-picker ng-model="tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridRow.textProperties.fontColor"></div>
+
+        <input type="checkbox" ng-true-value="'bold'" ng-false-value="''" name="bold" ng-model="tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridRow.textProperties.bold" value="bold"><span>Negrito</span><br>
+        <input type="checkbox" ng-true-value="'italic'" ng-false-value="''" name="italic" ng-model="tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridRow.textProperties.italic" value="italic"><span>Itálico</span><br>
+        <input type="checkbox" ng-true-value="'rotate-vertical-text'" ng-false-value="''" name="rotate" ng-model="tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridRow.textProperties.rotate" value="rotate"><span>Rotate</span><br>
+
+        <h6>Cor do Fundo</h6>
+        <div md-color-picker ng-model="tileLayoutConfig.tiles[selectedTiles.tiles[0]].gridRow.backgroundColor"></div>
+    </div>
+
+    <div ng-hide="showTableHeaderOptions && showTableRowOptions" ng-click="showTableDataSourceOptions = !showTableDataSourceOptions"><h5 style="display: inline-block">Data Source</h5><span style="display: inline-block" class="glyphicon glyphicon-chevron-right"></span></div>
+    <div ng-show="showTableDataSourceOptions">
+        <h5>URL</h5>
+        <select class="form-control" ng-model="tileConfig.dataSource.url" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" ng-options="array for array in arrayAPI"></select>
+        <!--<input class="form-control" ng-model="tileConfig.dataSource.url" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" placeholder="url">-->
+
+        <h5>Path</h5>
+        <select class="form-control" ng-model="tileConfig.dataSource.path" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" ng-options="array for array in pathAPI"></select>
+        <!--<input class="form-control" ng-model="tileConfig.dataSource.path" ng-change="SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, dataSourceCharateristics)" placeholder="path">-->
+        
+        <h5>Query Parameters</h5>
+        <div ng-show="selectedTiles.tiles.length === 1">
+            <input class="form-control param-value-input" ng-model="query.param" placeholder="param">
+            <input class="form-control param-value-input" ng-model="query.value" placeholder="value">
+
+            <span class="glyphicon glyphicon-plus-sign" ng-show="query.param !== '' && query.value !== ''" ng-click="addQueryParam(tileConfig, 'dataSource', query); SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'dataSource')"></span>
+
+            <div ng-repeat="query in tileConfig.dataSource.queryParameters">
+                <span> {{query.param}}  </span><span>  {{query.value}} </span>
+                <span class="glyphicon glyphicon-minus-sign pull-right" ng-click="removeQueryParam(tileConfig, 'dataSource', query); SetConfigValueToTile(tileLayoutConfig, selectedTiles, tileConfig, 'dataSource')"></span>
+            </div>
+        </div>
+    </div>
+</div>
+

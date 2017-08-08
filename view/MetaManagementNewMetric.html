@@ -1,0 +1,16 @@
+﻿<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-lg-12">
+                <h4 class="text-uppercase text-center">Nova Métrica</h4>
+            </div>
+
+            <div ng-include="'metricDetails.html'"></div>
+          
+            <fieldset class="form-group col-lg-3 pull-right">
+                <label style="color: white;">.</label>
+                <button class="btn btn-success form-control" ng-disabled="newMetric.value != '0' && (!newMetric.value ||!newMetric.descMetric||!newMetric.cycle||!newMetric.progression ||!newMetric.processBreaksProduction ||!newMetric.processBreaksPrediction ||(meta.type == 'measurement' && !newMetric.measuredTag))" ng-click="addMetricToGoal(meta, newMetric)">+</button>          
+            </fieldset>
+        </div>
+    </div>
+</div>

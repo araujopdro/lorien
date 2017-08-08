@@ -1,0 +1,27 @@
+<!-- sidebar -->
+<div class="col-lg-2 navbar-inverse sidebar">
+
+    <md-button ng-show="!pathA" ng-click="pathA = 'producao/shared/navigation/create.html'; pathB = 'producao/shared/navigation/layoutBasic.html'" style="width: 100%; border-radius: 5px;">Criar Mosaico</md-button>
+
+    <md-button ng-show="!pathA" ng-click="pathA = 'producao/shared/navigation/edit.html'" style="width: 100%; border-radius: 5px;">Editar Mosaico</md-button>
+    
+    <div style="width: 100%;" ng-include="pathA"></div>
+
+    <section layout="row">
+        <md-button ng-show="pathB" ng-click="cancel()" style="display:inline-block; width: 50%; border-radius: 5px;">Cancelar</md-button>
+
+        <md-button ng-show="pathB && pathA == 'producao/shared/navigation/create.html'" ng-click="saveTileLayout(tileLayoutConfig); cancel()" style="display:inline-block; width: 50%; border-radius: 5px;">Salvar (S)</md-button>
+        <md-button ng-show="pathB && pathA == 'producao/shared/navigation/edit.html'" ng-click="updateTileLayout(tileLayoutConfig); cancel()" style="display:inline-block; width: 50%; border-radius: 5px;">Salvar (U)</md-button>
+    </section>
+
+
+
+</div>
+<div class="col-lg-9 lajotinha-preview" >
+    <div class="row">
+        <h3 id="lajotinha-preview-title">Preview do Mosaico: {{tileLayoutConfig.name}} <span class="pull-right">(x: {{mousePosX}}, y: {{mousePosY}})</span> </h3>     
+    </div>
+    <div class="row" id="display-preview">
+        <div ng-include="'producao/shared/dashboard.html'"></div>
+    </div>
+</div>

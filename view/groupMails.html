@@ -1,0 +1,62 @@
+<!--Lista de Grupo de emails -->
+<div class="row">
+    <h3 class="col-lg-4  col-lg-offset-1 unselectableText" id="title">Grupos de Email</h3>
+</div>
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <button class="btn btn-primary" ng-click="clearGroupMailsValue(); openModal('createModal', '');" >Criar Novo</button>
+            <input class="form-control searchShiftbar searchbar " type="text" ng-model="searchEmail" placeholder="Procurar Lista de E-mails" />
+        </div>
+        <div class="row">
+            <div class="list-navbar">
+                <div class="col-lg-10 tableHead division" id='order-name'><a href="" ng-click="orderBy('nameGroup','order-name')">Nome</a></div>
+                <div class="col-lg-2 tableHead division">Gerenciamento</div>
+            </div>
+
+            <img ng-if="dataLoading" class="loadingImg" ng-src="{{loadingSrc}}" />
+
+            <div ng-include="'groupMailsDetailsT1.html'"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal novo Grupo de emails-->
+<div class="modal" id="createModal">
+    <form class="modal-content col-lg-6 col-lg-offset-3" name="groupForm">
+        <span class="close" ng-click="clearFields(); closeModal('createModal')">×</span>
+        <h4>Criar Novo grupo de E-mails</h4>
+        <br>
+        <div class="row">
+            <fieldset class="form-group col-lg-8">
+                <label>Nome</label>
+                <input type="text" name="formGroupName" required ng-minlength="5" ng-maxlength="25" ng-model="nameGroup" class="form-control" placeholder="Nome">
+                <div ng-show="groupForm.formGroupName.$error.minlength" class="alert alert-danger" >Tamanho minimo é de 5 caracteres</div>
+                <div ng-show="groupForm.formGroupName.$error.maxlength" class="alert alert-danger" >Tamanho máximo é de 25 caracteres</div>
+            </fieldset>
+        </div>
+
+        <!-- Administra usuarios e emails -->
+        <div ng-include="'groupMailsProperties.html'"></div>
+
+        <div class="row">
+            <fieldset class="form-group col-lg-12">
+                <button class="btn btn-success btnModal" ng-disabled="groupForm.formGroupName.$invalid" ng-click="createPost(); createGroupMails(ArrayGroupView); clearScheduleValue(); clearFields(); closeModal('createModal'); ">Criar Grupo</button>
+                <button class="btn btn-danger btnModal" ng-click="cleargroupMailsValue(); clearFields(); closeModal('createModal')">Cancelar</button>
+            </fieldset>
+        </div>
+        {{ArrayGroupView}}
+    </form>
+</div> <!-- End grupo de email Modal -->
+<!-- Modal confirmação delete -->
+<div class="modal" id="confirmationDialog">
+    <form class="modal-content col-lg-2 col-lg-offset-5">
+        <span class="close" ng-click="closeModal('confirmationDialog')">×</span>
+        <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+        <br>
+        <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="deleteGroupMail(groupMail); closeModal('confirmationDialog');">Sim</button>
+        <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeModal('confirmationDialog')">Nâo</button>
+        <br>
+    </form>
+</div> <!-- End Confirmation Modal -->
+</div> <!-- End Confirmation Modal -->

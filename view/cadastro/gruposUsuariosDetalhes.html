@@ -1,0 +1,63 @@
+<form name="groupForm">
+    <h4>Administração do Grupo</h4>
+    <div class='pull-right'>
+        <!-- If Atcive or Inactive --> 
+        <button ng-show="gruposelecionado.status === 'inactive'  && gruposelecionado.groupName !== 'Default'" class="btn btn-primary btn-block" data-ng-click="reactivateGroup(gruposelecionado); atualizarGrupo(gruposelecionado)">Reativar</button>
+        <button ng-show="gruposelecionado.status === 'active' && gruposelecionado.groupName !== 'Default'" class="btn btn-danger btn-block" data-ng-click="openModal('confirmationDialog', 'Você deseja desativar este Grupo e retirar as permissões dos Usuarios?')">Desativar</button> <!-- Manda DELETE na API através do ID -->
+     
+        <button class="btn btn-success btn-block" ng-hide="gruposelecionado.status === 'inactive'" ng-disabled="groupForm.$invalid" data-ng-click="atualizarGrupo(gruposelecionado)">Salvar</button>
+         
+    </div>
+    
+    <div class="row">
+        <fieldset class='col-lg-6 form-group'>
+            <div class="col-lg-12">
+                <label for="username">Nome do Grupo</label>
+                <input ng-pattern="regexFullnamemin3max20" name='name' type="text" ng-model="gruposelecionado.groupName" ng-required="true" ng-minlength="4" class="form-control" ng-class="{'has-error':groupForm.name.$invalid && !groupForm.name.$pristine}" placeholder="Nome do Grupo">
+                <p ng-show="groupForm.name.$invalid && !groupForm.name.$pristine" class="alert alert-danger help-block">O Nome do Grupo deve ter no mínimo 4 characteres! Não são permitidos caracteres especiais.</p> 
+                <br>
+                <label for="password">Descrição do Grupo</label>
+                <input ng-pattern="regexmin0max50" name="pass" type="text" ng-model="gruposelecionado.description" ng-required="true" class="form-control" id="password" placeholder="Descrição" ng-class="{'has-error':groupForm.pass.$invalid && !groupForm.pass.$pristine}">
+                <p ng-show="groupForm.pass.$invalid && !groupForm.pass.$pristine" class="alert alert-danger help-block">Escreva uma descrição! Máximo de 50 characteres. Não são permitidos caracteres especiais.</p>
+            </div>
+            <br>
+        </fieldset>
+    </div>
+    
+    <div class="row">
+        <fieldset class='col-lg-10 form-group'>
+            <div class="col-lg-5">
+                <label>Acessos não-permitidos</label>
+                <div class="adjustHeight" ng-repeat="sysEndpoint in sysEndpoints" ng-if="hasEndpoint(sysEndpoint, gruposelecionado)">
+                    <a href="" class="btn btn-default btn-block col-lg-2" ng-click="addEntpointToGroup(sysEndpoint, gruposelecionado, n)">{{sysEndpoint.displayUrl}}</a>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <label>Acessos permitidos</label>
+                <div class="adjustHeight" ng-repeat="sysEndpoint in gruposelecionado.Endpoints | unique: 'displayUrl'">
+                    <a href="" class="btn btn-default btn-block col-lg-2" ng-click="removeEndpointFromGroup(sysEndpoint, gruposelecionado)">{{sysEndpoint.displayUrl}}</a>                
+                </div>
+            </div>
+        <br>
+        </fieldset>
+    </div>
+    <!--ng-if="user.group !== gruposelecionado.groupName"-->
+    <!--ng-if="user.group === gruposelecionado.groupName"-->
+    <div class="row">
+        <fieldset class='col-lg-10 form-group'>
+            <div class="col-lg-5">
+                <label>Usuários</label>
+                <div ng-repeat="user in usersList| filter:{userId:search}" ng-if="user.groupId === defaultGroup.groupId">
+                    <a href="" class="btn btn-default btn-block col-lg-2 col-md-2"  ng-click="addUserToGroup_groupSide(user, gruposelecionado)">{{user.userId}}</a>                
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <label>Usuários deste Grupo</label>
+                <div class="adjustHeight" ng-repeat="user in usersList| filter:{userId:search}" ng-if="user.groupId === gruposelecionado.groupId">
+                    <a href="" class="btn btn-default btn-block col-lg-2" ng-click="removeUserFromGroup(user, gruposelecionado, true)">{{user.userId}}</a>                
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</form>

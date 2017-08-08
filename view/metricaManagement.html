@@ -1,0 +1,100 @@
+<form role="form">
+    <div class="row">
+        <div class="col-sm-offset-8 col-sm-4 text-right">
+            <!--<div class="form-group">
+                <button class="btn btn-danger" ng-click="removeMetricaFromMeta(meta, metrica)">Excluir</button>
+                <button class="btn btn-success" ng-click="">Salvar</button>
+            </div>-->
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <div ng-include="'MetaManagementMetricEdit.html'"></div>
+
+            
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="text-uppercase text-center">Gerenciamento de Alertas</h4>
+                </div>
+            </div>
+
+
+
+            <button type="button" class="btn btn-primary" ng-click="selectAlert();toggle('view-alert-new-' + Metric.metricId, 'details3')">
+                <span class="glyphicon glyphicon-plus" />
+                Adicionar
+            </button>
+
+            <!--<span data-ng-click="selectAlert();toggle('view-alert-new-' + Metric.metricId, 'details3')"
+                  ng-class="'glyphicon glyphicon-plus'"
+                  class="goalinternal-btn" style="font-size:16px">Adicionar</span>-->
+            <br />
+
+            <div class="details3" id="view-alert-new-{{Metric.metricId}}" ng-include="'metricaManagementNewAlert.html'"></div>
+
+            <br />
+            <br />
+            <br />
+
+
+            <div class="row">
+                <fieldset class="form-group col-lg-11 col-md-11" style="margin-top: 1px; margin-left: 20px; padding: 2px;">
+                    <div class="col-lg-2">
+                        <label>Cor</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Cor da Fonte</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Valor Inicial</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Valor Final</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Prioridade</label>
+                    </div>
+                </fieldset>
+            </div>
+
+
+            <div class="row">
+                <div ng-repeat="alertItem in Metric.Alerts | orderBy: 'priority'">
+                    <div class="col-lg-12 list-item">
+                        <!--Alert Color-->
+                        <div class="col-lg-1" ng-style="selectColorBackground(alertItem.color)">
+                            &nbsp;
+                        </div>
+                        <!-- Font Color-->
+                        <div class="col-lg-1  col-lg-offset-1" ng-style="selectColorBackground(alertItem.fontColor)">
+                            &nbsp;
+                        </div>
+                        <!-- Values -->
+                        <div class="col-lg-offset-1 col-lg-2">
+                            {{alertItem.endValue}}
+                        </div>
+                        <div class="col-lg-2">
+                            {{alertItem.startValue}}
+                        </div>
+                        <!-- Priority -->
+                        <div class="col-lg-2">
+                            {{alertItem.priority}}
+                        </div>
+                        <div class="col-lg-1 division">
+                            <span data-ng-click="selectAlert(alertItem); toggle('view-alert-'+ alertItem.alertId, 'details3'); bool=!bool"
+                                  ng-class="{'glyphicon glyphicon-expand': !bool, 'glyphicon glyphicon-collapse-down': bool}"
+                                  class="goalinternal-btn"></span>
+                        </div>
+                        <div class="col-lg-1 division">
+                            <span data-ng-click="removeAlertFromMetric(Metric, alertItem); loadPriorityList(Metric)"
+                                  class="glyphicon glyphicon-remove .thinginternal-btn"></span>
+                        </div>
+                    </div>
+                    <div class="details3 col-lg-10 col-lg-offset-1" id="view-alert-{{alertItem.alertId}}" ng-include="'alertManagement.html'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

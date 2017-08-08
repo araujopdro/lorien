@@ -1,0 +1,21 @@
+﻿<md-dialog aria-label="List dialog" style="left: 15px;">
+    <md-dialog-content>
+        <div style="margin: 15px;">
+            <h5>Expessura da Borda:</h5>
+            <md-slider aria-label="Close" ng-change="setTileValue('border', border)" class="md-primary white-slider" min="1" step="1" max="5" ng-model="border.witdh"></md-slider>
+
+            <h5>Cor da Borda</h5>
+            <div md-color-picker ng-change="setTileValue('border', border)" ng-model="border.color"></div>
+
+            <input type="checkbox" ng-change="setTileValue('border', border)" ng-true-value="'solid'" ng-false-value="''" name="bold" ng-model="border.style" value="bold"><span>Sólida</span><br>
+            <input type="checkbox" ng-change="setTileValue('border', border)" ng-true-value="'dotted'" ng-false-value="''" name="italic" ng-model="border.style" value="italic"><span>Pontilhada</span><br>
+            <input type="checkbox" ng-change="setTileValue('border', border)" ng-true-value="'dashed'" ng-false-value="''" name="rotate" ng-model="border.style" value="rotate"><span>Tracejada</span><br>
+
+            <!--ng-click="RemoveConfigValueFromTile(tileLayoutConfig, selectedTiles, tileConfig, 'border')"-->
+         </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-click="cancel()" class="md-primary">Cancelar</md-button>
+        <md-button ng-click="ok(api, level, id)" class="md-primary">OK</md-button>
+    </md-dialog-actions>
+</md-dialog>

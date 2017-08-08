@@ -1,0 +1,10 @@
+<div class="modal">
+    <form class="modal-content col-lg-2 col-lg-offset-5">
+        <span class="close" ng-click="closeDialog('confirmationDialog', false, false, '', '')">×</span>
+        <p class="dialog-text col-lg-12">{{dialogMsg}}</p>
+        <br>
+        <button class="dialog-btn btn btn-primary col-lg-5" data-ng-click="deleteUser(selectedUser); closeDialog('confirmationDialog', false, false, '', '')">Sim</button>
+        <button class="dialog-btn btn btn-danger col-lg-5 col-lg-offset-2" data-ng-click="closeDialog('confirmationDialog', false, false, '', '') ">Nâo</button>
+        <br>
+    </form>
+</div> 

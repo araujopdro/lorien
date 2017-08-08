@@ -1,0 +1,36 @@
+<div class="row">
+    <h3 class="col-lg-4 col-lg-offset-1 unselectableText" id="title">Peças Faltantes</h3>
+</div>
+
+<!--{{partsList}}-->
+
+<div class="row">
+    <div class="list-view col-lg-10 col-lg-offset-1">
+        <div class="row navbar">
+            <input class="form-control searchbar" type="text" ng-model="search" placeholder="Procurar Peça"/>            
+        </div>
+        <div class="row">
+            <div class="list-navbar">
+                <div class="col-lg-1 list-header" id='order-esn'><a href="" ng-click="orderBy('ESN', 'order-esn')">ESN <span class="glyphicon glyphicon-triangle-bottom"></span></a></div>
+                <div class="col-lg-1 list-header" id='order-so'><a href="" ng-click="orderBy('SO', 'order-so')">SO <span class="glyphicon"></span></a></div>
+                <div class="col-lg-1 list-header" id='order-number'><a href="" ng-click="orderBy('partNumber', 'order-number')">PN <span class="glyphicon"></span></a></div>
+                <div class="col-lg-4 list-header" id='order-desc'><a href="" ng-click="orderBy('partNumberDescription', 'order-desc')">PN Description <span class="glyphicon"></span></a></div>
+                <div class="col-lg-2 list-header" id='order-datemiss'><a href="" ng-click="orderBy('dateMissingPart', 'order-datemiss')">Date Missing <span class="glyphicon"></span></a></div>
+                <div class="col-lg-2 list-header" id='order-dateavai'><a href="" ng-click="orderBy('dateAvailiablePart', 'order-dateavai')">Date Available <span class="glyphicon"></span></a></div>
+                <div class="col-lg-1 list-header" id='order-status'><a href="" ng-click="orderBy('status', 'order-status')">Status <span class="glyphicon"></span></a></div>   
+            </div>
+            <div ng-repeat="part in partsList | filter:search | orderBy:orderCrit:orderDir" last-item>
+                <div class="col-lg-12 list-item part-line" >
+                    <div class="col-lg-1">{{part.productSerialNumber}}</div>
+                    <div class="col-lg-1 division">{{part.so}}</div>
+                    <div class="col-lg-2 division">{{part.partNum}}</div>
+                    <div class="col-lg-3 division">{{part.partName}}</div>
+                    <div class="col-lg-2 division">{{part.dateFrom | date:'dd/MM/yyyy'}}</div>
+                    <div class="col-lg-1 division pull-right"><span ng-class="{'glyphicon glyphicon-ok-sign': part.flagAvailable, 'glyphicon glyphicon-remove-sign':  !part.flagAvailable }"></span></div>
+                    <div class="col-lg-2 division pull-right"><md-datepicker ng-model="availableDate" ng-change="dateFilter(part, availableDate)" md-placeholder="_"></md-datepicker><span></span>{{part.dtavailable | date:'dd/MM/yyyy'}}</div>
+                </div>
+            </div>            
+            <div class="modal" id="datepicker"> <span class="clear close" ng-click="closePick()">&#10006</span></div>            
+        </div>
+    </div>
+</div>
